@@ -19,7 +19,9 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
-.vscode
+
+# package lock files
+package-lock.json
 
 # jetbrains setting folder
 .idea/
