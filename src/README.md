@@ -1,53 +1,51 @@
-# Proyecto Astro - Estructura de src/
+# Astro Project – `src/` Directory Structure
 
-Este proyecto busca seguir una organización modular dentro de la carpeta src/ es por ello que se ha decidido crear una estructura de carpetas que permita mantener un código limpio y fácil de mantener, (que tiene mucho que ver con los estándares de código limpio que se hicieron).
+This project follows a modular organization within the `src/` folder to maintain clean, scalable, and maintainable code. The folder structure was designed based on clean code principles and best practices.
 
+## Folder Structure
 
-## Estructura de Carpetas
+### `assets/`
 
-`assets/`
+Stores static resources such as images, fonts, and other media files used throughout the project.
 
-Almacena recursos estáticos como imágenes, fuentes y cualquier otro archivo multimedia que sea necesario en el proyecto.
+### `components/`
 
-`components/`
+Contains reusable UI components – modular presentation elements like buttons, forms, cards, etc.
 
-Contiene componentes reutilizables de la interfaz de usuario, cualquier elemento de presentación modular. Tales como botones, formularios, tarjetas, etc.
+### `consts/`
 
-`consts/`
+Defines global constants and project configurations, such as default values and general settings.
 
-Define constantes globales y configuraciones del proyecto, como valores predeterminados o configuraciones generales.
+### `layouts/`
 
-`layouts/`
+Includes layout templates used as the base structure for pages – for example, header, footer, and global navigation.
 
-Incluye los diseños generales que serán la base persé para las páginas, como estructuras de encabezado, pie de página y navegación global.
+### `lib/`
 
-`lib/`
+Holds shared modules and helper functions that don't belong to a specific category. These are not generic utilities but are specific modules reused across multiple components.
 
-Aquí se almacenan módulos reutilizables, funciones auxiliares y cualquier código compartido que no pertenezca a una categoría específica, no es algo reutilizable sino más bien específico compartido por muchos componentes.
+### `pages/`
 
-`pages/`
+Contains the main pages of the project. In Astro, each file in this folder becomes a route. Subdirectories become nested routes.
 
-Contiene las páginas principales del proyecto. En Astro, cada archivo dentro de pages/ se convierte en una ruta de la aplicación, es decir que un subdirectorio dentro de pages/ se convierte en una ruta anidada.
+### `styles/`
 
-`styles/`
+Stores global style files and CSS utilities, such as Tailwind definitions, CSS variables, or custom styles using Tailwind’s `@theme` features.
 
-Almacena archivos de estilos globales o utilidades CSS, como definiciones de Tailwind, variables CSS o estilos específicos apoyados por los `@themes` de Tailwind.
+### `types/`
 
-`types/`
+Defines TypeScript types and data structures to ensure consistency and type safety across the codebase.
 
-Define tipos y estructuras de datos en TypeScript para asegurar consistencia y seguridad en el tipado del código.
+### `utils/`
 
-`utils/`
+Includes utility functions and helpers that handle data manipulation, formatting, and repetitive logic.
 
-Incluye funciones auxiliares y herramientas que facilitan la manipulación de datos, formatos y lógica repetitiva.
+## `public/` Folder (outside `src/`)
 
+### `public/`
 
-## Carpeta public fuera de src/
+This folder contains static files that are served directly to the browser – such as images, favicons, and fonts. Unlike the `assets/` folder, these files are not processed by Astro and can be accessed via absolute paths.
 
-`public/`
+---
 
-Esta carpeta contiene archivos estáticos accesibles directamente desde el navegador, como imágenes, favicons y fuentes. A diferencia de assets/, los archivos aquí no son procesados por Astro y pueden ser referenciados con rutas absolutas.
-
-
-Sigan estas recomendaciones para tener una buena organización que permite mantener un código limpio, modular y fácil de mantener entre todos.
-
+**Follow this structure and these recommendations to keep the project clean, modular, and easy to maintain for all contributors.**
