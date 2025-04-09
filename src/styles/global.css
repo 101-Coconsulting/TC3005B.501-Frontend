@@ -2,8 +2,42 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-    --color-primary: #000000;
-    --color-secondary: #ffffff;
+    /* Neutral */
+    --color-neutral-50: #D6D8DE;
+    --color-neutral-100: #CED1D7;
+    --color-neutral-200: #C5C9D1;
+    --color-neutral-300: #BDC1CA;
+    --color-neutral-400: #A2A8B4;
+    --color-neutral-500: #878E9E;
+    /* Primary */
+    --color-primary-50: #50a7e9;
+    --color-primary-100: #69b3ec;
+    --color-primary-200: #82c0ef;
+    --color-primary-300: #379AE6;
+    --color-primary-400: #1f1c89de;
+    --color-primary-500: #1876be;
+    /* Secondary */
+    --color-secondary-50: #A4B5EE;
+    --color-secondary-100: #8DA3EA;
+    --color-secondary-200: #7691E6;
+    --color-secondary-300: #496CDD;
+    --color-secondary-400: #2A53D7;
+    --color-secondary-500: #2346BA;
+    /* Success */
+    --color-success-50: #6DEB97;
+    --color-success-100: #4FE782;
+    --color-success-200: #32E36D;
+    --color-success-300: #1DD75B;
+    --color-success-400: #19BC50;
+    --color-success-500: #16A144;
+    /* Warning */
+    --color-warning-50: #e25458;
+    --color-warning-100: #e66c70;
+    --color-warning-200: #ea8588;
+    --color-warning-300: #DE3840;
+    --color-warning-400: #d22329;
+    --color-warning-500: #b41e23;
+    
 }
 
 // CHEAT SHEET: https://nerdcave.com/tailwind-cheat-sheet
