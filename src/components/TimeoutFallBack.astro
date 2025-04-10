@@ -1,17 +1,12 @@
-<!--Timeout loading Data Fallback -->
+---
+import AlertIcon from '@assets/alert.svg';
+---
 
 <div class="rounded-lg w-96 h-24  bg-[#1c89de] text-[#ffffff]">
-    <div class="flex flex-row w-full gap-5 justify-center items-center px-0 w-full h-full">
+    <div class="flex flex-row gap-5 justify-center items-center px-0 w-full h-full">
         <div class="my-auto text-2xl">
-            <!--Render of icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-circle" width="50" height="50">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" x2="12" y1="8" y2="12"></line>
-                <line x1="12" x2="12.01" y1="16" y2="16"></line>
-            </svg>
-            
+            <AlertIcon/>
         </div>
-        <!--Text of error -->
         <div>
             <div class="font-bold text-2xl">Timeout loading data</div>
         </div>

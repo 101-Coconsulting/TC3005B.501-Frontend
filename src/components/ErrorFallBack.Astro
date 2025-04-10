@@ -1,21 +1,15 @@
-<!-- Error FallBack  -->
+---
+import ErrorIcon from '@assets/error.svg';
+---
 
-<div class="rounded-lg w-96 h-24  bg-[#e25458] text-[#ffffff]">
-    <div class="flex flex-row w-full gap-5 justify-center items-center px-0 w-full h-full">
+<div class="rounded-lg w-96 h-24 bg-[#e25458] text-[#ffffff]">
+    <div class="flex flex-row w-full gap-5 justify-center items-center px-0 h-full">
         <div class="my-auto text-lg">
-            <!-- Svg of icon to indicate error-->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-circle" width="50" height="50">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="m15 9-6 6"></path>
-                <path d="m9 9 6 6"></path>
-            </svg>
-            
+            <ErrorIcon/>
         </div>
-        <!--Text of error -->
         <div>
             <div class="font-bold text-lg"></div>
-            <div class=" text-2xl">Error loading data</div>
-            
+            <div class=" text-2xl">Error loading data</div>       
         </div>
     </div>
 </div>

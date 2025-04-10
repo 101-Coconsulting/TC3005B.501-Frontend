@@ -1,0 +1,13 @@
+---
+import ErrorFallBack from '@components/ErrorFallBack.astro';
+import LoadingFallBack from '@components/LoadingFallBack.astro';
+import TimeoutFallBack from '@components/TimeoutFallBack.astro';
+---
+
+<div id="container">
+	<main>
+        <LoadingFallBack />
+        <ErrorFallBack />
+        <TimeoutFallBack />
+	</main>
+</div>
