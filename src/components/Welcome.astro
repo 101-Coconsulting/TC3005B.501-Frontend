@@ -1,7 +1,49 @@
 ---
+import "../styles/global.css";
 import astroLogo from '../assets/astro.svg';
 import background from '../assets/background.svg';
+import Button from '../components/Button.astro';
 ---
+
+<section>
+
+	<Button variant="filled" color="primary">Lleno</Button>
+	<Button variant="border" color="primary">Contorno</Button>
+	<Button variant="empty" color="primary">Vacio</Button>
+	
+
+	<Button variant="filled" color="warning">Rojo</Button>
+	<Button variant="filled" color="primary">Azul 1</Button>
+	<Button variant="filled" color="secondary">Azul 2</Button>
+	<Button variant="filled" color="success">Verde</Button>
+
+
+	<Button variant="filled" color="primary" size="small">Pequeño</Button>
+	<Button variant="filled" color="primary" size="medium">Mediano</Button>
+	<Button variant="filled" color="primary" size="big">Grande</Button>
+	<Button variant="filled" color="primary" size="custom" customSizeClass="w-[200px] h-[50px] text-base">Personalizado</Button>
+
+	<Button>hola</Button>
+		<Button
+	variant="filled"
+	color="warning"
+	size="big"
+	class="btn-jose"
+	>
+	Para Jose
+	</Button>
+
+
+	<script is:browser>
+	document.querySelector('.btn-jose')?.addEventListener('click', () => {
+	alert('Puto Jose!');
+	});
+	</script>
+
+	<a href="https://www.youtube.com/watch?v=EyWFkkuLciU">
+		<Button variant="filled" color="primary">Vegetita</Button>
+	</a>
+</section>
 
 <div id="container">
 	<img id="background" src={background.src} alt="" fetchpriority="high" />

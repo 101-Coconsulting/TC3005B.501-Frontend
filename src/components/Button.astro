@@ -1,0 +1,117 @@
+---
+const {
+  variant = 'filled',                 // 'filled' | 'border' | 'empty'
+  disabled = false,
+  type = 'button',
+  size = 'medium',                    // 'small' | 'medium' | 'big' | 'custom'
+  customSizeClass = '',              
+  class: extraClass = '',            
+  color = 'primary',                 // 'primary' | 'secondary' | 'success' | 'warning'
+} = Astro.props;
+
+// Tamaños predefinidos
+const sizeClasses = {
+  small: 'px-2 py-1 text-xs',
+  medium: 'px-4 py-2 text-sm',
+  big: 'px-6 py-3 text-base',
+};
+
+const sizeClass = size === 'custom' ? customSizeClass : (sizeClasses[size] ?? sizeClasses.medium);
+
+// Validación de color
+const allowedColors = ['primary', 'secondary', 'success', 'warning'];
+const safeColor = allowedColors.includes(color) ? color : 'primary';
+
+// Tu colorMap
+const colorMap = {
+  primary: {
+    bg: 'bg-[var(--color-primary-200)]',
+    hover: 'hover:bg-[var(--color-primary-100)]',
+    active: 'active:bg-[var(--color-primary-300)]',
+    baseText: 'text-white',
+    text: 'text-[var(--color-primary-200)]',
+    border: 'border-[var(--color-primary-200)]',
+    hoverBorder: 'hover:border-[var(--color-primary-100)]',
+    activeBorder: 'active:border-[var(--color-primary-300)]',
+    hoverText: 'hover:text-[var(--color-primary-100)]',
+    activeText: 'active:text-[var(--color-primary-300)]',
+    ring: 'focus:ring-[var(--color-primary-100)]',
+  },
+  secondary: {
+    bg: 'bg-[var(--color-secondary-200)]',
+    hover: 'hover:bg-[var(--color-secondary-100)]',
+    active: 'active:bg-[var(--color-secondary-300)]',
+    baseText: 'text-white',
+    text: 'text-[var(--color-secondary-200)]',
+    border: 'border-[var(--color-secondary-200)]',
+    hoverBorder: 'hover:border-[var(--color-secondary-100)]',
+    activeBorder: 'active:border-[var(--color-secondary-300)]',
+    hoverText: 'hover:text-[var(--color-secondary-100)]',
+    activeText: 'active:text-[var(--color-secondary-300)]',
+    ring: 'focus:ring-[var(--color-secondary-100)]',
+  },
+  success: {
+    bg: 'bg-[var(--color-success-200)]',
+    hover: 'hover:bg-[var(--color-success-100)]',
+    active: 'active:bg-[var(--color-success-300)]',
+    baseText: 'text-white',
+    text: 'text-[var(--color-success-200)]',
+    border: 'border-[var(--color-success-200)]',
+    hoverBorder: 'hover:border-[var(--color-success-100)]',
+    activeBorder: 'active:border-[var(--color-success-300)]',
+    hoverText: 'hover:text-[var(--color-success-100)]',
+    activeText: 'active:text-[var(--color-success-300)]',
+    ring: 'focus:ring-[var(--color-success-100)]',
+  },
+  warning: {
+    bg: 'bg-[var(--color-warning-200)]',
+    hover: 'hover:bg-[var(--color-warning-100)]',
+    active: 'active:bg-[var(--color-warning-300)]',
+    baseText: 'text-white',
+    text: 'text-[var(--color-warning-200)]',
+    border: 'border-[var(--color-warning-200)]',
+    hoverBorder: 'hover:border-[var(--color-warning-100)]',
+    activeBorder: 'active:border-[var(--color-warning-300)]',
+    hoverText: 'hover:text-[var(--color-warning-100)]',
+    activeText: 'active:text-[var(--color-warning-300)]',
+    ring: 'focus:ring-[var(--color-warning-100)]',
+  },
+};
+
+const c = colorMap[safeColor];
+---
+
+<button
+  type={type}
+  disabled={disabled}
+  class={`${sizeClass} rounded-md font-medium transition-all duration-200
+
+    ${
+      variant === 'filled'
+        ? disabled
+          ? 'bg-[var(--color-neutral-500)] text-white cursor-not-allowed'
+          : `${c.bg} ${c.baseText} ${c.hover} ${c.active}`
+        : ''
+    }
+
+    ${
+      variant === 'border'
+        ? disabled
+          ? 'border border-[var(--color-neutral-400)] text-[var(--color-neutral-400)] cursor-not-allowed bg-transparent'
+          : `border bg-transparent ${c.text} ${c.border} ${c.hoverBorder} ${c.hoverText} ${c.activeBorder} ${c.activeText}`
+        : ''
+    }
+
+    ${
+      variant === 'empty'
+        ? disabled
+          ? 'text-[var(--color-neutral-400)] cursor-not-allowed bg-transparent'
+          : `bg-transparent ${c.text} ${c.hoverText} ${c.activeText}`
+        : ''
+    }
+
+    ${extraClass}
+  `}
+>
+  <slot />
+</button>
