@@ -1,65 +1,32 @@
 ---
 /*Keep this code for latter use. It could be used for returnning the diferente fallbacks and sizes
 */ 
-const { FALLBACK_TYPE = "" } = Astro.props;
+import ErrorFallBack from "./fallbacks/ErrorFallBack.astro";
+import LoadingFallBack from "./fallbacks/LoadingFallBack.astro";
+import TimeoutFallBack from "./fallbacks/TimeoutFallBack.astro";
 
-const TYPE_MESSAGES = {
-  Loading: "Loading ...",
-  Error: "Error loading data",
-  Timeout: "Timeout loading data",
+
+const { FALLBACK_TYPE = "" ,
+  SIZE = "small",  
+
+} = Astro.props;
+
+const FALLBACK = {
+  Loading: LoadingFallBack,
+  Error: ErrorFallBack,
+  Timeout: TimeoutFallBack,
 };
+const FALLBACK_SIZE = {
+  small: "w-72 h-16",
+  medium: "w-96 h-24",
+  large: "w-full sm:w-full md:w-full lg:w-full xl:w-full max-w-full",
+}
 
-const TYPE_COLORS = {
-  Loading: "#333",
-  Error: "#FF0000",
-  Timeout: "#00cc66"
-};
 
-const MESSAGE = TYPE_MESSAGES[FALLBACK_TYPE];
-const COLOR = TYPE_COLORS[FALLBACK_TYPE];
 ---
+<div  >
+  <FALLBACK[FALLBACK_TYPE]  />
+</div>
 
-<section class="fallback">
-  <div class=`${FALLBACK_TYPE}` style={`border-top-color: ${COLOR}`}></div> 
-  <p style={`color:${COLOR}`}>{MESSAGE}</p>
-</section>
 
-<style>
-  .fallback {
-    border: 1px dashed #ccc;
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    font-family: sans-serif;
-    margin-bottom: 2rem;
-  }
 
-  .Loading {
-    width: 30px;
-    height: 30px;
-    margin: 0 auto 1rem;
-    border: 4px solid #ddd;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  .Error{
-    width: 30px;
-    height: 30px;
-    margin: 0 auto 1rem;
-    /* border: 4px solid #FF0000; */
-    /* border-radius: 50%; */
-    
-  }
-  .Timeout{
-    width: 30px;
-    height: 30px;
-    margin: 0 auto 1rem;
-    /* border: 4px solid #00cc66;
-    border-radius: 50%; */
-    
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-</style>

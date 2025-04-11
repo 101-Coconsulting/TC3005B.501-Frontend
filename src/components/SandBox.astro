@@ -2,12 +2,11 @@
 import ErrorFallBack from '@components/ErrorFallBack.astro';
 import LoadingFallBack from '@components/LoadingFallBack.astro';
 import TimeoutFallBack from '@components/TimeoutFallBack.astro';
+import Fallback from '@components/Fallback.astro';
 ---
 
 <div id="container">
 	<main>
-        <LoadingFallBack />
-        <ErrorFallBack />
-        <TimeoutFallBack />
+        <Fallback FALLBACK_TYPE="Error"/>
 	</main>
 </div>
