@@ -1,0 +1,53 @@
+---
+/**
+ * Author: Jose Antonio González
+ * 
+ * Description:
+ * Main Fallback wrapper component for the application.
+ * Dynamically renders fallbacks with optional size, border and background color.
+ * 
+ * Dependencies:
+ * - types/fallback.ts: Defines the FallbackProps type and fallbackClasses object.
+ *
+ * Usage: <Fallback type="{value}" size="{value}" />
+ **/
+
+import type { FallbackProps } from "../types/fallback.ts";
+import {
+  fallbackClasses,
+  fallbackNames,
+  fallbackMessages,
+} from "../types/fallback.ts";
+
+import ErrorIcon from "@assets/error.svg";
+import LoadingIcon from "@assets/loading.svg";
+import AlertIcon from "@assets/alert.svg";
+
+const {
+  type,
+  size = "small",
+  className = "",
+} = Astro.props as FallbackProps;
+
+// Get classes and fallback values
+const classes = fallbackClasses[size];
+const names = fallbackNames[type];
+
+const { sizeClass, textClass, iconClass } = classes;
+const { bg, text, gap } = names;
+
+const Icon = type === "Error"
+  ? ErrorIcon
+  : type === "Loading"
+  ? LoadingIcon
+  : AlertIcon;
+
+const message = fallbackMessages[type];
+---
+
+<div class={`rounded-lg ${sizeClass} ${bg} text-center flex items-center justify-center px-4 ${className}`}>
+  <div class={`flex items-center justify-center ${text} ${gap}`}> 
+    <Icon class={iconClass} />
+    <span class={`${textClass} font-semibold`}>{message}</span>
+  </div>
+</div>
