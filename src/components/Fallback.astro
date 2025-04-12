@@ -1,38 +1,53 @@
 ---
-/*
-Author : Jose Antonio González
-Main Fallback component for the application.
-This component is used to display different types of fallbacks based on the type of error or loading state.
+/**
+ * Author: Jose Antonio González
+ * 
+ * Description:
+ * Main Fallback wrapper component for the application.
+ * Dynamically renders fallbacks with optional size, border and background color.
+ * 
+ * Dependencies:
+ * - types/fallback.ts: Defines the FallbackProps type and fallbackClasses object.
+ *
+ * Usage: <Fallback type="{value}" size="{value}" />
+ **/
 
-To call the difefrent fallbacks, you call it like this:
-<Fallback type="TYpe of your desition" size="size is pending of fix " />
-*/ 
-import ErrorFallBack from "./fallbacks/ErrorFallBack.astro";
-import LoadingFallBack from "./fallbacks/LoadingFallBack.astro";
-import TimeoutFallBack from "./fallbacks/TimeoutFallBack.astro";
+import type { FallbackProps } from "../types/fallback.ts";
+import {
+  fallbackClasses,
+  fallbackNames,
+  fallbackMessages,
+} from "../types/fallback.ts";
 
+import ErrorIcon from "@assets/error.svg";
+import LoadingIcon from "@assets/loading.svg";
+import AlertIcon from "@assets/alert.svg";
 
-const { FALLBACK_TYPE = "" ,
-  SIZE = "small",  
+const {
+  type,
+  size = "small",
+  className = "",
+} = Astro.props as FallbackProps;
 
-} = Astro.props;
+// Get classes and fallback values
+const classes = fallbackClasses[size];
+const names = fallbackNames[type];
 
-const FALLBACK = {
-  Loading: LoadingFallBack,
-  Error: ErrorFallBack,
-  Timeout: TimeoutFallBack,
-};
-const FALLBACK_SIZE = {
-  small: "w-72 h-16",
-  medium: "w-96 h-24",
-  large: "w-full sm:w-full md:w-full lg:w-full xl:w-full max-w-full",
-}
+const { sizeClass, textClass, iconClass } = classes;
+const { bg, text, gap } = names;
 
+const Icon = type === "Error"
+  ? ErrorIcon
+  : type === "Loading"
+  ? LoadingIcon
+  : AlertIcon;
 
+const message = fallbackMessages[type];
 ---
-<div  >
-  <FALLBACK[FALLBACK_TYPE]  />
+
+<div class={`rounded-lg ${sizeClass} ${bg} text-center flex items-center justify-center px-4 ${className}`}>
+  <div class={`flex items-center justify-center ${text} ${gap}`}> 
+    <Icon class={iconClass} />
+    <span class={`${textClass} font-semibold`}>{message}</span>
+  </div>
 </div>
-
-
-
