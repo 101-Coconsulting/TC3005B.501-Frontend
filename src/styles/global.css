@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin '@tailwindcss/typography';
+
+@theme {
+    --color-primary: #000000;
+    --color-secondary: #ffffff;
+}
+
+// CHEAT SHEET: https://nerdcave.com/tailwind-cheat-sheet
+// GENERATOR: https://tailwind-generator.com/generators
