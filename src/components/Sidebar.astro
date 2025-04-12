@@ -1,18 +1,28 @@
 ---
 /*
-  Sidebar.astro
-  This component renders a vertical sidebar navigation menu base on the user's role.
-  Each role displays a different set of menu items.
-  The active route is visually highlighted to guide the user.
+  Component: Sidebar
+  Description: Renders a vertical sidebar menu based on the user's role.
+  Author: Kenia Ramos.
 */
 
-import signInIcon from "../assets/sign-in.svg";
+interface Props {
+  role: UserRole;
+}
+
+type UserRole = "SOLICITANTE" | "AUTORIZADOR";
+
+interface MenuItem {
+  label: string;
+  route: string;
+  icon: string;
+}
+
+const signInIcon = "/src/assets/sign-in.svg";
 const { role } = Astro.props;
 const currentPath = Astro.url.pathname;
 
-// SIDEBAR_CONFIG defines the sidebar menu items per role.
-const SIDEBAR_CONFIG = {
-  SOLICITANTE: [
+const SIDEBAR_CONFIG: Record<UserRole, MenuItem[]> = {
+    SOLICITANTE: [
     { label: 'DASHBOARD', route: '/dashboard', icon: signInIcon },
     { label: 'SOLICITUD DE VIAJE', route: '/solicitud', icon: signInIcon },
     { label: 'COMPROBAR GASTOS', route: '/comprobante', icon: signInIcon },
@@ -24,12 +34,10 @@ const SIDEBAR_CONFIG = {
   ]
 };
 
-// Retrieve the list of menu items based on the current role
-const items = SIDEBAR_CONFIG[role];
+const items = SIDEBAR_CONFIG[role] ?? [];
 
 ---
 
-<!--Sidebar configuration and styling-->
 <aside class="fixed top-16 left-0 z-40 w-64 h-[calc(100vh-4rem)] bg-neutral-50 border-r border-neutral-200 shadow-md">
   <div class="h-full px-4 py-6 overflow-auto">
     <ul class="space-y-4 font-medium list-none p-0 m-0">
