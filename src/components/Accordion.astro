@@ -1,0 +1,163 @@
+---
+interface AccordionItem {
+  titulo: string;
+  contenido: string;
+  expanded: boolean;
+}
+
+const { items }: { items?: AccordionItem[] } = Astro.props;
+const accordionItems = items || [];
+---
+
+{accordionItems.map((item: AccordionItem, index: number) => (
+  <div class="accordion-item" data-key={index}>
+    <!-- Botón de encabezado del acordeón -->
+    <button class="accordion-header" id={`header-${index}`}>
+      <span class="header-text">{item.titulo}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class={`accordion-icon ${item.expanded ? 'rotated' : ''}`}
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
+  
+        </svg>
+</button>
+
+
+    <!-- Contenido que se expande y colapsa -->
+    <div id={`content-${index}`} class={`accordion-content ${item.expanded ? 'open' : ''}`}>
+      {item.contenido}
+    </div>
+  </div>
+))}
+
+
+
+<script>
+  interface AccordionItem {
+    titulo: string;
+    contenido: string;
+    expanded: boolean;
+  }
+
+  const accordionDataElement = document.getElementById('accordion-data');
+  const accordionItems = accordionDataElement ? JSON.parse(accordionDataElement.textContent || '[]') : [];
+
+  function toggleAccordion(index: number) {
+    const content = document.getElementById(`content-${index}`);
+    const icon = document.querySelector(`#header-${index} .accordion-icon`);
+
+    if (content) {
+      content.classList.toggle('open');
+    }
+    if (icon) {
+      icon.classList.toggle('rotated');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    accordionItems.forEach((_: AccordionItem, index: number) => {
+      const header = document.getElementById(`header-${index}`);
+      if (header) {
+        header.addEventListener('click', () => toggleAccordion(index));
+      }
+    });
+  });
+</script>
+
+<div id="accordion-data" style="display: none;">
+  {JSON.stringify(accordionItems)}
+</div>
+
+
+<style>
+  .accordion 
+  {
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid #000000;
+  }
+
+  .accordion-header 
+  {
+    font-weight: 700;
+    width: 100%;
+    padding: 10px;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border-bottom: 10px #000000;
+    text-align: left;
+    font-size: 16px;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap :100px;
+  }
+
+
+  .accordion-header:hover 
+  {
+    background-color: #c9c9c9;
+    color: #000000;
+    transition-duration: .3s;
+  }
+
+  .accordion-item 
+  {
+    font-weight: 300;
+    border: 0.5px solid #2f2f2f;
+    border-radius: 2px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin: 10px;
+  }
+
+  .accordion-content 
+  {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease, padding 0.2s ease;
+    padding: 0 10px;
+  }
+
+  .accordion-content.open 
+  {
+    max-height: 500px;
+    padding: 10px;
+  }
+
+  /*linea divisora */
+  .accordion-content.open::before 
+  {
+    content: "";
+    display: block;
+    width: 95%;
+    height: 1px;
+    background-color: #ccc; 
+    margin: 0 auto 10px auto; 
+  }
+
+
+.header-text {
+  flex: 1;
+  text-align: left;
+}
+
+.accordion-icon {
+  transition: transform 0.3s ease;
+  width: 24px;
+  height: 24px;
+  transform: rotate(0deg);
+}
+
+.accordion-icon.rotated {
+  transform: rotate(180deg);
+}
+
+</style>
