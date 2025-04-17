@@ -1,0 +1,30 @@
+---
+/**
+ * Component: SidebarButton
+ * Description: Renders a button for the sidebar menu.
+ * Author: Kenia Ramos.
+ **/
+
+import type { MenuItem } from "../types/sidebar.ts";
+
+interface Props {
+  item: MenuItem;
+  isActive: boolean;
+}
+
+const { item, isActive } = Astro.props;
+const Icon = item.icon;
+---
+
+<a
+  href={item.route}
+  class={`flex bg-blue-500 hover:bg-blue-300 items-center gap-3 p-3 rounded-lg transition-colors duration-200 group hover:text-white
+  ${
+    isActive
+      ? 'bg-primary-500 text-white'
+      : 'text-black hover:bg-primary-100'
+  }`}
+>
+  <Icon class="w-6 h-6 group-hover:brightness-0 group-hover:invert" />
+  <span class="truncate text-sm font-medium">{item.label}</span>
+</a>
