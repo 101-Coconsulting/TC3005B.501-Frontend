@@ -1,0 +1,19 @@
+---
+/**
+ * Hector Julian Zarate Ramirez
+ * This is a accordion component, has the AccordionItem child logic for more
+ * flexibility.
+ */
+interface AccordionItem {
+  titulo: string;
+  contenido: string;
+  expanded: boolean;
+}
+
+const { items }: { items?: AccordionItem[] } = Astro.props;
+const accordionItems = items || [];
+---
+
+<div>
+  <slot />
+</div>
