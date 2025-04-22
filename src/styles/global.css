@@ -1,12 +1,45 @@
 @import "tailwindcss";
-@plugin '@tailwindcss/typography';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
-@theme {
+/* Font declarations for Roboto */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/roboto/Roboto-Light(300).ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/roboto/Roboto-Regular(400).ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/roboto/Roboto-Medium(500).ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/roboto/Roboto-Bold(700).ttf') format('truetype');
+}
+
+:root {
     --color-primary: #000000;
     --color-secondary: #ffffff;
     --font-family: 'Roboto', sans-serif;
 }
 
-// CHEAT SHEET: https://nerdcave.com/tailwind-cheat-sheet
-// GENERATOR: https://tailwind-generator.com/generators
+/* 
+ * CHEAT SHEET: https://nerdcave.com/tailwind-cheat-sheet
+ * GENERATOR: https://tailwind-generator.com/generators
+ */

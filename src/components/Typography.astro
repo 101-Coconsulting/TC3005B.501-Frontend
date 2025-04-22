@@ -18,10 +18,10 @@ export interface Props {
   class?: string;
 }
 
-//Toma las propiedades entrantes de astro 
+//Takes the incoming properties of astro 
 const { variant, size = 'default', class: className = '' } = Astro.props;
 
-//Determina el font del coponente 
+//Determine the font of the component
 let classes = 'font-roboto ';
 
 // Base styles for each variant
