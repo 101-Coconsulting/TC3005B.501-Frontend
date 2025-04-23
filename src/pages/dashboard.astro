@@ -1,0 +1,24 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+
+const headerData = {
+    userName: "John Doe",
+    userAvatar: "/profile-icon.jpg",
+    showButtonLabel: "Solicitante"
+};
+
+const sidebarData = {
+    role: "Applicant"
+};
+
+const pageTitle = "Dashboard";
+---
+
+<MainLayout 
+    title={pageTitle} 
+    headerData={headerData} 
+    sidebarData={sidebarData} 
+>
+    <h1>Bienvenido al Dashboard</h1>
+    <p>Este es el contenido dinámico de la página.</p>
+</MainLayout>

@@ -1,19 +1,47 @@
 ---
 /**
- * Hector Julian Zarate Ramirez
+ * Author: Hector Julian Zarate Ramirez
  * This is a accordion component, has the AccordionItem child logic for more
  * flexibility.
+ * 
+ * Example usage:
+ *  items[] usage DYNAMIC:
+    <Accordion 
+      items={[
+        { title: "¿Qué es Astro?", content: "Astro es un framework web moderno.", expanded: true },
+        { title: "¿Qué es Tailwind?", content: "Tailwind es un framework de CSS utilitario." },
+      ]}
+    />
+ *  manual usage STATIC:
+    <Accordion>
+      <AccordionItem title="¿Qué es Astro?" expanded={true}>
+        Astro es un framework web moderno.
+      </AccordionItem>
+      <AccordionItem title="¿Qué es Tailwind?">
+        Tailwind es un framework de CSS utilitario.
+      </AccordionItem>
+    </Accordion>
  */
-interface AccordionItem {
-  titulo: string;
-  contenido: string;
-  expanded: boolean;
+
+import AccordionItem from '@components/AccordionItem.astro';
+
+interface AccordionItemData {
+  title: string;
+  content: string;
+  expanded?: boolean;
 }
 
-const { items }: { items?: AccordionItem[] } = Astro.props;
-const accordionItems = items || [];
+const { items = [] }: { items?: AccordionItemData[] } = Astro.props;
 ---
 
-<div>
-  <slot />
+<div class="accordion">
+  {items.length > 0 ? (
+    items.map((item) => (
+      <AccordionItem title={item.title} expanded={item.expanded}>
+        {item.content}
+      </AccordionItem>
+    ))
+  ) : (
+    <slot />
+  )}
 </div>

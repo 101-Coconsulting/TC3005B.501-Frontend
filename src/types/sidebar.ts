@@ -1,8 +1,8 @@
 import SignInIcon from '../assets/sign-in.svg';
 
 export type UserRole = 
-    | 'SOLICITANTE'
-    | 'AUTORIZADOR';
+    | 'Applicant'
+    | 'Authorizer';
 
 export interface MenuItem {
     label: string;
@@ -11,14 +11,14 @@ export interface MenuItem {
 }
 
 export const SIDEBAR_CONFIG: Record<UserRole, MenuItem[]> = {
-    SOLICITANTE: [
-        { label: 'DASHBOARD', route: '/dashboard', icon: SignInIcon },
-        { label: 'SOLICITUD DE VIAJE', route: '/solicitud', icon: SignInIcon },
-        { label: 'COMPROBAR GASTOS', route: '/comprobante', icon: SignInIcon },
-        { label: 'HISTORIAL DE VIAJE ', route: '/historial', icon: SignInIcon},
-      ],
-      AUTORIZADOR: [
-        { label: 'DASHBOARD', route: '/dashboard', icon: SignInIcon},
-        { label: 'SOLICITUDES', route: '/autorizaciones', icon: SignInIcon},
-      ]
+  Applicant: [
+    { label: 'DASHBOARD', route: '/dashboard', icon: SignInIcon },
+    { label: 'SOLICITUD DE VIAJE', route: '/solicitud', icon: SignInIcon },
+    { label: 'COMPROBAR GASTOS', route: '/comprobante', icon: SignInIcon },
+    { label: 'HISTORIAL DE VIAJE ', route: '/historial', icon: SignInIcon},
+  ],
+  Authorizer: [
+    { label: 'DASHBOARD', route: '/dashboard', icon: SignInIcon},
+    { label: 'SOLICITUDES', route: '/autorizaciones', icon: SignInIcon},
+  ]
 };

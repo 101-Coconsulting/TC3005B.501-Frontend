@@ -1,28 +1,27 @@
 ---
-// AccordionItem.astro
+/**
+ * Author: Hector Julian Zarate Ramirez
+ * This is the AccordionItem component, which is a child of the Accordion component.
+ * It is used to create an accordion item with a title and content.
+ */
+
 const { title, expanded = false } = Astro.props;
-import Arrow from "../assets/arrow.svg"
+import Arrow from "@assets/arrow.svg";
 ---
 <details
-  class="group border border-gray-700 rounded-md bg-white shadow-md mb-4 transition-colors duration-300"
+  class="border border-secondary-50 rounded-md bg-neutral-50 shadow-md mb-4 transition-colors duration-300"
   open={expanded}
 >
-<summary
-class="peer flex items-center justify-between px-4 py-2 font-bold cursor-pointer transition-colors duration-300 hover:bg-black hover:text-white" 
->
-
-    <span class="transition-transform duration-300">
-      {title}
-    </span>
-
-    <Arrow class="w-5 h-5 transform transition-transform transition-all duration-400 ease-in-out rotate-270 group-open:rotate-[90deg] hover:object-top hover:text-white group-hover:invert" 
-  />
-
+  <summary
+    class="flex items-center justify-between px-4 py-2 font-bold cursor-pointer transition-colors duration-300 hover:bg-black hover:text-white group"
+  >
+    <span>{title}</span>
+    <Arrow 
+      class="w-5 h-5 transform transition-all duration-400 ease-in-out rotate-270 group-open:rotate-[90deg] group-hover:invert"
+    />
   </summary>
 
-  <div
-    class="px-4 py-3 border-t border-gray-200 text-sm transition-all duration-300 bg-white"
-  >
+  <div class="px-4 py-3 border-secondary-50 text-sm transition-all duration-300 bg-neutral-200">
     <slot />
   </div>
 </details>
