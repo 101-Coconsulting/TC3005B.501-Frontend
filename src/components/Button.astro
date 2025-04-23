@@ -21,7 +21,10 @@
  *
  * Usage: <Button variant="border" size="big" color="success" />
  */
- import { getButtonClasses, type ButtonVariant, type ButtonColor, type ButtonSize } from '../types/button.ts';
+
+import type { ButtonVariant, ButtonColor, ButtonSize } from "../types/button";
+import { getButtonClasses } from "../types/button";
+
 const {
   variant = 'filled',
   disabled = false,
@@ -33,7 +36,7 @@ const {
 } = Astro.props as {
   variant?: ButtonVariant;
   disabled?: boolean;
-  type?: string;
+  type?: 'button' | 'submit' | 'reset' | null | undefined;
   size?: ButtonSize;
   customSizeClass?: string;
   class?: string;
