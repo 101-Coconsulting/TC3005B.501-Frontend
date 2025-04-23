@@ -1,4 +1,16 @@
 ---
+/**
+ * Author: Julia Maria Stephanie Duenkelsbuehler Castillo
+ * 
+ * Description: This component is a header for our system.
+ * 
+ * Example usage:
+ * 	<PageHeader
+ *    userName="John Doe"
+ *	  userAvatar="/path/to/avatar.jpg"
+ *		showButtonLabel="Admin"
+ *  />
+ */
 
 const { userName, userAvatar, showButtonLabel } = Astro.props;
 ---
@@ -10,7 +22,7 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
   <!-- Left Section -->
   <div class="flex items-center">
     <button
-      class="bg-gray-300 text-blue-400 font-bold py-2 px-4 rounded text-base transition-colors duration-200 hover:bg-green-300"
+      class="bg-gray-300 text-blue-400 font-bold py-2 px-8 ml-6 rounded text-base transition-colors duration-200 hover:bg-green-300"
       onclick="alert('Toggle sidebar here!')"
     >
       LOGO
@@ -49,7 +61,7 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
         {userName}
       </div>
       <button
-        class="rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline hover:outline-2 hover:outline-green-300 hover:shadow-[0_0_5px_#6aff7a]"
+        class="rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-green-300 hover:shadow-[0_0_5px_#6aff7a]"
         onclick="alert('Profile clicked!')"
       >
         <img 
