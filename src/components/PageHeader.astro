@@ -18,11 +18,11 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
 <!-- Material Icons -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,1,0" />
 
-<header class="flex justify-between items-center p-4 bg-blue-400">
+<header class="flex justify-between items-center p-4 bg-primary-300">
   <!-- Left Section -->
   <div class="flex items-center">
     <button
-      class="bg-gray-300 text-blue-400 font-bold py-2 px-8 ml-6 rounded text-base transition-colors duration-200 hover:bg-green-300"
+      class="bg-neutral-300 text-black font-bold py-2 px-8 ml-6 rounded text-base transition-colors duration-200 hover:bg-primary-50"
       onclick="alert('Toggle sidebar here!')"
     >
       LOGO
@@ -32,13 +32,13 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
   <!-- Right Section -->
   <div class="flex items-center gap-3">
     <!-- User Role -->
-    <div class="bg-gray-200 text-black font-bold rounded-full py-1.5 px-4 text-sm">
+    <div class="bg-neutral-300 text-black font-bold rounded-full py-1.5 px-4 text-sm">
       {showButtonLabel}
     </div>
 
     <!-- Icons -->
     <button
-      class="bg-blue-400 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-green-300"
+      class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
       aria-label="Sensor Door"
     >
       <span class="material-symbols-outlined text-white text-[24px] font-[400]">
@@ -47,7 +47,7 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
     </button>
 
     <button
-      class="bg-blue-400 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-green-300"
+      class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
       aria-label="Wind Power"
     >
       <span class="material-symbols-outlined text-white text-[24px] font-[400]">
@@ -61,7 +61,7 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
         {userName}
       </div>
       <button
-        class="rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-green-300 hover:shadow-[0_0_5px_#6aff7a]"
+        class="rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-primary-300 hover:shadow-primary-500"
         onclick="alert('Profile clicked!')"
       >
         <img 
