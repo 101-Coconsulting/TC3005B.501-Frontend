@@ -27,7 +27,7 @@ jobs:
 
     # Step 2: Install dependencies
     - name: Install dependencies
-      run: npm Install
+      run: npm install
 
     # Step 3: Initialize CodeQL
     - name: Initialize CodeQL
