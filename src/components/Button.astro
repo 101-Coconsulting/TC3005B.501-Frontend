@@ -1,0 +1,54 @@
+---
+/**
+ * Author: Gabriel Muñoz Luna
+ * 
+ * Description:
+ * Button component for the application.
+ * Supports multiple variants, sizes, colors, and states.
+ * 
+ * Dependencies:
+ * - button.ts: Contains style maps (sizeClasses, variantClasses, etc.)
+ * - global.css: Defines custom CSS variables and Tailwind extensions.
+ *
+ * Props:
+ * - variant: 'filled' | 'border' | 'empty' (default: 'filled')
+ * - size: 'small' | 'medium' | 'big' | 'custom' (default: 'medium')
+ * - color: 'primary' | 'secondary' | 'success' | 'warning' (default: 'primary')
+ * - customSizeClass: string (applied when size is 'custom')
+ * - disabled: boolean (default: false)
+ * - type: string (default: 'button')
+ * - class: string (extra Tailwind classes)
+ *
+ * Usage: <Button variant="border" size="big" color="success" />
+ */
+ import { getButtonClasses, type ButtonVariant, type ButtonColor, type ButtonSize } from '../types/button.ts';
+const {
+  variant = 'filled',
+  disabled = false,
+  type = 'button',
+  size = 'medium',
+  customSizeClass = '',
+  class: extraClass = '',
+  color = 'primary',
+} = Astro.props as {
+  variant?: ButtonVariant;
+  disabled?: boolean;
+  type?: string;
+  size?: ButtonSize;
+  customSizeClass?: string;
+  class?: string;
+  color?: ButtonColor;
+};
+const classList = getButtonClasses({
+  variant,
+  disabled,
+  size,
+  customSizeClass,
+  extraClass,
+  color,
+});
+---
+
+<button type={type} disabled={disabled} class={classList}>
+  <slot />
+</button>
