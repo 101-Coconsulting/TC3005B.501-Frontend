@@ -9,10 +9,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss(), basicSsl()],
     server: {
-      https: true
+      https: false
     }
-  },
-  experimental: {
-    svg: true
   }
 });
