@@ -1,0 +1,64 @@
+---
+/**
+ * InputField.astro
+ * 
+ * Reusable input field component for form inputs with support for:
+ * - Optional labels
+ * - Placeholders
+ * - Input types (text, email, password, etc.)
+ * - Required fields
+ * - Error states and messages
+ * - Disabled states
+ * 
+ * Styling follows Tailwind CSS conventions with additional support for global custom properties.
+ */
+
+import type { BaseInputProps } from '../types/input.ts';
+import { InputPatterns } from '../types/input.ts';
+
+// Destructure and apply default props
+const {
+  label,
+  name,
+  placeholder = '',
+  value = '',
+  required = false,
+  error = '',
+  disabled = false,
+  type = 'text',
+  pattern,
+} = Astro.props as BaseInputProps;
+
+const finalPattern = pattern ?? InputPatterns[type];
+
+const inputClasses = `
+  block w-full px-3 py-2 border rounded-md shadow-sm sm:text-sm
+  focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-500
+  ${error ? 'border-warning-500' : 'border-neutral-300'}
+  ${disabled ? 'bg-neutral-50 cursor-not-allowed' : ''}
+`;
+---
+
+<div class="mb-4">
+  {label && (
+    <label for={name} class="block text-sm font-medium mb-1 text-neutral-500]">
+      {label} {required && <span class="text-warning-500">*</span>}
+    </label>
+  )}
+  <input
+    id={name}
+    name={name}
+    type={type}
+    placeholder={placeholder}
+    value={value}
+    class={inputClasses}
+    required={required}
+    disabled={disabled}
+    pattern={finalPattern}
+  />
+  {error && (
+    <p class="pl-2 text-xs text-warning-500 mt-1">
+      {error}
+    </p>
+  )}
+</div>

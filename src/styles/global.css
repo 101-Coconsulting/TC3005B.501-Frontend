@@ -2,8 +2,80 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-    --color-primary: #000000;
-    --color-secondary: #ffffff;
+  /* Neutral */
+  --color-neutral-50: #D6D8DE;
+  --color-neutral-100: #CED1D7;
+  --color-neutral-200: #C5C9D1;
+  --color-neutral-300: #BDC1CA;
+  --color-neutral-400: #A2A8B4;
+  --color-neutral-500: #878E9E;
+  /* Primary */
+  --color-primary-50: #50A7E9;
+  --color-primary-100: #69B3EC;
+  --color-primary-200: #82C0EF;
+  --color-primary-300: #379AE6;
+  --color-primary-400: #1F1C89DE;
+  --color-primary-500: #1876BE;
+  /* Secondary */
+  --color-secondary-50: #A4B5EE;
+  --color-secondary-100: #8DA3EA;
+  --color-secondary-200: #7691E6;
+  --color-secondary-300: #496CDD;
+  --color-secondary-400: #2A53D7;
+  --color-secondary-500: #2346BA;
+  /* Success */
+  --color-success-50: #6DEB97;
+  --color-success-100: #4FE782;
+  --color-success-200: #32E36D;
+  --color-success-300: #1DD75B;
+  --color-success-400: #19BC50;
+  --color-success-500: #16A144;
+  /* Warning */
+  --color-warning-50: #E25458;
+  --color-warning-100: #E66C70;
+  --color-warning-200: #EA8588;
+  --color-warning-300: #DE3840;
+  --color-warning-400: #D22329;
+  --color-warning-500: #B41E23;
+  
+  /* Fonts */
+  --font-family: 'Roboto', sans-serif;
+  --font-fallback:
+  system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI',
+  'Noto Sans', helvetica, arial, sans-serif;
+}
+
+/* Declaration of Roboto fonts */
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/roboto-light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/roboto-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/roboto-medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/roboto-bold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+html {
+  font-family: 'Roboto', var(--font-fallback);
 }
 
 // CHEAT SHEET: https://nerdcave.com/tailwind-cheat-sheet
