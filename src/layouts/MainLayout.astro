@@ -1,0 +1,66 @@
+---
+import "./src/styles/global.css"
+import PageHeader from "@components/PageHeader.astro"
+import SideBar from "@components/SideBar.astro"
+import type { UserRole } from "@/types/sidebar"
+
+interface Props {
+  title: string
+  headerData: { userName: string, userAvatar: string, showButtonLabel: string }
+  sidebarData: { role: string }
+}
+
+const { title, headerData, sidebarData } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="app">
+		<!-- Page Header Section -->
+		<header id="page-header">
+			<PageHeader userName={headerData.userName} userAvatar={headerData.userAvatar} showButtonLabel={headerData.showButtonLabel} />
+		</header>
+		<!-- Sidebar -->
+		<aside id="sidebar">
+			<SideBar role={sidebarData.role as UserRole} />
+		</aside>
+		<!-- Main Content -->
+		<section id="content">
+			<slot />
+		</section>
+    </div>
+
+    <style>
+      #app {
+        display: grid;
+        grid-template-areas:
+          "header header"
+          "sidebar content";
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr;
+        height: 100vh;
+      }
+
+      #page-header {
+        grid-area: header;
+      }
+
+      #sidebar {
+        grid-area: sidebar;
+      }
+
+      #content {
+        grid-area: content;
+      }
+    </style>
+  </body>
+</html>
