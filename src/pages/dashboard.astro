@@ -1,5 +1,8 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
+import ApplicantRequest from "../components/ApplicantRequest.astro";
+import Button from '@components/Button.astro';
+import viajes from '../datadummy/viajesSolicitante.json';
 
 const headerData = {
     userName: "John Doe",
@@ -19,6 +22,55 @@ const pageTitle = "Dashboard";
     headerData={headerData} 
     sidebarData={sidebarData} 
 >
-    <h1>Bienvenido al Dashboard</h1>
-    <p>Este es el contenido dinámico de la página.</p>
+<div class="flex flex-col p-16">
+    <div class="flex">
+      <main>
+        <section>
+          <h1 class="text-3xl font-bold">BIENVENIDO, USUARIO</h1>
+          <p class="text-lg font-semibold text-gray-500">DITTA CONSULTING</p>
+        </section>
+  
+        <section class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-bold mb-4">VIAJES EN PROCESO</h2>
+  
+          <div class="space-y-4">
+            {
+              viajes.map((viaje) => {
+                const isAprobada = viaje.status === 'aprobada';
+                const isPendiente = viaje.status === 'pendiente';
+                const isRechazada = viaje.status === 'rechazada';
+  
+                return (
+                  <div class="flex items-center justify-between bg-gray-100 px-6 py-3 rounded shadow-sm">
+                    <div>
+                      <p class="font-bold">{viaje.numero}</p>
+                      <p class="text-sm text-gray-600">
+                        {viaje.lugar}, {viaje.fechaInicio} - {viaje.fechaFin}, {viaje.status.toUpperCase()}, {viaje.responsable}
+                      </p>
+                    </div>
+  
+                    <div class="flex gap-2">
+                      <Button 
+                        color="secondary" 
+                        disabled={isAprobada} 
+                        variant="filled"
+                        size="small"
+                      >EDITAR</Button>
+                      
+                      <Button 
+                        color="primary" 
+                        disabled={!isAprobada} 
+                        variant="filled"
+                        size="small"
+                      >COMPROBAR</Button>
+                    </div>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
 </MainLayout>

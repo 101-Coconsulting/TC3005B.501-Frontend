@@ -1,0 +1,26 @@
+[
+    {
+      "numero": "#A46SSG73",
+      "lugar": "Ciudad de México",
+      "fechaInicio": "2025-04-01",
+      "fechaFin": "2025-04-05",
+      "status": "pendiente",
+      "responsable": "Gabriel Muñoz"
+    },
+    {
+      "numero": "#B88QW245",
+      "lugar": "Monterrey",
+      "fechaInicio": "2025-04-02",
+      "fechaFin": "2025-04-06",
+      "status": "aprobada",
+      "responsable": "Ana López"
+    },
+    {
+      "numero": "#C91XZ120",
+      "lugar": "Guadalajara",
+      "fechaInicio": "2025-04-03",
+      "fechaFin": "2025-04-07",
+      "status": "rechazada",
+      "responsable": "Luis Torres"
+    }
+  ]
