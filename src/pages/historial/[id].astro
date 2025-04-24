@@ -5,10 +5,20 @@
 *Description: This script is used to create a page that shows the details of a request, based on the id passed in the URL.
 *
 **/
+import MainLayout from "@layouts/MainLayout.astro";
+import RequestDetail from "../../components/RequestDetail.astro";
 import DummyData from '../../datadummy/requestHistory.json';
 
 const { id } = Astro.params;
 const request = DummyData[parseInt(id)];
+
+const headerData = {
+  userName: "John Doe",
+  userAvatar: "/profile-icon.jpg",
+  showButtonLabel: "Solicitante"
+};
+const sidebarData = { role: "Applicant" };
+const pageTitle = `Detalle de Solicitud #${id}`;
 
 export async function getStaticPaths() {
   return DummyData.map((_, index) => ({
@@ -17,6 +27,7 @@ export async function getStaticPaths() {
 }
 ---
 
+<!-- 
 <html lang="es">
   <head>
     <title>Detalle de Solicitud #{id}</title>
@@ -26,7 +37,7 @@ export async function getStaticPaths() {
   </head>
   <body class="flex flex-col items-center justify-start min-h-screen bg-gray-200 p-8 gap-6">
     
-    <!-- Application container -->
+    -- Application container 
     <div class="bg-white rounded-lg shadow-xl border border-gray-400 p-8 w-full max-w-3xl">
       <h1 class="text-3xl font-bold text-center mb-6">Detalle de la Solicitud #{id}</h1>
       
@@ -42,7 +53,7 @@ export async function getStaticPaths() {
       )}
     </div>
 
-    <!-- Back to applications list/history -->
+    -- Back to applications list/history --
     <a 
       href="/ApplicationsList" 
       class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
@@ -52,3 +63,11 @@ export async function getStaticPaths() {
 
   </body>
 </html>
+-->
+<MainLayout 
+  title={pageTitle} 
+  headerData={headerData} 
+  sidebarData={sidebarData}
+>
+  <RequestDetail request={request} id={id} />
+</MainLayout>
