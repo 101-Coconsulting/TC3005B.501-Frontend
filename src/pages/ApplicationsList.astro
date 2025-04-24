@@ -14,23 +14,42 @@ const sidebarData = {
 
 const pageTitle = "Dashboard";
 ---
-
 <MainLayout 
   title={pageTitle} 
   headerData={headerData} 
   sidebarData={sidebarData}
 >
-  <div class="flex flex-col items-center justify-center min-h-screen bg-pink-500 border-4 border-green-500 rounded-lg shadow-lg p-8 gap-4">
-    {DummyData.map((request, index) => (
-      <a 
-        href={`/solicitud/${index}`}
-        class="bg-white text-black p-4 rounded-lg shadow-md hover:bg-gray-100 w-full max-w-md text-left block"
-      >
-        <h2 class="text-lg font-bold">{request.applicantName}</h2>
-        <p>Destino: {request.travelPlace}</p>
-        <p>Fecha: {request.travelDate}</p>
-        <p>Estado: {request.currentStatus}</p>
-      </a>
-    ))}
+  <div class="flex flex-col items-center justify-center min-h-screen bg-white-500 rounded-lg shadow-lg p-8 gap-6">
+    <h1 class="text-2xl font-bold text-left w-full">Historial de viajes de {headerData.userName}</h1>
+    <p class="text-gray-600 text-left w-full">Aquí puedes ver todas tus solicitudes.</p>
+    <!-- Contenedor scrollable -->
+    <div class="flex flex-col items-center justify-start bg-white-500 rounded-lg shadow-2xl p-8 w-full max-h-[70vh] overflow-y-scroll gap-6 border border-black">
+      {DummyData.map((request, index) => {
+        // Determinar el color del estado
+        const statusColor = request.currentStatus === "Aprobado"
+          ? "bg-green-200 text-green-800"
+          : request.currentStatus === "Pendiente"
+          ? "bg-yellow-200 text-yellow-800"
+          : "bg-red-200 text-red-800"; // Rechazado
+          
+        return (
+          <a 
+            href={`/solicitud/${index}`}
+            class="flex items-center justify-between bg-white text-black p-6 rounded-lg shadow-md hover:bg-gray-100 w-full max-w-4xl text-left block border border-black mb-4"
+          >
+            <!-- Contenido principal a la izquierda -->
+            <div class="flex flex-col">
+              <h2 class="text-xl font-bold mb-2">{request.applicantName}</h2>
+              <p class="mb-1">Destino: {request.travelPlace}</p>
+              <p class="mb-1">Fecha: {request.travelDate}</p>
+            </div>
+            <!-- Estado centrado a la derecha -->
+            <p class={`text-center text-sm font-semibold px-4 py-2 rounded-lg shadow ${statusColor}`}>
+              {request.currentStatus}
+            </p>
+          </a>
+        );
+      })}
+    </div>
   </div>
 </MainLayout>
