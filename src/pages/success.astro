@@ -1,0 +1,49 @@
+---
+/**
+ * Author: Julia Maria Stephanie Duenkelsbuehler Castillo
+ * 
+ * Description: 
+ */
+
+import Typography from '@components/Typography.astro';
+import Button from '@components/Button.astro';
+import PageHeader from '@components/PageHeader.astro';
+import Sidebar from '@components/Sidebar.astro';
+---
+
+<PageHeader 
+  userName="John Doe" 
+  userAvatar="/path/to/avatar.jpg" 
+  showButtonLabel="Solicitante" 
+/>
+
+<Sidebar role="Applicant" />
+
+<main class="ml-64 p-8 bg-[#FAFAFB] min-h-screen">
+  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8 border border-[#C5C9D1] text-center">
+    <div class="mb-6">
+      <svg class="mx-auto h-16 w-16 text-[#19BC50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+
+    <Typography variant="header" size="default" class="mb-4 text-[#1876BE]">
+      Solicitud Enviada
+    </Typography>
+    
+    <Typography variant="paragraph" class="mb-8 text-[#878E9E]">
+      Tu solicitud de viaje ha sido registrada correctamente.
+    </Typography>
+
+    <div class="flex justify-center">
+      <Button 
+        variant="filled" 
+        color="primary" 
+        href="/solicitud-viaje"
+        class="px-8"
+      >
+        Volver
+      </Button>
+    </div>
+  </div>
+</main>
