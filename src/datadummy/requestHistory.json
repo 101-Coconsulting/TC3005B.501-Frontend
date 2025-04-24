@@ -1,0 +1,308 @@
+[
+    {
+      "applicantName": "María Fernanda Sánchez López",
+      "travelPlace": "Berlín, Alemania",
+      "travelDate": "2024-05-15",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Juan Pérez",
+      "travelPlace": "Buenos Aires, Argentina",
+      "travelDate": "2025-05-23",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Ana María Vargas Cortés",
+      "travelPlace": "Tokio, Japón",
+      "travelDate": "2024-07-02",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Gabriel Muñoz Romero",
+      "travelPlace": "Bruselas, Bélgica",
+      "travelDate": "2022-05-23",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Sara Gómez Castillo",
+      "travelPlace": "Madrid, España",
+      "travelDate": "2025-06-01",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Luis Hernández",
+      "travelPlace": "Lisboa, Portugal",
+      "travelDate": "2021-04-28",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Carlos Díaz Ramírez",
+      "travelPlace": "Roma, Italia",
+      "travelDate": "2024-02-14",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Elena Ramírez Aguilar",
+      "travelPlace": "París, Francia",
+      "travelDate": "2025-08-22",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Julio Castillo Ortega",
+      "travelPlace": "Ámsterdam, Países Bajos",
+      "travelDate": "2025-10-17",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Paola Jiménez Domínguez",
+      "travelPlace": "Ottawa, Canadá",
+      "travelDate": "2023-07-11",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Marco Ruiz Hernández",
+      "travelPlace": "Sídney, Australia",
+      "travelDate": "2022-08-02",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Lucía Morales Flores",
+      "travelPlace": "Viena, Austria",
+      "travelDate": "2025-05-29",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Héctor Rojas Silva",
+      "travelPlace": "Copenhague, Dinamarca",
+      "travelDate": "2023-04-09",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Montserrat Salinas Pérez",
+      "travelPlace": "Estocolmo, Suecia",
+      "travelDate": "2023-01-21",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Sofía Castillo Estrada",
+      "travelPlace": "Zúrich, Suiza",
+      "travelDate": "2025-08-19",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Gabriela Vargas Trejo",
+      "travelPlace": "Oslo, Noruega",
+      "travelDate": "2025-07-14",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Diego Ortega Soto",
+      "travelPlace": "Praga, República Checa",
+      "travelDate": "2025-09-01",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Patricia Carrillo Rosas",
+      "travelPlace": "Bratislava, Eslovaquia",
+      "travelDate": "2024-08-10",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Fernando Bravo Luna",
+      "travelPlace": "Budapest, Hungría",
+      "travelDate": "2025-06-26",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Laura Aguilar Soto",
+      "travelPlace": "Varsovia, Polonia",
+      "travelDate": "2022-09-15",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Martín Padilla Hernández",
+      "travelPlace": "Atenas, Grecia",
+      "travelDate": "2021-08-18",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Jimena Pineda Rivas",
+      "travelPlace": "Moscú, Rusia",
+      "travelDate": "2025-08-25",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Emilio Cordero Luna",
+      "travelPlace": "El Cairo, Egipto",
+      "travelDate": "2021-10-11",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Silvia Contreras Mora",
+      "travelPlace": "Estambul, Turquía",
+      "travelDate": "2025-10-15",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Ángel Jiménez Cruz",
+      "travelPlace": "Nueva Delhi, India",
+      "travelDate": "2023-10-21",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Carla Domínguez Chávez",
+      "travelPlace": "Seúl, Corea del Sur",
+      "travelDate": "2025-09-17",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Alfredo Salgado Núñez",
+      "travelPlace": "Bangkok, Tailandia",
+      "travelDate": "2020-11-03",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Jessica López Robles",
+      "travelPlace": "Beijing, China",
+      "travelDate": "2025-10-31",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Iván Espinosa Gallardo",
+      "travelPlace": "Dublín, Irlanda",
+      "travelDate": "2020-11-13",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Daniela Flores Galván",
+      "travelPlace": "Londres, Reino Unido",
+      "travelDate": "2020-11-21",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Sandra Velázquez Tovar",
+      "travelPlace": "Bridgetown, Barbados",
+      "travelDate": "2025-12-01",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Manuel Ramírez Muñoz",
+      "travelPlace": "Helsinki, Finlandia",
+      "travelDate": "2024-11-28",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Rosa Luna Ávila",
+      "travelPlace": "Osaka, Japón",
+      "travelDate": "2023-12-08",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Enrique González Maldonado",
+      "travelPlace": "Varsovia, Polonia",
+      "travelDate": "2025-12-15",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Patricia Fuentes Rivera",
+      "travelPlace": "Montevideo, Uruguay",
+      "travelDate": "2022-12-22",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Víctor Campos Osorio",
+      "travelPlace": "Caracas, Venezuela",
+      "travelDate": "2026-01-07",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Melissa Ochoa Peña",
+      "travelPlace": "Lima, Perú",
+      "travelDate": "2024-01-13",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Alonso Varela Barajas",
+      "travelPlace": "Brasilia, Brasil",
+      "travelDate": "2019-01-24",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Marina Herrera Aguilar",
+      "travelPlace": "Santiago, Chile",
+      "travelDate": "2026-01-30",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Valeria Sánchez Navarro",
+      "travelPlace": "Washington, Estados Unidos de América",
+      "travelDate": "2019-02-03",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Andrés Escobar Calderón",
+      "travelPlace": "La Habana, Cuba",
+      "travelDate": "2025-02-15",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Gloria Torres Valdez",
+      "travelPlace": "Bogotá, Colombia",
+      "travelDate": "2015-02-28",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Rodrigo Martínez Carranza",
+      "travelPlace": "Panamá, Panamá",
+      "travelDate": "2014-03-09",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Jimena Carrillo Aguirre",
+      "travelPlace": "Quito, Ecuador",
+      "travelDate": "2025-03-13",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Roberto Pineda Escobar",
+      "travelPlace": "San José, Costa Rica",
+      "travelDate": "2022-03-20",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Karen Rosales Mejía",
+      "travelPlace": "Managua, Nicaragua",
+      "travelDate": "2026-04-01",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Pablo Miranda Lozano",
+      "travelPlace": "Kingston, Jamaica",
+      "travelDate": "2023-04-12",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Luis Felipe Vargas Torres",
+      "travelPlace": "Lusaka, Zambia",
+      "travelDate": "2026-04-23",
+      "currentStatus": "Pendiente"
+    },
+    {
+      "applicantName": "Ximena López Ordóñez",
+      "travelPlace": "Accra, Ghana",
+      "travelDate": "2023-05-02",
+      "currentStatus": "Rechazado"
+    },
+    {
+      "applicantName": "Mario Calderón Peña",
+      "travelPlace": "Maputo, Mozambique",
+      "travelDate": "2026-05-10",
+      "currentStatus": "Aprobado"
+    },
+    {
+      "applicantName": "Natalia Guzmán Arriaga",
+      "travelPlace": "Windhoek, Namibia",
+      "travelDate": "2025-05-19",
+      "currentStatus": "Pendiente"
+    }
+  ]
