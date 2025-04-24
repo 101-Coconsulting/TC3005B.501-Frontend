@@ -1,0 +1,36 @@
+---
+/**
+ * Component: RequestDetail
+ * 
+ * Description:
+ *   This component displays the detailed information of a travel request in a structured and styled way.
+ *   Shows the applicant's name, destination, travel date, and current status.
+ *   Includes a button to navigate back to the requests history.
+ * 
+ * Usage:
+ *   Used within the request detail page ([id].astro), receiving `request` and `id` as props.
+ * 
+ * Author: Kenia Esmeralda Ramos Javier.
+ **/
+
+const { request, id } = Astro.props;
+---
+<div class="bg-white rounded-lg shadow-xl border border-gray-400 p-8 w-full max-w-3xl mx-auto">
+  <h1 class="text-3xl font-bold text-center mb-6">Detalle de la Solicitud #{id}</h1>
+  {request ? (
+    <div class="text-lg space-y-4">
+      <p><strong>Nombre:</strong> {request.applicantName}</p>
+      <p><strong>Destino:</strong> {request.travelPlace}</p>
+      <p><strong>Fecha:</strong> {request.travelDate}</p>
+      <p><strong>Estado:</strong> {request.currentStatus}</p>
+    </div>
+  ) : (
+    <p class="text-red-500 text-center">Solicitud no encontrada.</p>
+  )}
+  <a 
+    href="/historial" 
+    class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition-all duration-200 mt-6 inline-block"
+  >
+    ← Volver a la lista de solicitudes
+  </a>
+</div>
