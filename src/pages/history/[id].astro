@@ -1,0 +1,54 @@
+---
+/* 
+author: Hector Julian Zarate Ramirez
+
+description: this script is used to create a page that shows the details of a request, based on the id passed in the URL.
+
+*/
+import DummyData from '../../datadummy/requestHistory.json';
+
+const { id } = Astro.params;
+const request = DummyData[parseInt(id)];
+
+export async function getStaticPaths() {
+  return DummyData.map((_, index) => ({
+    params: { id: index.toString() },
+  }));
+}
+---
+
+<html lang="es">
+  <head>
+    <title>Detalle de Solicitud #{id}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body class="flex flex-col items-center justify-start min-h-screen bg-gray-200 p-8 gap-6">
+    
+    <!-- application container -->
+    <div class="bg-white rounded-lg shadow-xl border border-gray-400 p-8 w-full max-w-3xl">
+      <h1 class="text-3xl font-bold text-center mb-6">Detalle de la Solicitud #{id}</h1>
+      
+      {request ? (
+        <div class="text-lg space-y-4">
+          <p><strong>Nombre:</strong> {request.applicantName}</p>
+          <p><strong>Destino:</strong> {request.travelPlace}</p>
+          <p><strong>Fecha:</strong> {request.travelDate}</p>
+          <p><strong>Estado:</strong> {request.currentStatus}</p>
+        </div>
+      ) : (
+        <p class="text-red-500 text-center">Solicitud no encontrada.</p>
+      )}
+    </div>
+
+    <!-- back to applications list/history -->
+    <a 
+      href="/ApplicationsList" 
+      class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition-all duration-200"
+    >
+      ← Volver a la lista de solicitudes
+    </a>
+
+  </body>
+</html>
