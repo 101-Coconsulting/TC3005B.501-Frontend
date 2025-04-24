@@ -26,8 +26,8 @@ const cantidadSolicitudes = viajes.length;
     headerData={headerData} 
     sidebarData={sidebarData} 
 >
-<div class="flex flex-col p-16">
-    <div class="flex">
+<div class="flex flex-col p-16 ">
+    <div class="flex w-full flex-col justify-center h-screen">
       <main>
         <section>
           <h1 class="text-3xl font-bold">BIENVENIDO, USUARIO</h1>
@@ -36,46 +36,57 @@ const cantidadSolicitudes = viajes.length;
         
         <!-- Section if there are existing requests -->
         {cantidadSolicitudes > 0 && (
-            <section class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-bold mb-4">VIAJES EN PROCESO</h2>
-    
-            <div class="space-y-4">
-                {
-                viajes.map((viaje) => {
-                    const isAprobada = viaje.status === 'aprobada';
-                    const isPendiente = viaje.status === 'pendiente';
-                    const isRechazada = viaje.status === 'rechazada';
-    
-                    return (
-                    <div class="flex items-center justify-between bg-gray-100 px-6 py-3 rounded shadow-sm">
-                        <div>
-                        <p class="font-bold">{viaje.numero}</p>
-                        <p class="text-sm text-gray-600">
-                            {viaje.lugar}, {viaje.fechaInicio} - {viaje.fechaFin}, {viaje.status.toUpperCase()}, {viaje.responsable}
-                        </p>
+            <section class="bg-white p-6 rounded-lg shadow w-full">
+                <h2 class="text-xl font-bold mb-4">VIAJES EN PROCESO</h2>
+
+                <div class="space-y-4">
+                    {
+                    viajes.slice(0, 3).map((viaje) => {
+
+                        const isAprobada = viaje.status === 'aprobada';
+
+                        return (
+                        <div class="flex flex-wrap justify-between items-start bg-gray-100 px-6 py-3 rounded shadow-sm w-full">
+                            <div class="max-w-full">
+                            <p class="font-bold break-words">{viaje.numero}</p>
+                            <p class="text-sm text-gray-600 break-words">
+                                {viaje.lugar}, {viaje.fechaInicio} - {viaje.fechaFin}, {viaje.status.toUpperCase()}, {viaje.responsable}
+                            </p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mt-2 sm:mt-0 sm:ml-auto">
+                            <Button 
+                                color="primary" 
+                                disabled={isAprobada} 
+                                variant="filled" 
+                                size="small"
+                            >EDITAR</Button>
+                            <Button 
+                                color="primary" 
+                                disabled={!isAprobada} 
+                                variant="filled" 
+                                size="small"
+                            >COMPROBAR</Button>
+                            </div>
                         </div>
-    
-                        <div class="flex gap-2">
-                        <Button 
-                            color="secondary" 
-                            disabled={isAprobada} 
-                            variant="filled"
-                            size="small"
-                        >EDITAR</Button>
-                        
-                        <Button 
-                            color="primary" 
-                            disabled={!isAprobada} 
-                            variant="filled"
-                            size="small"
-                        >COMPROBAR</Button>
-                        </div>
-                    </div>
-                    );
-                })
-                }
-            </div>
-            </section>
+                        );
+                    })
+                    }
+                </div>
+
+  <!-- Botón grande debajo -->
+  <a href="/solicitud" class="mt-8 flex justify-center">
+    <Button 
+      variant="filled" 
+      color="primary" 
+      size="custom" 
+      customSizeClass="w-full sm:w-96 py-3 text-base font-bold italic"
+    >
+      SOLICITA UN NUEVO VIAJE
+    </Button>
+    </a>
+</section>
+
         )}
         <!-- Section if there are no requests -->
         {cantidadSolicitudes === 0 && (
