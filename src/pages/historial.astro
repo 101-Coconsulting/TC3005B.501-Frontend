@@ -1,7 +1,7 @@
 ---
 /**
 *Author: Hector Julian Zarate Ramirez
-*Description: this script is used to create a page that shows the history of requests made by the user.
+*Description: This script is used to create a page that shows the history of requests made by the user.
 */
 import MainLayout from "@layouts/MainLayout.astro";
 import DummyData from '../datadummy/requestHistory.json';
@@ -12,11 +12,17 @@ const headerData = {
   showButtonLabel: "Solicitante"
 };
 
-const sidebarData = {
-  role: "Applicant"
-};
-
+const sidebarData = {role: "Applicant"};
 const pageTitle = "Dashboard";
+
+// Pagination
+const ITEMS_PER_PAGE = 10;
+const page = Number(Astro.url.searchParams.get('page')) || 1;
+const totalPages = Math.ceil(DummyData.length / ITEMS_PER_PAGE);
+const start = (page - 1) * ITEMS_PER_PAGE;
+const end = start + ITEMS_PER_PAGE;
+const pageRequests = DummyData.slice(start, end);
+
 ---
 <MainLayout 
   title={pageTitle} 
@@ -27,18 +33,18 @@ const pageTitle = "Dashboard";
     <h1 class="text-2xl font-bold text-left w-full">Historial de viajes de {headerData.userName}</h1>
     <p class="text-gray-600 text-left w-full">Aquí puedes ver todas tus solicitudes.</p>
 
-    <!-- Scrollable container -->
-    <div class="flex flex-col items-center justify-start bg-white-500 rounded-lg shadow-2xl p-8 w-full max-h-[70vh] overflow-y-scroll gap-6 border border-black">
-      {DummyData.map((request, index) => {
+    <!-- Page list -->
+    <div class="flex flex-col items-center w-full gap-6 border border-black">
+      {pageRequests.map((request, index) => {
         const statusColor = request.currentStatus === "Aprobado"
           ? "bg-green-200 text-green-800"
           : request.currentStatus === "Pendiente"
           ? "bg-yellow-200 text-yellow-800"
-          : "bg-red-200 text-red-800"; // Rejected
-          
+          : "bg-red-200 text-red-800";
+        const realIndex = start + index;
         return (
           <a 
-            href={`/history/${index}`}
+            href={`/historial/${realIndex}`}
             class="flex items-center justify-between bg-white text-black p-6 rounded-lg shadow-md hover:bg-gray-100 w-full max-w-4xl text-left block border border-black mb-4"
           >
             <!-- Request information left side -->
@@ -54,6 +60,18 @@ const pageTitle = "Dashboard";
           </a>
         );
       })}
+    </div>
+    
+    <!-- Pagination -->
+    <div class="flex justify-center gap-2 mt-6">
+      {Array.from({ length: totalPages }).map((_, i) => (
+        <a
+          href={`/historial?page=${i + 1}`}
+          class={`px-4 py-2 rounded border ${page === i + 1 ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`}
+        >
+          {i + 1}
+        </a>
+      ))}
     </div>
   </div>
 </MainLayout>
