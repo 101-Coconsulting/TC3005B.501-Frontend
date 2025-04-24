@@ -1,0 +1,36 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import DummyData from '../datadummy/requestHistory.json';
+
+const headerData = {
+  userName: "John Doe",
+  userAvatar: "/profile-icon.jpg",
+  showButtonLabel: "Solicitante"
+};
+
+const sidebarData = {
+  role: "Applicant"
+};
+
+const pageTitle = "Dashboard";
+---
+
+<MainLayout 
+  title={pageTitle} 
+  headerData={headerData} 
+  sidebarData={sidebarData}
+>
+  <div class="flex flex-col items-center justify-center min-h-screen bg-pink-500 border-4 border-green-500 rounded-lg shadow-lg p-8 gap-4">
+    {DummyData.map((request, index) => (
+      <a 
+        href={`/solicitud/${index}`}
+        class="bg-white text-black p-4 rounded-lg shadow-md hover:bg-gray-100 w-full max-w-md text-left block"
+      >
+        <h2 class="text-lg font-bold">{request.applicantName}</h2>
+        <p>Destino: {request.travelPlace}</p>
+        <p>Fecha: {request.travelDate}</p>
+        <p>Estado: {request.currentStatus}</p>
+      </a>
+    ))}
+  </div>
+</MainLayout>
