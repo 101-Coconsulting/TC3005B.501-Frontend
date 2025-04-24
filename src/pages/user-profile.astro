@@ -2,8 +2,6 @@
 import MainLayout from "@layouts/HeaderLayout.astro";
 import Typography from "@components/Typography.astro";
 import Button from "@components/Button.astro";
-import InputField from "@components/InputField.astro";
-
 
 const headerData = {
     userName: "Arturo López",
@@ -52,9 +50,13 @@ const pageTitle = "Perfil de Usuario";
     title={pageTitle} 
     headerData={headerData} 
 >
-    <div class="p-8 bg-white">
-        <div class="mb-6">
+    <div class="pt-12 px-12 bg-white">
+
+        <div class="mb-8 flex items-center justify-between">
             <Typography variant="header">Información General</Typography>
+            <a href="/dashboard">
+            <Button variant="filled" color="primary">Regresar al Dashboard</Button>
+            </a>
         </div>
 
         <!-- Personal Information Section -->
