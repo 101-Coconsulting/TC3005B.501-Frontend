@@ -5,45 +5,55 @@
  * Description: 
  */
 
-import Typography from '@components/Typography.astro';
 import Button from '@components/Button.astro';
-import PageHeader from '@components/PageHeader.astro';
-import Sidebar from '@components/Sidebar.astro';
+import Typography from '@components/Typography.astro';
+import MainLayout from "@layouts/MainLayout.astro";
+
+const headerData = {
+  userName: "John Doe",
+  userAvatar: "/profile-icon.jpg",
+  showButtonLabel: "Solicitante"
+};
+
+const sidebarData = {
+  role: "Applicant"
+};
+
+const pageTitle = "Solicitud Creada";
 ---
 
-<PageHeader 
-  userName="John Doe" 
-  userAvatar="/path/to/avatar.jpg" 
-  showButtonLabel="Solicitante" 
-/>
+<MainLayout 
+  title={pageTitle} 
+  headerData={headerData} 
+  sidebarData={sidebarData}
+>
+  <main class="p-12 bg-neutral-50 min-h-screen">
+    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8 text-center">
+      <div class="mb-6">
+        <svg class="mx-auto h-16 w-16 text-success-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
 
-<Sidebar role="Applicant" />
+      <Typography variant="header" size="default" class="mb-4 text-primary-500">
+        Solicitud Enviada
+      </Typography>
+      
+      <Typography variant="paragraph" class="mb-8 text-primary-400">
+        Tu solicitud de viaje ha sido registrada correctamente.
+      </Typography>
 
-<main class="ml-64 p-8 bg-[#FAFAFB] min-h-screen">
-  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8 border border-[#C5C9D1] text-center">
-    <div class="mb-6">
-      <svg class="mx-auto h-16 w-16 text-[#19BC50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-      </svg>
+      <div class="flex justify-center">
+        <a href="/dashboard" class="mr-4">
+          <Button 
+          variant="filled" 
+          color="primary" 
+          class="px-8"
+          >
+            Ir al Dashboard
+          </Button>
+        </a>
+      </div>
     </div>
-
-    <Typography variant="header" size="default" class="mb-4 text-[#1876BE]">
-      Solicitud Enviada
-    </Typography>
-    
-    <Typography variant="paragraph" class="mb-8 text-[#878E9E]">
-      Tu solicitud de viaje ha sido registrada correctamente.
-    </Typography>
-
-    <div class="flex justify-center">
-      <Button 
-        variant="filled" 
-        color="primary" 
-        href="/solicitud-viaje"
-        class="px-8"
-      >
-        Volver
-      </Button>
-    </div>
-  </div>
-</main>
+  </main>
+</MainLayout>
