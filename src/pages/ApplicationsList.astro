@@ -26,6 +26,26 @@ const pageTitle = "Dashboard";
   <div class="flex flex-col items-center justify-center min-h-screen bg-white-500 rounded-lg shadow-lg p-8 gap-6">
     <h1 class="text-2xl font-bold text-left w-full">Historial de viajes de {headerData.userName}</h1>
     <p class="text-gray-600 text-left w-full">Aquí puedes ver todas tus solicitudes.</p>
+
+    <!-- No dynamic filters functionality."-->
+    <div class="flex flex-col sm:flex-row gap-4 w-full max-w-4xl mb-4">
+      <input
+        type="text"
+        placeholder="Buscar por nombre del solicitante... (solo visual)"
+        class="border border-gray-300 rounded p-2 w-full sm:w-1/2"
+        disabled
+      />
+      <select
+        class="border border-gray-300 rounded p-2 w-full sm:w-1/2"
+        disabled
+      >
+        <option value="">Todos los estados</option>
+        <option value="Aprobado">Aprobado</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Rechazado">Rechazado</option>
+      </select>
+    </div>
+
     <!-- Contenedor scrollable -->
     <div class="flex flex-col items-center justify-start bg-white-500 rounded-lg shadow-2xl p-8 w-full max-h-[70vh] overflow-y-scroll gap-6 border border-black">
       {DummyData.map((request, index) => {
