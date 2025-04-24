@@ -27,46 +27,27 @@ const pageTitle = "Dashboard";
     <h1 class="text-2xl font-bold text-left w-full">Historial de viajes de {headerData.userName}</h1>
     <p class="text-gray-600 text-left w-full">Aquí puedes ver todas tus solicitudes.</p>
 
-    <!-- No dynamic filters functionality."-->
-    <div class="flex flex-col sm:flex-row gap-4 w-full max-w-4xl mb-4">
-      <input
-        type="text"
-        placeholder="Buscar por nombre del solicitante... (solo visual)"
-        class="border border-gray-300 rounded p-2 w-full sm:w-1/2"
-        disabled
-      />
-      <select
-        class="border border-gray-300 rounded p-2 w-full sm:w-1/2"
-        disabled
-      >
-        <option value="">Todos los estados</option>
-        <option value="Aprobado">Aprobado</option>
-        <option value="Pendiente">Pendiente</option>
-        <option value="Rechazado">Rechazado</option>
-      </select>
-    </div>
-
-    <!-- Contenedor scrollable -->
+    <!-- Scrollable container -->
     <div class="flex flex-col items-center justify-start bg-white-500 rounded-lg shadow-2xl p-8 w-full max-h-[70vh] overflow-y-scroll gap-6 border border-black">
       {DummyData.map((request, index) => {
         const statusColor = request.currentStatus === "Aprobado"
           ? "bg-green-200 text-green-800"
           : request.currentStatus === "Pendiente"
           ? "bg-yellow-200 text-yellow-800"
-          : "bg-red-200 text-red-800"; // Rechazado
+          : "bg-red-200 text-red-800"; // Rejected
           
         return (
           <a 
             href={`/history/${index}`}
             class="flex items-center justify-between bg-white text-black p-6 rounded-lg shadow-md hover:bg-gray-100 w-full max-w-4xl text-left block border border-black mb-4"
           >
-            <!-- Reques information left side -->
+            <!-- Request information left side -->
             <div class="flex flex-col">
               <h2 class="text-xl font-bold mb-2">{request.applicantName}</h2>
               <p class="mb-1">Destino: {request.travelPlace}</p>
               <p class="mb-1">Fecha: {request.travelDate}</p>
             </div>
-            <!-- Reques information right side -->
+            <!-- Request information right side -->
             <p class={`text-center text-sm font-semibold px-4 py-2 rounded-lg shadow ${statusColor}`}>
               {request.currentStatus}
             </p>
