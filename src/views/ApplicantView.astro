@@ -1,0 +1,83 @@
+---
+/**
+ * Authors: Gabriel Muñoz, José González
+ * 
+ * Description: This is the applicant view of the application.
+ **/
+
+import Button from "@components/Button.astro";
+import WelcomeHeader from "@components/WelcomeHeader.astro";
+
+type Request = {
+  numero: string;
+  lugar: string;
+  fechaInicio: string;
+  fechaFin: string;
+  fechaSolicitud: string;
+  status: string;
+  responsable: string;
+};
+
+const { headerData, requests } = Astro.props;
+---
+
+<div class="flex flex-col p-12 bg-white h-full">
+  <main>
+    <WelcomeHeader userName={headerData.userName} />
+
+    <section class="bg-white p-6 rounded-lg shadow w-full">
+      <h2 class="flex text-xl font-bold mb-4">
+        VIAJES EN PROCESO
+        <span class="px-2 align-middle text-primary-500">({requests.length})</span>
+      </h2>
+
+      {requests.length > 0 ? (
+        <div class="grid gap-4">
+          {requests.slice(0, 3).map((request: Request) => {
+            const isApproved = request.status === 'aprobada';
+            return (
+              <div class="grid grid-cols-[2fr_2fr_1fr] gap-4 bg-gray-100 p-4 rounded shadow-sm w-full h-full">
+                <div class="col-span-2 space-y-2">
+                  <p class="font-bold text-lg break-words">{request.numero}</p>
+                  <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
+                    <p><span class="font-semibold">Lugar:</span> {request.lugar}</p>
+                    <p><span class="font-semibold">Fechas:</span> {request.fechaInicio} - {request.fechaFin}</p>
+                    <p>
+                      <span class="font-semibold">Estado:</span> 
+                      <span class={`ml-1 font-semibold ${isApproved ? 'text-success-400' : 'text-warning-400'}`}>
+                        {(request.status ? request.status.toUpperCase() : '')}
+                      </span>
+                    </p>
+                    <p><span class="font-semibold">Responsable:</span> {request.responsable}</p>
+                  </div>
+                </div>
+                <div class="flex flex-col justify-center h-full gap-1">
+                  <a href={`/editar/${request.numero}`}>
+                    <Button color="primary" disabled={isApproved} variant="filled" size="medium" customSizeClass="w-full">
+                      EDITAR
+                    </Button>
+                  </a>
+                  <a href={`/comprobar/${request.numero}`}>
+                    <Button color="primary" disabled={!isApproved} variant="filled" size="medium" customSizeClass="w-full">
+                      COMPROBAR
+                    </Button>
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="bg-gray-100 p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
+          NO TIENES VIAJES AGENDADOS
+        </div>
+      )}
+    </section>
+
+    <a href="/solicitud" class="mt-8 flex justify-center">
+      <Button variant="filled" color="secondary" size="custom" customSizeClass="w-128 py-3 text-base font-bold">
+        SOLICITA UN NUEVO VIAJE
+      </Button>
+    </a>
+  </main>
+</div>

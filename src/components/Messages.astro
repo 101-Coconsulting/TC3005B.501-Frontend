@@ -7,17 +7,21 @@ const messages = [
 ];
 ---
 
-<div class="h-full px-4 py-6 overflow-auto">
-  <h2 class="text-lg font-bold mb-4">NOTIFICACIONES DEL SISTEMA</h2>
-  <ul class="space-y-4 text-sm">
-    {
-      messages.map(({ date, text }) => (
-        <li class="bg-blue-100 rounded p-3 shadow-sm relative">
-          <p class="text-xs text-gray-500 mb-1">{date}</p>
-          <p class="text-gray-700">{text}</p>
-          <button class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-sm">✕</button>
-        </li>
-      ))
-    }
+<div class="h-full">
+  <h2 class="text-xl font-bold text-neutral-800 mb-6">NOTIFICACIONES DEL SISTEMA</h2>
+  
+  <ul class="space-y-4">
+    {messages.map(({ date, text }) => (
+      <li class="relative bg-gray-50 border border-neutral-200 rounded-xl p-4 shadow-sm hover:shadow-lg transition">
+        <button 
+          class="absolute top-3 right-3 text-neutral-300 hover:text-red-500 text-base"
+          aria-label="Eliminar notificación"
+        >
+          ✕
+        </button>
+        <p class="text-xs text-neutral-500 mb-2">{date}</p>
+        <p class="text-sm text-neutral-800">{text}</p>
+      </li>
+    ))}
   </ul>
 </div>
