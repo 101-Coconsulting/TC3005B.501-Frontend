@@ -52,6 +52,6 @@ const classList = getButtonClasses({
 });
 ---
 
-<button type={type} disabled={disabled} class={classList}>
+<button type={type} disabled={disabled} class={classList + ' ' + customSizeClass}>
   <slot />
 </button>
