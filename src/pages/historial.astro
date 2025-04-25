@@ -1,0 +1,35 @@
+---
+/**
+ * Author: Hector Julian Zarate Ramirez
+ * Description: This script is used to create a page that shows the history of requests made by the user.
+ **/
+
+import MainLayout from "@layouts/MainLayout.astro";
+import History from "@components/History.tsx";
+import DummyData from "@data/requestHistory.json";
+
+const headerData = {
+  userName: "John Doe",
+  userAvatar: "/profile-icon.jpg",
+  showButtonLabel: "Solicitante"
+};
+
+const sidebarData = { role: "Applicant" };
+const pageTitle = "Dashboard";
+---
+
+<MainLayout 
+  title={pageTitle} 
+  headerData={headerData} 
+  sidebarData={sidebarData}
+>
+<div class="flex flex-col p-12 bg-neutral-50">
+  <section>
+    <h1 class="text-4xl font-bold w-full">HISTORIAL DEL VIAJES DE {headerData.userName.toUpperCase()}</h1>
+    <p class="text-xl font-semibold text-secondary-500 w-full">Aquí puedes ver todas tus solicitudes.</p>
+  </section>
+  <div class="items-center justify-center bg-white-500 pt-8">
+    <History client:load data={DummyData} />
+  </div>
+</div>
+</MainLayout>

@@ -1,0 +1,36 @@
+---
+/**
+*Author: Hector Julian Zarate Ramirez
+*
+*Description: This script is used to create a page that shows the details of a request, based on the id passed in the URL.
+*
+**/
+import MainLayout from "@layouts/MainLayout.astro";
+import RequestDetail from "@components/RequestDetail.astro";
+import DummyData from '@data/requestHistory.json';
+
+const { id } = Astro.params;
+const request = DummyData[parseInt(id)];
+
+const headerData = {
+  userName: "John Doe",
+  userAvatar: "/profile-icon.jpg",
+  showButtonLabel: "Solicitante"
+};
+const sidebarData = { role: "Applicant" };
+const pageTitle = `Detalle de Solicitud #${id}`;
+
+export async function getStaticPaths() {
+  return DummyData.map((_, index) => ({
+    params: { id: index.toString() },
+  }));
+}
+---
+
+<MainLayout 
+  title={pageTitle} 
+  headerData={headerData} 
+  sidebarData={sidebarData}
+>
+  <RequestDetail request={request} id={id} />
+</MainLayout>
