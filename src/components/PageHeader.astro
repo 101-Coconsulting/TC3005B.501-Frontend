@@ -56,22 +56,23 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
     </button>
 
     <!-- User Info -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-4">
       <div class="bg-black text-white py-1.5 px-4 rounded-full font-bold text-sm">
         {userName}
       </div>
-      <button
-        class="rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-primary-300 hover:shadow-primary-500"
-        onclick="alert('Profile clicked!')"
-      >
-        <img 
-          src={userAvatar} 
-          alt="Profile" 
-          class="w-full h-full object-cover" 
-          width="45"
-          height="45"
-        />
-      </button>
+      <a href="/user-profile">
+        <button
+          class="rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-primary-300 hover:shadow-primary-500"
+        >
+          <img 
+            src={userAvatar}
+            alt="Profile" 
+            class="w-full h-full object-cover" 
+            width="45"
+            height="45"
+          />
+        </button>
+      </a>
     </div>
   </div>
 </header>

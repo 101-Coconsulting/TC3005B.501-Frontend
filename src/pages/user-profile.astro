@@ -1,0 +1,227 @@
+---
+import MainLayout from "@layouts/HeaderLayout.astro";
+import Typography from "@components/Typography.astro";
+import Button from "@components/Button.astro";
+
+const headerData = {
+    userName: "Arturo López",
+    userAvatar: "/profile-icon.jpg",
+    showButtonLabel: "Solicitante"
+};
+const sidebarData = {
+    role: "Applicant"
+};
+
+// User profile domi data 
+const userProfile = {
+    id: "A010278910",
+    name: "Arturo López",
+    phone: "(719) 860-5684",
+    email: "arturolopez95@hotmail.com",
+    creationDate: "17/04/2021",
+    address: {
+        street: "925 Wall Street",
+        country: "USA",
+        city: "Houston",
+        zipCode: "75204"
+    },
+    payment: {
+        clabe: "7840263057633",
+        accountNumber: "0123456789",
+        accountHolder: "Arturo Lopez Castillo",
+        bank: "Banorte",
+        securityNumber: "15 Mayo, 1995",
+        rfc: "7678790045",
+        balance: "+ $3,468"
+    },
+    position: {
+        title: "Jefe de UX",
+        department: "Productos",
+        employmentType: "Tiempo Completo",
+        supervisor: "Sofia Perez"
+    }
+};
+
+const pageTitle = "Perfil de Usuario";
+
+---
+
+<MainLayout 
+    title={pageTitle} 
+    headerData={headerData} 
+>
+    <div class="pt-12 px-12 bg-white">
+
+        <div class="mb-8 flex items-center justify-between">
+            <Typography variant="header">Información General</Typography>
+            <a href="/dashboard">
+            <Button variant="filled" color="primary">Regresar al Dashboard</Button>
+            </a>
+        </div>
+
+        <!-- Personal Information Section -->
+        <div class="mb-8 bg-[#f9f9f9] rounded-lg p-6 shadow-sm">
+            <div class="flex justify-between mb-4">
+                <Typography variant="subHeader">Información Personal</Typography>
+                <Button variant="empty" color="primary">Editar</Button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">ID Empleado</Typography>
+                        <Typography variant="paragraph">{userProfile.id}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Nombre</Typography>
+                        <Typography variant="paragraph">{userProfile.name}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Número</Typography>
+                        <Typography variant="paragraph">{userProfile.phone}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Correo Electrónico</Typography>
+                        <Typography variant="paragraph">{userProfile.email}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Contraseña</Typography>
+                        <Typography variant="paragraph">***********</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Creación de cuenta</Typography>
+                        <Typography variant="paragraph">{userProfile.creationDate}</Typography>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Fecha Nacimiento</Typography>
+                        <Typography variant="paragraph">15 Mayo, 1995</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Sexo</Typography>
+                        <Typography variant="paragraph">Hombre</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Nacionalidad</Typography>
+                        <Typography variant="paragraph">Mexicano/a</Typography>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Information Section -->
+        <div class="mb-8 bg-[#f9f9f9] rounded-lg p-6 shadow-sm">
+            <div class="flex justify-between mb-4">
+                <Typography variant="subHeader">Información de Dirección</Typography>
+                <Button variant="empty" color="primary">Editar</Button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Dirección</Typography>
+                        <Typography variant="paragraph">{userProfile.address.street}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">País</Typography>
+                        <Typography variant="paragraph">{userProfile.address.country}</Typography>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Ciudad</Typography>
+                        <Typography variant="paragraph">{userProfile.address.city}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Código Postal</Typography>
+                        <Typography variant="paragraph">{userProfile.address.zipCode}</Typography>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position and Payment Section -->
+        <div class="mb-6">
+            <Typography variant="header">Posición en la Empresa y Métodos de Pago</Typography>
+        </div>
+
+        <!-- Payment Information Section -->
+        <div class="mb-8 bg-[#f9f9f9] rounded-lg p-6 shadow-sm">
+            <div class="flex justify-between mb-4">
+                <Typography variant="subHeader">Pago</Typography>
+                <Button variant="empty" color="primary">Editar</Button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">CLABE</Typography>
+                        <Typography variant="paragraph">{userProfile.payment.clabe}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Número de Cuenta</Typography>
+                        <Typography variant="paragraph">{userProfile.payment.accountNumber}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Número de Cuenta</Typography>
+                        <Typography variant="paragraph">{userProfile.payment.accountHolder}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Nombre de Banco</Typography>
+                        <Typography variant="paragraph">{userProfile.payment.bank}</Typography>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Seguro</Typography>
+                        <Typography variant="paragraph">{userProfile.payment.securityNumber}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">RFC</Typography>
+                        <Typography variant="paragraph">{userProfile.payment.rfc}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Saldo (Wallet)</Typography>
+                        <Typography variant="paragraph" class="text-success-500 font-bold">{userProfile.payment.balance}</Typography>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position Information Section -->
+        <div class="mb-8 bg-[#f9f9f9] rounded-lg p-6 shadow-sm">
+            <div class="flex justify-between mb-4">
+                <Typography variant="subHeader">Puesto</Typography>
+                <Button variant="empty" color="primary">Editar</Button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Título del puesto</Typography>
+                        <Typography variant="paragraph">{userProfile.position.title}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Departamento</Typography>
+                        <Typography variant="paragraph">{userProfile.position.department}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Tipo de empleo</Typography>
+                        <Typography variant="paragraph">{userProfile.position.employmentType}</Typography>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Jefe de línea</Typography>
+                        <Typography variant="paragraph">{userProfile.position.supervisor}</Typography>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</MainLayout>

@@ -12,6 +12,9 @@
       "@pages/*": ["./src/pages/*"],
       "@types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
-    }
+      "@data/*": ["./src/datadummy/*"],
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   }
 }
