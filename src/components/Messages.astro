@@ -1,0 +1,23 @@
+---
+const messages = [
+  { date: "3/27/2025 - 13:03", text: "Seguimos en espera de tu comprobación de gastos para tu viaje #A439DFG." },
+  { date: "3/24/2025 - 09:28", text: "Tienes 6 viajes pendientes por aprobar o rechazar." },
+  { date: "3/21/2025 - 07:34", text: "Tus comprobantes del viaje #A230GF fueron aprobados." },
+  { date: "3/19/2025 - 17:41", text: "Uno o más de tus comprobantes del viaje #A230GF fueron rechazados." },
+];
+---
+
+<div class="h-full px-4 py-6 overflow-auto">
+  <h2 class="text-lg font-bold mb-4">NOTIFICACIONES DEL SISTEMA</h2>
+  <ul class="space-y-4 text-sm">
+    {
+      messages.map(({ date, text }) => (
+        <li class="bg-blue-100 rounded p-3 shadow-sm relative">
+          <p class="text-xs text-gray-500 mb-1">{date}</p>
+          <p class="text-gray-700">{text}</p>
+          <button class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-sm">✕</button>
+        </li>
+      ))
+    }
+  </ul>
+</div>

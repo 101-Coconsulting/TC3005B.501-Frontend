@@ -1,0 +1,83 @@
+---
+import "./src/styles/global.css"
+import PageHeader from "@components/PageHeader.astro"
+import SideBar from "@components/Sidebar.astro"
+import Messages from "@/components/Messages.astro"
+import type { UserRole } from "@/types/sidebar"
+
+interface Props {
+  title: string
+  headerData: { userName: string, userAvatar: string, showButtonLabel: string }
+  sidebarData: { role: string }
+}
+
+const { title, headerData, sidebarData } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="app">
+		<!-- Page Header Section -->
+		<header id="page-header">
+			<PageHeader userName={headerData.userName} userAvatar={headerData.userAvatar} showButtonLabel={headerData.showButtonLabel} />
+		</header>
+
+		<!-- Sidebar -->
+		<aside id="sidebar">
+			<SideBar role={sidebarData.role as UserRole} />
+		</aside>
+
+		<!-- Main Content -->
+		<section id="content">
+			<slot />
+		</section>
+
+		<!-- Messages Panel -->
+		<aside id="messages">
+			<Messages />
+		</aside>
+    </div>
+
+    <style>
+      #app {
+        display: grid;
+        grid-template-areas:
+          "header header header"
+          "sidebar content messages";
+        grid-template-columns: auto 1fr 16rem; /* ajusta 16rem si quieres otro ancho */
+        grid-template-rows: auto 1fr;
+        height: 100vh;
+      }
+
+      #page-header {
+        grid-area: header;
+      }
+
+      #sidebar {
+        grid-area: sidebar;
+      }
+
+      #content {
+        grid-area: content;
+      }
+
+      #messages {
+        grid-area: messages;
+        background: white;
+        border-left: 1px solid #e5e7eb; /* neutral-100 */
+        box-shadow: -2px 0 4px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        overflow-y: auto;
+      }
+    </style>
+  </body>
+</html>
