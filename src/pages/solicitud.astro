@@ -1,0 +1,288 @@
+---
+/**
+ * Author: Julia Maria Stephanie Duenkelsbuehler Castillo Y Nicole Davila
+ * 
+ * Description: This Astro page renders a travel request form.
+ * It includes sections for destinations, dates, additional information, and cost assignment.
+ */
+
+import InputField from '@components/InputField.astro';
+import Button from '@components/Button.astro';
+import Typography from '@components/Typography.astro';
+import MainLayout from "@layouts/MainLayout.astro";
+
+const headerData = {
+  userName: "John Doe",
+  userAvatar: "/profile-icon.jpg",
+  showButtonLabel: "Solicitante"
+};
+
+const sidebarData = {
+  role: "Applicant"
+};
+
+const pageTitle = "Crear Solicitud";
+---
+
+<MainLayout 
+  title={pageTitle} 
+  headerData={headerData} 
+  sidebarData={sidebarData}
+>
+  <main class="bg-white rounded-lg shadow-md p-8">
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <Typography variant="header" size="default" class="mb-6 text-primary-500">
+        Solicitud de Viaje
+      </Typography>
+
+      <form id="travelForm" class="space-y-8">
+        <!-- Seccion 1: Destinos y Fechas -->
+        <div class="border-b border-secondary-300 pb-4 mb-6">
+          <h3 class="text-lg font-bold text-primary-400">1. Destinos y Fechas</h3>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <InputField
+            label="País de Origen"
+            name="paísOrigen"
+            type="text"
+            required={true}
+          />
+          
+          <InputField
+            label="Ciudad de Origen"
+            name="ciudadOrigen"
+            type="text"
+            required={true}
+          />
+          
+          <InputField
+            label="País Destino"
+            name="paísDestino"
+            type="text"
+            required={true}
+          />
+          
+          <InputField
+            label="Ciudad Destino"
+            name="ciudadDestino"
+            type="text"
+            required={true}
+          />
+          
+          <InputField
+            label="Fecha Inicio"
+            name="fechaInicio"
+            type="date"
+            required={true}
+          />
+          
+          <InputField
+            label="Fecha Fin"
+            name="fechaFin"
+            type="date"
+            required={true}
+          />
+        </div>
+
+        <!-- Seccion 2: Horario Preferente -->
+        <div class="border-b border-secondary-300 pb-4 mb-6">
+          <h3 class="text-lg font-bold text-primary-400">2. Horario Preferente del Viaje</h3>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <InputField
+            label="Hora Inicio"
+            name="horaInicio"
+            type="time"
+          />
+          
+          <InputField
+            label="Hora Fin"
+            name="horaFin"
+            type="time"
+          />
+          
+          <InputField
+            label="Duracion (horas)"
+            name="duracion"
+            type="number"
+          />
+          
+          <div class="md:col-span-3">
+            <label class="block text-sm font-medium mb-2 text-secondary-200">
+              Requiere mas destinos para el viaje?
+            </label>
+            <div class="flex gap-4">
+              <label class="inline-flex items-center">
+                <input type="radio" name="requiereMasDestinos" value="si" class="h-4 w-4 text-primary-400" />
+                <span class="ml-2">Si</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="requiereMasDestinos" value="no" class="h-4 w-4 text-primary-400" checked />
+                <span class="ml-2">No</span>
+              </label>
+            </div>
+          </div>
+          
+          <div id="destinosAdicionalesContainer" class="md:col-span-3 hidden">
+            <label class="block text-sm font-medium mb-2 text-secondary-200">
+              Destinos Adicionales
+            </label>
+            <div id="destinosAdicionalesList" class="space-y-2">
+              <!-- Dynamic fields will be added here -->
+            </div>
+            <button type="button" onclick="addDestino()" class="mt-2 text-sm text-primary-400 hover:underline">
+              + Agregar otro destino
+            </button>
+          </div>
+        </div>
+
+        <!-- Seccion 3: Informacion Adicional -->
+        <div class="border-b border-secondary-300 pb-4 mb-6">
+          <h3 class="text-lg font-bold text-primary-400">3. Informacion Adicional</h3>
+        </div>
+        
+        <div class="mb-8">
+          <div class="mb-4">
+            <label for="motivo" class="block text-sm font-medium mb-2 text-black">
+              Motivo del Viaje <span class="text-warning-400">*</span>
+            </label>
+            <textarea
+              id="motivo"
+              name="motivo"
+              rows={3}
+              class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm"
+              required
+            ></textarea>
+          </div>
+          
+          <div class="mb-4">
+            <label for="justificacion" class="block text-sm font-medium mb-2 text-black">
+              Justificacion <span class="text-warning-400">*</span>
+            </label>
+            <textarea
+              id="justificacion"
+              name="justificacion"
+              rows={3}
+              class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Seccion 4: Asignacion de Costos -->
+        <div class="border-b border-secondary-300 pb-4 mb-6">
+          <h3 class="text-lg font-bold text-primary-400">4. Asignacion del Costo de Viaje</h3>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <InputField
+            label="Area Funcional"
+            name="areaFuncional"
+            type="text"
+            required={true}
+          />
+          
+          <InputField
+            label="Departamento"
+            name="departamento"
+            type="text"
+            required={true}
+          />
+          
+          <InputField
+            label="CeCo Obtenido"
+            name="cecoObtenido"
+            value="123456"
+            disabled={true}
+
+          />
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-end gap-4 pt-4">
+          <Button 
+            variant="border" 
+            color="secondary" 
+            type="reset"
+            class="px-6"
+          >
+            Limpiar
+          </Button>
+          <Button 
+            variant="filled" 
+            color="primary" 
+            type="submit"
+            class="px-6"
+          >
+            Enviar
+          </Button>
+        </div>
+      </form>
+    </div>
+  </main>
+</MainLayout>
+
+<script is:inline>
+  // Form submission handler
+  document.getElementById('travelForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate required fields
+    const requiredFields = this.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+      if (!field.value.trim()) {
+        field.classList.add('border-warning-400');
+        isValid = false;
+      } else {
+        field.classList.remove('border-warning-400');
+      }
+    });
+
+    if (!isValid) {
+      alert('Por favor complete todos los campos requeridos');
+      return;
+    }
+
+    // Collect form data
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    // Handle additional destinations
+    const additionalDestinations = [];
+    document.querySelectorAll('[name="destinosAdicionales"]').forEach(input => {
+      if (input.value.trim()) additionalDestinations.push(input.value.trim());
+    });
+    data.destinosAdicionales = additionalDestinations;
+
+    console.log('Form data:', data); // For testing
+    
+    // Show success message and redirect
+    alert('Solicitud enviada correctamente (demo frontend)');
+    window.location.href = '/success';
+  });
+
+  // Handle additional destinations
+  function addDestino() {
+    const container = document.getElementById('destinosAdicionalesList');
+    const div = document.createElement('div');
+    div.className = 'flex gap-2';
+    div.innerHTML = `
+      <input type="text" name="destinosAdicionales" 
+        class="flex-1 px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm"
+        placeholder="Ciudad, País">
+      <button type="button" class="text-warning-400 px-2" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(div);
+  }
+
+  // Toggle additional destinations visibility
+  document.querySelectorAll('input[name="requiereMasDestinos"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      document.getElementById('destinosAdicionalesContainer').classList.toggle('hidden', this.value === 'no');
+    });
+  });
+</script>
