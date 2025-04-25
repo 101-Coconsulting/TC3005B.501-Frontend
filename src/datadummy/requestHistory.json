@@ -1,308 +1,362 @@
 [
-    {
-      "applicantName": "María Fernanda Sánchez López",
-      "travelPlace": "Berlín, Alemania",
-      "travelDate": "2024-05-15",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Juan Pérez",
-      "travelPlace": "Buenos Aires, Argentina",
-      "travelDate": "2025-05-23",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Ana María Vargas Cortés",
-      "travelPlace": "Tokio, Japón",
-      "travelDate": "2024-07-02",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Gabriel Muñoz Romero",
-      "travelPlace": "Bruselas, Bélgica",
-      "travelDate": "2022-05-23",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Sara Gómez Castillo",
-      "travelPlace": "Madrid, España",
-      "travelDate": "2025-06-01",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Luis Hernández",
-      "travelPlace": "Lisboa, Portugal",
-      "travelDate": "2021-04-28",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Carlos Díaz Ramírez",
-      "travelPlace": "Roma, Italia",
-      "travelDate": "2024-02-14",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Elena Ramírez Aguilar",
-      "travelPlace": "París, Francia",
-      "travelDate": "2025-08-22",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Julio Castillo Ortega",
-      "travelPlace": "Ámsterdam, Países Bajos",
-      "travelDate": "2025-10-17",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Paola Jiménez Domínguez",
-      "travelPlace": "Ottawa, Canadá",
-      "travelDate": "2023-07-11",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Marco Ruiz Hernández",
-      "travelPlace": "Sídney, Australia",
-      "travelDate": "2022-08-02",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Lucía Morales Flores",
-      "travelPlace": "Viena, Austria",
-      "travelDate": "2025-05-29",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Héctor Rojas Silva",
-      "travelPlace": "Copenhague, Dinamarca",
-      "travelDate": "2023-04-09",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Montserrat Salinas Pérez",
-      "travelPlace": "Estocolmo, Suecia",
-      "travelDate": "2023-01-21",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Sofía Castillo Estrada",
-      "travelPlace": "Zúrich, Suiza",
-      "travelDate": "2025-08-19",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Gabriela Vargas Trejo",
-      "travelPlace": "Oslo, Noruega",
-      "travelDate": "2025-07-14",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Diego Ortega Soto",
-      "travelPlace": "Praga, República Checa",
-      "travelDate": "2025-09-01",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Patricia Carrillo Rosas",
-      "travelPlace": "Bratislava, Eslovaquia",
-      "travelDate": "2024-08-10",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Fernando Bravo Luna",
-      "travelPlace": "Budapest, Hungría",
-      "travelDate": "2025-06-26",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Laura Aguilar Soto",
-      "travelPlace": "Varsovia, Polonia",
-      "travelDate": "2022-09-15",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Martín Padilla Hernández",
-      "travelPlace": "Atenas, Grecia",
-      "travelDate": "2021-08-18",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Jimena Pineda Rivas",
-      "travelPlace": "Moscú, Rusia",
-      "travelDate": "2025-08-25",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Emilio Cordero Luna",
-      "travelPlace": "El Cairo, Egipto",
-      "travelDate": "2021-10-11",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Silvia Contreras Mora",
-      "travelPlace": "Estambul, Turquía",
-      "travelDate": "2025-10-15",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Ángel Jiménez Cruz",
-      "travelPlace": "Nueva Delhi, India",
-      "travelDate": "2023-10-21",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Carla Domínguez Chávez",
-      "travelPlace": "Seúl, Corea del Sur",
-      "travelDate": "2025-09-17",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Alfredo Salgado Núñez",
-      "travelPlace": "Bangkok, Tailandia",
-      "travelDate": "2020-11-03",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Jessica López Robles",
-      "travelPlace": "Beijing, China",
-      "travelDate": "2025-10-31",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Iván Espinosa Gallardo",
-      "travelPlace": "Dublín, Irlanda",
-      "travelDate": "2020-11-13",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Daniela Flores Galván",
-      "travelPlace": "Londres, Reino Unido",
-      "travelDate": "2020-11-21",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Sandra Velázquez Tovar",
-      "travelPlace": "Bridgetown, Barbados",
-      "travelDate": "2025-12-01",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Manuel Ramírez Muñoz",
-      "travelPlace": "Helsinki, Finlandia",
-      "travelDate": "2024-11-28",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Rosa Luna Ávila",
-      "travelPlace": "Osaka, Japón",
-      "travelDate": "2023-12-08",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Enrique González Maldonado",
-      "travelPlace": "Varsovia, Polonia",
-      "travelDate": "2025-12-15",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Patricia Fuentes Rivera",
-      "travelPlace": "Montevideo, Uruguay",
-      "travelDate": "2022-12-22",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Víctor Campos Osorio",
-      "travelPlace": "Caracas, Venezuela",
-      "travelDate": "2026-01-07",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Melissa Ochoa Peña",
-      "travelPlace": "Lima, Perú",
-      "travelDate": "2024-01-13",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Alonso Varela Barajas",
-      "travelPlace": "Brasilia, Brasil",
-      "travelDate": "2019-01-24",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Marina Herrera Aguilar",
-      "travelPlace": "Santiago, Chile",
-      "travelDate": "2026-01-30",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Valeria Sánchez Navarro",
-      "travelPlace": "Washington, Estados Unidos de América",
-      "travelDate": "2019-02-03",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Andrés Escobar Calderón",
-      "travelPlace": "La Habana, Cuba",
-      "travelDate": "2025-02-15",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Gloria Torres Valdez",
-      "travelPlace": "Bogotá, Colombia",
-      "travelDate": "2015-02-28",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Rodrigo Martínez Carranza",
-      "travelPlace": "Panamá, Panamá",
-      "travelDate": "2014-03-09",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Jimena Carrillo Aguirre",
-      "travelPlace": "Quito, Ecuador",
-      "travelDate": "2025-03-13",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Roberto Pineda Escobar",
-      "travelPlace": "San José, Costa Rica",
-      "travelDate": "2022-03-20",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Karen Rosales Mejía",
-      "travelPlace": "Managua, Nicaragua",
-      "travelDate": "2026-04-01",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Pablo Miranda Lozano",
-      "travelPlace": "Kingston, Jamaica",
-      "travelDate": "2023-04-12",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Luis Felipe Vargas Torres",
-      "travelPlace": "Lusaka, Zambia",
-      "travelDate": "2026-04-23",
-      "currentStatus": "Pendiente"
-    },
-    {
-      "applicantName": "Ximena López Ordóñez",
-      "travelPlace": "Accra, Ghana",
-      "travelDate": "2023-05-02",
-      "currentStatus": "Rechazado"
-    },
-    {
-      "applicantName": "Mario Calderón Peña",
-      "travelPlace": "Maputo, Mozambique",
-      "travelDate": "2026-05-10",
-      "currentStatus": "Aprobado"
-    },
-    {
-      "applicantName": "Natalia Guzmán Arriaga",
-      "travelPlace": "Windhoek, Namibia",
-      "travelDate": "2025-05-19",
-      "currentStatus": "Pendiente"
-    }
-  ]
+  {
+    "applicantName": "María Fernanda Sánchez López",
+    "company": "Tech Solutions",
+    "department": "Finanzas",
+    "travelPlace": "Berlín, Alemania",
+    "travelDate": "2024-05-15",
+    "transportation": "Avión",
+    "accommodation": "Hotel Berlin Plaza",
+    "purpose": "Conferencia anual de tecnología",
+    "currentStatus": "Aprobado",
+    "comments": "Se recomienda verificar seguro de viaje."
+  },
+  {
+    "applicantName": "Juan Pérez",
+    "company": "EcoTravel",
+    "department": "Marketing",
+    "travelPlace": "Buenos Aires, Argentina",
+    "travelDate": "2025-05-23",
+    "transportation": "Avión",
+    "accommodation": "NH Hotel",
+    "purpose": "Reunión con clientes",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Ana María Vargas Cortés",
+    "company": "Finanzas MX",
+    "department": "Recursos Humanos",
+    "travelPlace": "Tokio, Japón",
+    "travelDate": "2024-07-02",
+    "transportation": "Avión",
+    "accommodation": "Tokio Grand Hotel",
+    "purpose": "Capacitación internacional",
+    "currentStatus": "Rechazado",
+    "comments": "Solicitud de hospedaje no aprobada."
+  },
+  {
+    "applicantName": "Gabriel Muñoz Romero",
+    "company": "EduGlobal",
+    "department": "Proyectos",
+    "travelPlace": "Bruselas, Bélgica",
+    "travelDate": "2022-05-23",
+    "transportation": "Tren",
+    "accommodation": "Hostal Central",
+    "purpose": "Visita a instituciones educativas",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Sara Gómez Castillo",
+    "company": "Salud Integral",
+    "department": "Investigación",
+    "travelPlace": "Madrid, España",
+    "travelDate": "2025-06-01",
+    "transportation": "Avión",
+    "accommodation": "Airbnb",
+    "purpose": "Congreso médico internacional",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Luis Hernández",
+    "company": "MarketNow",
+    "department": "Ventas",
+    "travelPlace": "Lisboa, Portugal",
+    "travelDate": "2021-04-28",
+    "transportation": "Avión",
+    "accommodation": "Hotel Lisboa",
+    "purpose": "Lanzamiento de producto",
+    "currentStatus": "Aprobado",
+    "comments": "Revisar agenda de presentaciones."
+  },
+  {
+    "applicantName": "Carlos Díaz Ramírez",
+    "company": "LogisTech",
+    "department": "Operaciones",
+    "travelPlace": "Roma, Italia",
+    "travelDate": "2024-02-14",
+    "transportation": "Avión",
+    "accommodation": "Hotel Roma Centro",
+    "purpose": "Negociación de contrato logístico",
+    "currentStatus": "Rechazado",
+    "comments": "Faltan documentos de respaldo."
+  },
+  {
+    "applicantName": "Elena Ramírez Aguilar",
+    "company": "GreenFuture",
+    "department": "Sustentabilidad",
+    "travelPlace": "París, Francia",
+    "travelDate": "2025-08-22",
+    "transportation": "Avión",
+    "accommodation": "Hotel Eiffel",
+    "purpose": "Foro internacional de medio ambiente",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Julio Castillo Ortega",
+    "company": "InnovaTec",
+    "department": "Innovación",
+    "travelPlace": "Ámsterdam, Países Bajos",
+    "travelDate": "2025-10-17",
+    "transportation": "Avión",
+    "accommodation": "Hotel Canal View",
+    "purpose": "Participación en hackathon",
+    "currentStatus": "Pendiente",
+    "comments": "Esperando confirmación de inscripción."
+  },
+  {
+    "applicantName": "Paola Jiménez Domínguez",
+    "company": "Consultores Plus",
+    "department": "Consultoría",
+    "travelPlace": "Ottawa, Canadá",
+    "travelDate": "2023-07-11",
+    "transportation": "Avión",
+    "accommodation": "Hotel Parliament",
+    "purpose": "Asesoría a clientes internacionales",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Marco Ruiz Hernández",
+    "company": "TravelUp",
+    "department": "Planeación",
+    "travelPlace": "Sídney, Australia",
+    "travelDate": "2022-08-02",
+    "transportation": "Avión",
+    "accommodation": "Sydney Lodge",
+    "purpose": "Seminario de planeación turística",
+    "currentStatus": "Rechazado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Lucía Morales Flores",
+    "company": "RápidoExpress",
+    "department": "Logística",
+    "travelPlace": "Viena, Austria",
+    "travelDate": "2025-05-29",
+    "transportation": "Avión",
+    "accommodation": "Vienna Inn",
+    "purpose": "Capacitación en procesos logísticos",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Héctor Rojas Silva",
+    "company": "Financiera MX",
+    "department": "Auditoría",
+    "travelPlace": "Copenhague, Dinamarca",
+    "travelDate": "2023-04-09",
+    "transportation": "Avión",
+    "accommodation": "Hotel Tivoli",
+    "purpose": "Auditoría anual",
+    "currentStatus": "Aprobado",
+    "comments": "Entregar reporte final al regreso."
+  },
+  {
+    "applicantName": "Montserrat Salinas Pérez",
+    "company": "Cultura Viva",
+    "department": "Eventos",
+    "travelPlace": "Estocolmo, Suecia",
+    "travelDate": "2023-01-21",
+    "transportation": "Avión",
+    "accommodation": "Hotel Central",
+    "purpose": "Feria de arte",
+    "currentStatus": "Rechazado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Sofía Castillo Estrada",
+    "company": "FoodHub",
+    "department": "Relaciones Públicas",
+    "travelPlace": "Zúrich, Suiza",
+    "travelDate": "2025-08-19",
+    "transportation": "Avión",
+    "accommodation": "Swissotel",
+    "purpose": "Expo internacional de alimentos",
+    "currentStatus": "Pendiente",
+    "comments": "Documentar la experiencia en redes sociales."
+  },
+  {
+    "applicantName": "Gabriela Vargas Trejo",
+    "company": "GreenEnergy",
+    "department": "Ingeniería",
+    "travelPlace": "Oslo, Noruega",
+    "travelDate": "2025-07-14",
+    "transportation": "Avión",
+    "accommodation": "Hotel Scandic",
+    "purpose": "Investigación sobre energías limpias",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Diego Ortega Soto",
+    "company": "Creativa",
+    "department": "Diseño",
+    "travelPlace": "Praga, República Checa",
+    "travelDate": "2025-09-01",
+    "transportation": "Avión",
+    "accommodation": "Art Hotel",
+    "purpose": "Curso de diseño gráfico avanzado",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Patricia Carrillo Rosas",
+    "company": "AgroMex",
+    "department": "Agricultura",
+    "travelPlace": "Bratislava, Eslovaquia",
+    "travelDate": "2024-08-10",
+    "transportation": "Avión",
+    "accommodation": "Bratislava Garden Hotel",
+    "purpose": "Intercambio de técnicas agrícolas",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Fernando Bravo Luna",
+    "company": "BioSalud",
+    "department": "Salud Pública",
+    "travelPlace": "Budapest, Hungría",
+    "travelDate": "2025-06-26",
+    "transportation": "Avión",
+    "accommodation": "Hotel Budapest",
+    "purpose": "Foro europeo de salud pública",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Laura Aguilar Soto",
+    "company": "Red Legal",
+    "department": "Asuntos Jurídicos",
+    "travelPlace": "Varsovia, Polonia",
+    "travelDate": "2022-09-15",
+    "transportation": "Avión",
+    "accommodation": "Polonia Business Hotel",
+    "purpose": "Seminario de derecho internacional",
+    "currentStatus": "Rechazado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Martín Padilla Hernández",
+    "company": "Futuro Seguro",
+    "department": "Seguros",
+    "travelPlace": "Atenas, Grecia",
+    "travelDate": "2021-08-18",
+    "transportation": "Avión",
+    "accommodation": "Hotel Acropolis",
+    "purpose": "Capacitación en riesgos globales",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Jimena Pineda Rivas",
+    "company": "MediLink",
+    "department": "TI",
+    "travelPlace": "Moscú, Rusia",
+    "travelDate": "2025-08-25",
+    "transportation": "Avión",
+    "accommodation": "Moscow Plaza Hotel",
+    "purpose": "Simposio de tecnología médica",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Emilio Cordero Luna",
+    "company": "ViajaFácil",
+    "department": "Administración",
+    "travelPlace": "El Cairo, Egipto",
+    "travelDate": "2021-10-11",
+    "transportation": "Avión",
+    "accommodation": "Hotel Ramsés",
+    "purpose": "Negociación con agencias locales",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Silvia Contreras Mora",
+    "company": "Alimentos del Mundo",
+    "department": "Compras",
+    "travelPlace": "Estambul, Turquía",
+    "travelDate": "2025-10-15",
+    "transportation": "Avión",
+    "accommodation": "Istanbul Park Hotel",
+    "purpose": "Búsqueda de proveedores",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Ángel Jiménez Cruz",
+    "company": "ConstruyeBien",
+    "department": "Construcción",
+    "travelPlace": "Nueva Delhi, India",
+    "travelDate": "2023-10-21",
+    "transportation": "Avión",
+    "accommodation": "Hotel Lotus",
+    "purpose": "Supervisión de obra",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Carla Domínguez Chávez",
+    "company": "StartWomen",
+    "department": "Desarrollo Empresarial",
+    "travelPlace": "Seúl, Corea del Sur",
+    "travelDate": "2025-09-17",
+    "transportation": "Avión",
+    "accommodation": "Korea Palace Hotel",
+    "purpose": "Foro internacional de emprendimiento",
+    "currentStatus": "Rechazado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Alfredo Salgado Núñez",
+    "company": "Seguritec",
+    "department": "Tecnología",
+    "travelPlace": "Bangkok, Tailandia",
+    "travelDate": "2020-11-03",
+    "transportation": "Avión",
+    "accommodation": "Bangkok City Hotel",
+    "purpose": "Certificación en sistemas de seguridad",
+    "currentStatus": "Aprobado",
+    "comments": ""
+  },
+  {
+    "applicantName": "Jessica López Robles",
+    "company": "Red Médica",
+    "department": "Salud",
+    "travelPlace": "Beijing, China",
+    "travelDate": "2025-10-31",
+    "transportation": "Avión",
+    "accommodation": "Hotel Forbidden City",
+    "purpose": "Congreso de salud global",
+    "currentStatus": "Pendiente",
+    "comments": ""
+  },
+  {
+    "applicantName": "Iván Espinosa Gallardo",
+    "company": "DeltaSoft",
+    "department": "Desarrollo",
+    "travelPlace": "Dublín, Irlanda",
+    "travelDate": "2020-11-13",
+    "transportation": "Avión",
+    "accommodation": "Hotel Dublin Central",
+    "purpose": "Seminario de programación avanzada",
+    "currentStatus": "Aprobado",
+    "comments": "Llevar laptop personal."
+  },
+  {
+    "applicantName": "Daniela Flores Galván",
+    "company": "Gestión Verde",
+    "department": "Sustentabilidad",
+    "travelPlace": "Londres, Reino Unido",
+    "travelDate": "2020-11-21",
+    "transportation": "Avión",
+    "accommodation": "Hotel Piccadilly",
+    "purpose": "Workshop de energías renovables",
+    "currentStatus": "Rechazado",
+    "comments": ""
+  }
+]
