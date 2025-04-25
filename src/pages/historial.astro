@@ -1,10 +1,12 @@
 ---
 /**
-*Author: Hector Julian Zarate Ramirez
-*Description: This script is used to create a page that shows the history of requests made by the user.
-*/
+ * Author: Hector Julian Zarate Ramirez
+ * Description: This script is used to create a page that shows the history of requests made by the user.
+ **/
+
 import MainLayout from "@layouts/MainLayout.astro";
-import DummyData from '../datadummy/requestHistory.json';
+import History from "@components/History.tsx";
+import DummyData from "@data/requestHistory.json";
 
 const headerData = {
   userName: "John Doe",
@@ -12,66 +14,22 @@ const headerData = {
   showButtonLabel: "Solicitante"
 };
 
-const sidebarData = {role: "Applicant"};
+const sidebarData = { role: "Applicant" };
 const pageTitle = "Dashboard";
-
-// Pagination
-const ITEMS_PER_PAGE = 4;
-const page = Number(Astro.url.searchParams.get('page')) || 1;
-const totalPages = Math.ceil(DummyData.length / ITEMS_PER_PAGE);
-const start = (page - 1) * ITEMS_PER_PAGE;
-const end = start + ITEMS_PER_PAGE;
-const pageRequests = DummyData.slice(start, end);
-
 ---
+
 <MainLayout 
   title={pageTitle} 
   headerData={headerData} 
   sidebarData={sidebarData}
 >
-  <div class="flex flex-col items-center justify-center min-h-screen bg-white-500 rounded-lg shadow-lg p-8 gap-6">
-    <h1 class="text-2xl font-bold text-left w-full">Historial de viajes de {headerData.userName}</h1>
-    <p class="text-gray-600 text-left w-full">Aquí puedes ver todas tus solicitudes.</p>
-
-    <!-- Page list -->
-    <div class="flex flex-col items-center w-full gap-6">
-      {pageRequests.map((request, index) => {
-        const statusColor = request.currentStatus === "Aprobado"
-          ? "bg-green-200 text-green-800"
-          : request.currentStatus === "Pendiente"
-          ? "bg-yellow-200 text-yellow-800"
-          : "bg-red-200 text-red-800";
-        const realIndex = start + index;
-        return (
-        <a 
-  href={`/historial/${realIndex}`}
-  class="flex items-center justify-between bg-white text-black p-4 rounded-md shadow-sm hover:bg-gray-100 w-full max-w-4xl text-left block border border-gray-300 mb-2 transform transition-transform duration-200 hover:scale-105"
->
-  <!-- Request information left side -->
-  <div class="flex flex-col">
-    <h2 class="text-lg font-semibold mb-1">{request.applicantName}</h2>
-    <p class="text-sm mb-1">Destino: {request.travelPlace}</p>
-    <p class="text-sm">Fecha: {request.travelDate}</p>
+<div class="flex flex-col p-12 bg-neutral-50">
+  <section>
+    <h1 class="text-4xl font-bold w-full">HISTORIAL DEL VIAJES DE {headerData.userName.toUpperCase()}</h1>
+    <p class="text-xl font-semibold text-secondary-500 w-full">Aquí puedes ver todas tus solicitudes.</p>
+  </section>
+  <div class="items-center justify-center bg-white-500 pt-8">
+    <History client:load data={DummyData} />
   </div>
-  <!-- Request information right side -->
-  <p class={`text-center text-xs font-medium px-3 py-1 rounded-md shadow-sm ${statusColor}`}>
-    {request.currentStatus}
-  </p>
-</a>
-        );
-      })}
-    </div>
-    
-    <!-- Pagination -->
-    <div class="flex justify-center gap-2 mt-6">
-      {Array.from({ length: totalPages }).map((_, i) => (
-        <a
-          href={`/historial?page=${i + 1}`}
-          class={`px-4 py-2 rounded border ${page === i + 1 ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`}
-        >
-          {i + 1}
-        </a>
-      ))}
-    </div>
-  </div>
+</div>
 </MainLayout>

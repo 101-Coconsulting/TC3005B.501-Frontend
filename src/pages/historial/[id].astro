@@ -6,8 +6,8 @@
 *
 **/
 import MainLayout from "@layouts/MainLayout.astro";
-import RequestDetail from "../../components/RequestDetail.astro";
-import DummyData from '../../datadummy/requestHistory.json';
+import RequestDetail from "@components/RequestDetail.astro";
+import DummyData from '@data/requestHistory.json';
 
 const { id } = Astro.params;
 const request = DummyData[parseInt(id)];
