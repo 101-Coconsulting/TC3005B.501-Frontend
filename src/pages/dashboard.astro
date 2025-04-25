@@ -1,114 +1,44 @@
 ---
+/**
+ * Authors: Gabriel Muñoz, José González, Eduardo Porto
+ *
+ * Description: This is the dashboard page for the application. 
+ * It displays different content based on the user's role (Applicant or Authorizer).
+ * 
+*/
+
 import MainLayout from "@layouts/MainLayout.astro";
-import Button from '@components/Button.astro';
-import viajes from '../datadummy/viajesSolicitante.json';
+import AuthLayout from "@layouts/AuthLayout.astro";
+import ApplicantView from "@views/ApplicantView.astro";
+import AuthorizerView from "@views/AuthorizerView.astro";
+import viajesDummy from '@data/viajes.json';
+import solicitudesDummy from '@data/solicitudes.json';
+
+type Role = "Applicant" | "Authorizer";
+const role: Role = "Applicant" as Role;
+const pageTitle = "Dashboard";
 
 const headerData = {
 	userName: "John Doe",
 	userAvatar: "/profile-icon.jpg",
-	showButtonLabel: "Solicitante"
+  showButtonLabel: role === "Applicant" ? "Solicitante" : "Autorizador",
 };
 
-const sidebarData = {
-	role: "Applicant"
-};
+const sidebarData = { role };
 
-const pageTitle = "Dashboard";
-
-//We get the data from the JSON file and we use it to show the number of requests.
-const cantidadSolicitudes = viajes.length;
+const Layout = role === "Applicant" ? MainLayout : AuthLayout;
 ---
 
-<MainLayout 
-	title={pageTitle} 
-	headerData={headerData} 
-	sidebarData={sidebarData}
->
-	<div class="flex flex-col p-12 bg-neutral-50">
-		<div class="flex w-full flex-col justify-top h-screen">
-			<main>
-				<section class="mb-6">
-					<h1 class="text-4xl font-bold">BIENVENIDO, {headerData.userName.toUpperCase()}</h1>
-					<p class="text-xl font-semibold text-secondary-500">DITTA CONSULTING</p>
-				</section>
-				<!-- Section if there are existing requests -->
-				{cantidadSolicitudes > 0 && (
-					<section class="bg-white p-6 rounded-lg shadow w-full">
-						<h2 class="flex text-xl font-bold mb-4">
-							VIAJES EN PROCESO 
-							<p class="px-2 align-middle text-primary-500">({cantidadSolicitudes})</p>
-						</h2>
-						<div class="grid gap-4">
-							{viajes.slice(0, 3).map((viaje) => {
-								const isAprobada = viaje.status === 'aprobada';
-
-								return (
-									<div class="grid grid-cols-[2fr_2fr_1fr] gap-4 bg-gray-100 p-4 rounded shadow-sm w-full h-full">
-										{/* Principal information column */}
-										<div class="col-span-2 space-y-2">
-											<p class="font-bold text-lg break-words">{viaje.numero}</p>
-											<div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
-												<p><span class="font-semibold">Lugar:</span> {viaje.lugar}</p>
-												<p><span class="font-semibold">Fechas:</span> {viaje.fechaInicio} - {viaje.fechaFin}</p>
-												<p>
-													<span class="font-semibold">Estado:</span> 
-													<span class={`ml-1 font-semibold ${isAprobada ? 'text-success-400' : 'text-warning-400'}`}>
-														{viaje.status.toUpperCase()}
-													</span>
-												</p>
-												<p><span class="font-semibold">Responsable:</span> {viaje.responsable}</p>
-											</div>
-										</div>
-										{/* Buttons column */}
-										<div class="flex flex-col justify-center h-full gap-1">
-											<a href={`/editar/${viaje.numero}`}>
-												<Button 
-													color="primary" 
-													disabled={isAprobada} 
-													variant="filled" 
-													size="medium"
-													customSizeClass="w-full"
-												>
-													EDITAR
-												</Button>
-											</a>
-											<a href={`/comprobar/${viaje.numero}`}>
-												<Button 
-													color="primary" 
-													disabled={!isAprobada} 
-													variant="filled" 
-													size="medium"
-													customSizeClass="w-full"
-												>
-													COMPROBAR
-												</Button>
-											</a>
-										</div>
-									</div>
-								);
-							})}
-						</div>
-					</section>
-				)}
-        <!-- Section if there are no requests -->
-        {cantidadSolicitudes === 0 && (
-					<section class="bg-gray-100 p-6 rounded-lg shadow">
-						<h2 class="text-xl font-bold mb-4">VIAJES EN PROCESO</h2>
-						<h3 class="text-xl font-bold mb-4 text-gray-500">NO TIENES VIAJES AGENDADOS</h3>
-					</section>
-        )}
-				{/* Button to request a new trip */}
-				<a href="/solicitud" class="mt-8 flex justify-center">
-					<Button 
-						variant="filled" 
-						color="secondary" 
-						size="custom" 
-						customSizeClass="w-128 py-3 text-base font-bold"
-					>
-						SOLICITA UN NUEVO VIAJE
-					</Button>
-				</a>
-      </main>
-    </div>
-  </div>
-</MainLayout>
+<Layout title={pageTitle} headerData={headerData} sidebarData={sidebarData}>
+  {role === "Applicant" ? (
+    <ApplicantView 
+      headerData={headerData} 
+      requests={viajesDummy} 
+    />
+  ) : (
+    <AuthorizerView 
+      headerData={headerData} 
+      requests={solicitudesDummy} 
+    />
+  )}
+</Layout>

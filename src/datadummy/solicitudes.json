@@ -1,0 +1,352 @@
+[
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Gerente de proyectos",
+      "solicitud": "A4635HH",
+      "fecha": "2025-05-01",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Pedro Morales",
+      "puesto": "Director de TI",
+      "solicitud": "A4156VV",
+      "fecha": "2025-04-24",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Valeria Díaz",
+      "puesto": "Analista financiero",
+      "solicitud": "A1499OO",
+      "fecha": "2025-04-22",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Sofía Mendoza",
+      "puesto": "Jefe de ventas",
+      "solicitud": "A6549SS",
+      "fecha": "2025-04-22",
+      "estado": "Baja prioridad"
+    },
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Jefe de ventas",
+      "solicitud": "A5046WW",
+      "fecha": "2025-04-21",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Sofía Mendoza",
+      "puesto": "Jefe de ventas",
+      "solicitud": "A7591AA",
+      "fecha": "2025-04-15",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Juan Perez",
+      "puesto": "Contador general",
+      "solicitud": "A3716HH",
+      "fecha": "2025-04-14",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Juan Perez",
+      "puesto": "Analista financiero",
+      "solicitud": "A9141YY",
+      "fecha": "2025-04-14",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "María Gómez",
+      "puesto": "Analista financiero",
+      "solicitud": "A7111ZZ",
+      "fecha": "2025-04-13",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Pedro Morales",
+      "puesto": "Especialista en marketing",
+      "solicitud": "A4884VV",
+      "fecha": "2025-04-13",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Analista financiero",
+      "solicitud": "A1734UU",
+      "fecha": "2025-04-08",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Valeria Díaz",
+      "puesto": "Analista financiero",
+      "solicitud": "A9810II",
+      "fecha": "2025-04-07",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Laura Sánchez",
+      "puesto": "Gerente de proyectos",
+      "solicitud": "A7654YY",
+      "fecha": "2025-04-06",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Laura Sánchez",
+      "puesto": "Especialista en marketing",
+      "solicitud": "A1716OO",
+      "fecha": "2025-04-05",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Coordinador de logística",
+      "solicitud": "A7521JJ",
+      "fecha": "2025-04-04",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Laura Sánchez",
+      "puesto": "Jefe de ventas",
+      "solicitud": "A2143MM",
+      "fecha": "2025-04-02",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Luis Herrera",
+      "puesto": "Analista financiero",
+      "solicitud": "A6324CC",
+      "fecha": "2025-03-28",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Laura Sánchez",
+      "puesto": "Gerente de proyectos",
+      "solicitud": "A3306SS",
+      "fecha": "2025-03-23",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "María Gómez",
+      "puesto": "Coordinador de logística",
+      "solicitud": "A4298WW",
+      "fecha": "2025-03-22",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Valeria Díaz",
+      "puesto": "Analista financiero",
+      "solicitud": "A7591PP",
+      "fecha": "2025-03-21",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Juan Perez",
+      "puesto": "Jefe de ventas",
+      "solicitud": "A2831SS",
+      "fecha": "2025-03-21",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Pedro Morales",
+      "puesto": "Encargado de compras",
+      "solicitud": "A5883HH",
+      "fecha": "2025-03-17",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Valeria Díaz",
+      "puesto": "Administrador de caja",
+      "solicitud": "A7888ZZ",
+      "fecha": "2025-03-16",
+      "estado": "Baja prioridad"
+    },
+    {
+      "nombre": "María Gómez",
+      "puesto": "Administrador de caja",
+      "solicitud": "A4473ZZ",
+      "fecha": "2025-03-16",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Encargado de compras",
+      "solicitud": "A9223OO",
+      "fecha": "2025-03-11",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Especialista en marketing",
+      "solicitud": "A1808LL",
+      "fecha": "2025-03-09",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Luis Herrera",
+      "puesto": "Especialista en marketing",
+      "solicitud": "A7839YY",
+      "fecha": "2025-03-09",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Carlos Ruiz",
+      "puesto": "Administrador de caja",
+      "solicitud": "A4641FF",
+      "fecha": "2025-02-28",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Juan Perez",
+      "puesto": "Contador general",
+      "solicitud": "A5104II",
+      "fecha": "2025-02-25",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "María Gómez",
+      "puesto": "Coordinador de logística",
+      "solicitud": "A9021CC",
+      "fecha": "2025-02-19",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Juan Perez",
+      "puesto": "Director de TI",
+      "solicitud": "A6180GG",
+      "fecha": "2025-02-19",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Carlos Ruiz",
+      "puesto": "Asesor legal",
+      "solicitud": "A3194FF",
+      "fecha": "2025-02-13",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Ana López",
+      "puesto": "Encargado de compras",
+      "solicitud": "A4505RR",
+      "fecha": "2025-02-10",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Luis Herrera",
+      "puesto": "Contador general",
+      "solicitud": "A4811ZZ",
+      "fecha": "2025-02-09",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Sofía Mendoza",
+      "puesto": "Jefe de ventas",
+      "solicitud": "A5897RR",
+      "fecha": "2025-02-09",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Ana López",
+      "puesto": "Director de TI",
+      "solicitud": "A2065GG",
+      "fecha": "2025-02-07",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Laura Sánchez",
+      "puesto": "Analista financiero",
+      "solicitud": "A4748RR",
+      "fecha": "2025-02-03",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Administrador de caja",
+      "solicitud": "A5783RR",
+      "fecha": "2025-02-02",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Carlos Ruiz",
+      "puesto": "Asesor legal",
+      "solicitud": "A6585UU",
+      "fecha": "2025-01-30",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Laura Sánchez",
+      "puesto": "Encargado de compras",
+      "solicitud": "A9101UU",
+      "fecha": "2025-01-30",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Sofía Mendoza",
+      "puesto": "Analista financiero",
+      "solicitud": "A4818QQ",
+      "fecha": "2025-01-28",
+      "estado": "Baja prioridad"
+    },
+    {
+      "nombre": "María Gómez",
+      "puesto": "Coordinador de logística",
+      "solicitud": "A3183TT",
+      "fecha": "2025-01-27",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Ana López",
+      "puesto": "Encargado de compras",
+      "solicitud": "A7067UU",
+      "fecha": "2025-01-25",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Laura Sánchez",
+      "puesto": "Especialista en marketing",
+      "solicitud": "A7639NN",
+      "fecha": "2025-01-21",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Valeria Díaz",
+      "puesto": "Administrador de caja",
+      "solicitud": "A8252MM",
+      "fecha": "2025-01-18",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Luis Herrera",
+      "puesto": "Coordinador de logística",
+      "solicitud": "A6653GG",
+      "fecha": "2025-01-10",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "Miguel Torres",
+      "puesto": "Encargado de compras",
+      "solicitud": "A6725CC",
+      "fecha": "2025-01-09",
+      "estado": "Urgente"
+    },
+    {
+      "nombre": "María Gómez",
+      "puesto": "Director de TI",
+      "solicitud": "A4013NN",
+      "fecha": "2025-01-05",
+      "estado": "Baja prioridad"
+    },
+    {
+      "nombre": "Valeria Díaz",
+      "puesto": "Administrador de caja",
+      "solicitud": "A6832NN",
+      "fecha": "2025-01-04",
+      "estado": "Normal"
+    },
+    {
+      "nombre": "Valeria Díaz",
+      "puesto": "Gerente de proyectos",
+      "solicitud": "A3883YY",
+      "fecha": "2025-01-04",
+      "estado": "Normal"
+    }
+  ]

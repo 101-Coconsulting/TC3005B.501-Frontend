@@ -13,6 +13,7 @@
       "@types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
       "@data/*": ["./src/datadummy/*"],
+      "@views/*": ["./src/views/*"],
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
