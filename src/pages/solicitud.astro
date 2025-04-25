@@ -1,8 +1,9 @@
 ---
 /**
- * Author: Julia Maria Stephanie Duenkelsbuehler Castillo
+ * Author: Julia Maria Stephanie Duenkelsbuehler Castillo Y Nicole Davila
  * 
- * Description: 
+ * Description: This Astro page renders a travel request form.
+ * It includes sections for destinations, dates, additional information, and cost assignment.
  */
 
 import InputField from '@components/InputField.astro';
@@ -28,7 +29,7 @@ const pageTitle = "Crear Solicitud";
   headerData={headerData} 
   sidebarData={sidebarData}
 >
-  <main class="p-12 bg-neutral-50">
+  <main class="bg-white rounded-lg shadow-md p-8">
     <div class="bg-white rounded-lg shadow-md p-8">
       <Typography variant="header" size="default" class="mb-6 text-primary-500">
         Solicitud de Viaje
@@ -192,9 +193,10 @@ const pageTitle = "Crear Solicitud";
           
           <InputField
             label="CeCo Obtenido"
-            name="centroCostos"
-            type="text"
-            required={true}
+            name="cecoObtenido"
+            value="123456"
+            disabled={true}
+
           />
         </div>
 
