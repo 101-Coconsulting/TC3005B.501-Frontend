@@ -1,0 +1,56 @@
+---
+import Button from '@components/Button.astro';
+
+const { request, id } = Astro.props;
+---
+<main class="flex flex-col items-center px-6 py-12 bg-gradient-to-br from-white to-gray-50 min-h-screen">
+  <div class="w-full max-w-6xl flex flex-col space-y-10">
+
+    <!-- Title Section -->
+    <div class="flex justify-between items-center">
+      <h1 class="text-5xl font-extrabold text-gray-800 tracking-tight">
+        VIAJE #{id}
+      </h1>
+    </div>
+
+    <!-- Datos de Viaje -->
+    <section class="bg-white shadow-xl rounded-2xl px-10 py-8 ring-1 ring-gray-200">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-8">
+        Datos de Viaje
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 text-gray-700 text-lg">
+        <div class="space-y-3">
+          <p><span class="font-medium text-gray-800">Nombre de Usuario:</span> {request.usuario}</p>
+          <p><span class="font-medium text-gray-800">Fecha de Salida:</span> {request.fechaSalida}</p>
+          <p><span class="font-medium text-gray-800">Fecha de Regreso:</span> {request.fechaRegreso}</p>
+          <p><span class="font-medium text-gray-800">Duración del Viaje:</span> {request.duracion}</p>
+        </div>
+        <div class="space-y-3">
+          <p><span class="font-medium text-gray-800">Destino / Multidestino:</span> {request.destino}</p>
+          <p><span class="font-medium text-gray-800">Requerimientos:</span> {request.requerimientos}</p>
+          <p><span class="font-medium text-gray-800">Sitio de Interés:</span> {request.sitioInteres}</p>
+          <p><span class="font-medium text-gray-800">Extras:</span> {request.extras}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <div class="flex justify-end gap-4">
+      <Button
+        variant="filled"
+        color="success"
+        class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
+      >
+        Autorizar
+      </Button>
+      <Button
+        variant="filled"
+        color="warning"
+        class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
+      >
+        Rechazar
+      </Button>
+    </div>
+
+  </div>
+</main>
