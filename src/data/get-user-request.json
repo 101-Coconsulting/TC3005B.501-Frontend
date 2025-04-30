@@ -1,12 +1,12 @@
 {
-    "request_id": 101,
+    "request_id": "A37452",
     "request_status_id": "1",
     "notes": "Reunión regional con equipo comercial",
     "requested_fee": 1200.00,
     "imposed_fee": 1150.00,
     "request_date": "2025-02-10",
     "request_time": "09:30:00",
-    "user": {
+    "user":{
       "user_name": "Arturo López",
       "user_email": "arturoperez59@hotmail.com",
       "user_phone_number": "(719) 860-5684"
@@ -16,12 +16,12 @@
         "id_origin_city": 1,
         "id_destination_country": 2,
         "id_destination_city": 2,
-      "beginning_date": "2025-02-15",
-      "beginning_time": "07:00:00",
-      "ending_date": "2025-02-22",
-      "ending_time": "19:00:00",
-      "hotel_needed": true,
-      "plane_needed": true
+        "beginning_date": "2025-02-15",
+        "beginning_time": "07:00:00",
+        "ending_date": "2025-02-22",
+        "ending_time": "19:00:00",
+        "hotel_needed": true,
+        "plane_needed": true
     }
-  }
+}
   

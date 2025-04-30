@@ -1,29 +1,33 @@
 {
-"request_status_id": 1,
-"id_origin_country": "MX",
-"id_origin_city": "CDMX",
-"id_destination_country": "AR",
-"id_destination_city": "BUE",
-"beginning_date": "2025-02-15",
-"ending_date": "2025-02-22",
-"beginning_time": "07:00:00",
-"ending_time": "19:00:00",
-"department_name": "Administrativo",
-"costs_center": "34239845782394",
-"notes": "Request for travel to Buenos Aires for business meeting.",
-"additionalRoutes":
-{
-    "id_destination_country": "CL",
-    "id_destination_city": "SCL",
-    "beginning_date": "2025-02-23",
-    "ending_date": "2025-02-25",
-    "beginning_time": "08:00:00",
-    "ending_time": "18:00:00",
-    "id_destination_country": "PE",
-    "id_destination_city": "LIM",
-    "beginning_date": "2025-02-26",
-    "ending_date": "2025-02-28",
-    "beginning_time": "09:00:00",
-    "ending_time": "17:00:00"
-}
+    "request_status_id": 1,
+    "id_origin_country": "MX",
+    "id_origin_city": "CDMX",
+    "id_destination_country": "AR",
+    "id_destination_city": "BUE",
+    "beginning_date": "2025-02-15",
+    "ending_date": "2025-02-22",
+    "beginning_time": "07:00:00",
+    "ending_time": "19:00:00",
+    "department_name": "Administrativo",
+    "costs_center": "34239845782394",
+    "notes": "Request for travel to Buenos Aires for business meeting.",
+    "additionalRoutes":
+        [
+            {
+                "id_destination_country": "CL",
+                "id_destination_city": "SCL",
+                "beginning_date": "2025-02-23",
+                "ending_date": "2025-02-25",
+                "beginning_time": "08:00:00",
+                "ending_time": "18:00:00"
+            },
+            {
+                "id_destination_country": "PE",
+                "id_destination_city": "LIM",
+                "beginning_date": "2025-02-26",
+                "ending_date": "2025-02-28",
+                "beginning_time": "09:00:00",
+                "ending_time": "17:00:00"
+            }
+        ]
 }
