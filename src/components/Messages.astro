@@ -1,17 +1,15 @@
 ---
-const messages = [
-  { date: "3/27/2025 - 13:03", text: "Seguimos en espera de tu comprobación de gastos para tu viaje #A439DFG." },
-  { date: "3/24/2025 - 09:28", text: "Tienes 6 viajes pendientes por aprobar o rechazar." },
-  { date: "3/21/2025 - 07:34", text: "Tus comprobantes del viaje #A230GF fueron aprobados." },
-  { date: "3/19/2025 - 17:41", text: "Uno o más de tus comprobantes del viaje #A230GF fueron rechazados." },
-];
+import getalerts from '@data/get-alerts.json';
+import { duplicateJson } from "@utils/duplicateJson";
+
+const alerts = duplicateJson(getalerts, 4);
 ---
 
 <div class="h-full">
   <h2 class="text-xl font-bold text-neutral-800 mb-6">NOTIFICACIONES DEL SISTEMA</h2>
   
-  <ul class="space-y-4">
-    {messages.map(({ date, text }) => (
+  <ul class="space-y-4 pb-8">
+    {alerts.map((alert) => (
       <li class="relative bg-gray-50 border border-neutral-200 rounded-xl p-4 shadow-sm hover:shadow-lg transition">
         <button 
           class="absolute top-3 right-3 text-neutral-300 hover:text-red-500 text-base"
@@ -19,8 +17,13 @@ const messages = [
         >
           ✕
         </button>
-        <p class="text-xs text-neutral-500 mb-2">{date}</p>
-        <p class="text-sm text-neutral-800">{text}</p>
+        <div class="mb-4">
+          <p class="text-xs text-neutral-500 mb-2">{alert.request_date} - {alert.request_time}</p>
+          <p class="text-xs text-neutral-500 mb-2">ID de Usuario: <span class="font-semibold">{alert.user_id}</span></p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-800">{alert.alert_text}</p>
+        </div>
       </li>
     ))}
   </ul>

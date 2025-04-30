@@ -1,56 +1,71 @@
 ---
+/**
+ * Author: Julia Maria Stephanie Duenkelsbuehler Castillo Y Nicole Davila
+ * 
+ * Description: This Astro page renders an application approval screen.
+ * It includes sections for travel details and buttons for authorization and rejection.
+ */
+
 import Button from '@components/Button.astro';
+import TextHeader from '@components/TextHeader.astro';
 
-const { request, id } = Astro.props;
+const { request } = Astro.props;
 ---
-<main class="flex flex-col items-center px-6 py-12 bg-gradient-to-br from-white to-gray-50 min-h-screen">
-  <div class="w-full max-w-6xl flex flex-col space-y-10">
+<main class="flex flex-col items-center">
+  <div class="w-full flex flex-col rounded border border-gray-300 p-10">
 
-    <!-- Title Section -->
     <div class="flex justify-between items-center">
-      <h1 class="text-5xl font-extrabold text-gray-800 tracking-tight">
-        VIAJE #{id}
-      </h1>
+      <TextHeader
+        title={`SOLICITUD #${request.request_id}`}
+        subtitle="Detalles de la Solicitud a Autorizar"
+      />
     </div>
 
-    <!-- Datos de Viaje -->
-    <section class="bg-white shadow-xl rounded-2xl px-10 py-8 ring-1 ring-gray-200">
-      <h2 class="text-3xl font-semibold text-gray-900 mb-8">
-        Datos de Viaje
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 text-gray-700 text-lg">
-        <div class="space-y-3">
-          <p><span class="font-medium text-gray-800">Nombre de Usuario:</span> {request.usuario}</p>
-          <p><span class="font-medium text-gray-800">Fecha de Salida:</span> {request.fechaSalida}</p>
-          <p><span class="font-medium text-gray-800">Fecha de Regreso:</span> {request.fechaRegreso}</p>
-          <p><span class="font-medium text-gray-800">Duración del Viaje:</span> {request.duracion}</p>
+    <div class="flex flex-col gap-10">
+      <section>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información del Usuario</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-base text-gray-700">
+          <p><span class="font-medium text-gray-900">Nombre:</span> {request.user.user_name}</p>
+          <p><span class="font-medium text-gray-900">Correo:</span> {request.user.user_email}</p>
+          <p><span class="font-medium text-gray-900">Teléfono:</span> {request.user.user_phone_number}</p>
         </div>
-        <div class="space-y-3">
-          <p><span class="font-medium text-gray-800">Destino / Multidestino:</span> {request.destino}</p>
-          <p><span class="font-medium text-gray-800">Requerimientos:</span> {request.requerimientos}</p>
-          <p><span class="font-medium text-gray-800">Sitio de Interés:</span> {request.sitioInteres}</p>
-          <p><span class="font-medium text-gray-800">Extras:</span> {request.extras}</p>
+      </section>
+      <section>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Detalles del Viaje</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-base text-gray-700">
+          <p><span class="font-medium text-gray-900">Fecha de salida:</span> {request.routes.beginning_date}</p>
+          <p><span class="font-medium text-gray-900">Hora de salida:</span> {request.routes.beginning_time}</p>
+          <p><span class="font-medium text-gray-900">Fecha de regreso:</span> {request.routes.ending_date}</p>
+          <p><span class="font-medium text-gray-900">Hora de regreso:</span> {request.routes.ending_time}</p>
+          <p><span class="font-medium text-gray-900">¿Hotel necesario?:</span> {request.routes.hotel_needed ? "Sí" : "No"}</p>
+          <p><span class="font-medium text-gray-900">¿Avión necesario?:</span> {request.routes.plane_needed ? "Sí" : "No"}</p>
         </div>
+      </section>
+      <section>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Tarifas y Observaciones</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-base text-gray-700">
+          <p><span class="font-medium text-gray-900">Cuota solicitada:</span> ${request.requested_fee.toFixed(2)}</p>
+          <p><span class="font-medium text-gray-900">Notas:</span> {request.notes}</p>
+          <p><span class="font-medium text-gray-900">Fecha de solicitud:</span> {request.request_date}</p>
+          <p><span class="font-medium text-gray-900">Hora de solicitud:</span> {request.request_time}</p>
+        </div>
+      </section>
+      <div class="flex justify-end gap-4">
+        <Button
+          variant="filled"
+          color="success"
+          class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
+        >
+          Autorizar
+        </Button>
+        <Button
+          variant="filled"
+          color="warning"
+          class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
+        >
+          Rechazar
+        </Button>
       </div>
-    </section>
-
-    <!-- Buttons -->
-    <div class="flex justify-end gap-4">
-      <Button
-        variant="filled"
-        color="success"
-        class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
-      >
-        Autorizar
-      </Button>
-      <Button
-        variant="filled"
-        color="warning"
-        class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
-      >
-        Rechazar
-      </Button>
     </div>
-
   </div>
 </main>
