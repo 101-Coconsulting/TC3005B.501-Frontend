@@ -3,12 +3,14 @@ import "./src/styles/global.css"
 import PageHeader from "@components/PageHeader.astro"
 
 interface Props {
-  title: string
-  headerData: { userName: string, userAvatar: string, showButtonLabel: string }
-  
+  title: string;
+  data: {
+    userName: string;
+    buttonLabel: string;
+  };
 }
 
-const { title, headerData } = Astro.props
+const { title, data } = Astro.props
 ---
 
 <!doctype html>
@@ -23,13 +25,14 @@ const { title, headerData } = Astro.props
   </head>
   <body>
     <div id="app">
-		<!-- Page Header Section -->
 		<header id="page-header">
-			<PageHeader userName={headerData.userName} userAvatar={headerData.userAvatar} showButtonLabel={headerData.showButtonLabel} />
+			<PageHeader userName={data.userName} buttonLabel={data.buttonLabel} />
 		</header>
-		<!-- Main Content -->
+
 		<section id="content">
-			<slot />
+      <div class="flex flex-col p-12 h-full">
+        <slot />
+      </div>
 		</section>
     </div>
 
