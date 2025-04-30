@@ -10,10 +10,11 @@
       "@components/*": ["./src/components/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@pages/*": ["./src/pages/*"],
-      "@types/*": ["./src/types/*"],
+      "@type/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
-      "@data/*": ["./src/datadummy/*"],
+      "@data/*": ["./src/data/*"],
       "@views/*": ["./src/views/*"],
+      "@config/*": ["./src/config/*"],
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
