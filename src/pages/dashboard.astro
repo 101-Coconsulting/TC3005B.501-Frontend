@@ -5,40 +5,36 @@
  * Description: This is the dashboard page for the application. 
  * It displays different content based on the user's role (Applicant or Authorizer).
  * 
-*/
+ **/
 
 import MainLayout from "@layouts/MainLayout.astro";
-import AuthLayout from "@layouts/AuthLayout.astro";
-import ApplicantView from "@views/ApplicantView.astro";
-import AuthorizerView from "@views/AuthorizerView.astro";
-import viajesDummy from '@data/viajes.json';
-import solicitudesDummy from '@data/solicitudes.json';
+import { roleViews } from "@views/role-views";
+import type { UserRole } from "@type/roles";
 
-type Role = "Applicant" | "Authorizer";
-const role: Role = "Applicant" as Role;
-const pageTitle = "Dashboard";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
 
-const headerData = {
-	userName: "John Doe",
-	userAvatar: "/profile-icon.jpg",
-  showButtonLabel: role === "Applicant" ? "Solicitante" : "Autorizador",
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+const ViewComponent = roleViews[role];
+
+//FETCH DEMO DATA
+import { duplicateJson } from "@utils/duplicateJson";
+import getuserrequests from '@data/get-user-requests.json';
+import getuserrequest from '@data/get-user-request.json';
+
+const dummyData = {
+  Applicant: getuserrequests,
+  Authorizer: getuserrequest,
+  Admin: getuserrequest,
+  AccountsPayable: getuserrequest,
+  TravelAgency: getuserrequest
 };
 
-const sidebarData = { role };
-
-const Layout = role === "Applicant" ? MainLayout : AuthLayout;
+const requests = duplicateJson(dummyData[role], 5);
 ---
 
-<Layout title={pageTitle} headerData={headerData} sidebarData={sidebarData}>
-  {role === "Applicant" ? (
-    <ApplicantView 
-      headerData={headerData} 
-      requests={viajesDummy} 
-    />
-  ) : (
-    <AuthorizerView 
-      headerData={headerData} 
-      requests={solicitudesDummy} 
-    />
-  )}
-</Layout>
+<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
+  <ViewComponent userName={userName} requests={requests} />
+</MainLayout>

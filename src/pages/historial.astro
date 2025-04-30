@@ -6,30 +6,31 @@
 
 import MainLayout from "@layouts/MainLayout.astro";
 import History from "@components/History.tsx";
-import DummyData from "@data/requestHistory.json";
+import TextHeader from "@components/TextHeader.astro";
 
-const headerData = {
-  userName: "John Doe",
-  userAvatar: "/profile-icon.jpg",
-  showButtonLabel: "Solicitante"
-};
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
 
-const sidebarData = { role: "Applicant" };
-const pageTitle = "Dashboard";
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+//FETCH DEMO DATA
+import { duplicateJson } from "@utils/duplicateJson";
+import getuserrequest from '@data/get-user-request.json';
+
+const requests = duplicateJson(getuserrequest, 42);
 ---
 
-<MainLayout 
-  title={pageTitle} 
-  headerData={headerData} 
-  sidebarData={sidebarData}
->
-<div class="flex flex-col p-12 bg-neutral-50">
-  <section>
-    <h1 class="text-4xl font-bold w-full">HISTORIAL DEL VIAJES DE {headerData.userName.toUpperCase()}</h1>
-    <p class="text-xl font-semibold text-secondary-500 w-full">Aquí puedes ver todas tus solicitudes.</p>
-  </section>
-  <div class="items-center justify-center bg-white-500 pt-8">
-    <History client:load data={DummyData} />
+<MainLayout title="Historial" data={{ userName, buttonLabel, role }}>
+<div>
+  <TextHeader
+    title={`HISTORIAL DEL VIAJES DE ${ userName.toUpperCase() }`}
+    subtitle="Aquí puedes ver el historial de solicitudes realizadas"
+  />
+  <div class="items-center justify-center">
+    <History client:load data={requests} />
   </div>
 </div>
 </MainLayout>
