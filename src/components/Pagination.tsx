@@ -46,7 +46,7 @@ export default function Pagination({
     .filter((n) => n <= totalPages);
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-6">
+    <div className="flex justify-center items-center gap-2 mt-8">
       <button
         onClick={handlePrevBlock}
         disabled={blockStart === 1}

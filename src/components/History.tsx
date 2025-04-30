@@ -5,17 +5,10 @@
  */
 
 import { useState } from "react";
-import Pagination from "@/components/Pagination";
-
-interface Request {
-  applicantName: string;
-  travelPlace: string;
-  travelDate: string;
-  currentStatus: string;
-}
+import Pagination from "@components/Pagination";
 
 interface Props {
-  data: Request[];
+  data: any[];
   itemsPerPage?: number;
 }
 
@@ -25,6 +18,12 @@ export default function History({ data, itemsPerPage = 5 }: Props) {
   const start = (page - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const pageRequests = data.slice(start, end);
+
+  const statusTexts: { [key: number]: string } = {
+    "1": "COMPLETADO",
+    "2": "EN PROCESO",
+    "3": "CANCELADO",
+  };
 
   const getStatusStyle = (status: string) => {
     switch (status) {
@@ -40,19 +39,19 @@ export default function History({ data, itemsPerPage = 5 }: Props) {
   return (
     <div>
 			<div className="flex flex-col items-center w-full gap-4 min-h-160">
-				{pageRequests.map((request, index) => (
+				{pageRequests.map((request) => (
 					<a
-						key={start + index}
-						href={`/historial/${start + index}`}
-						className="flex items-center justify-between bg-white text-black p-4 rounded-md shadow-sm hover:bg-neutral-300 w-full max-w-4xl border border-neutral-300 transform transition-transform duration-200 hover:scale-105"
+            key={request.request_id}
+						href={`/historial/${request.request_id}`}
+						className="flex items-center justify-between max-w-4xl content-wrapper"
 					>
 						<div className="flex flex-col gap-1">
-							<h2 className="text-lg font-semibold">{request.applicantName}</h2>
-							<p className="text-sm">Destino: {request.travelPlace}</p>
-							<p className="text-sm">Fecha: {request.travelDate}</p>
+							<h2 className="text-lg font-semibold">#{request.request_id}</h2>
+							<p className="text-sm">Destino: {request.routes.id_origin_country}</p>
+							<p className="text-sm">Fecha Creación: {request.request_date}</p>
 						</div>
 						<p className={`text-center text-xs font-medium px-3 py-2 rounded-md shadow-sm ${getStatusStyle(request.currentStatus)}`}>
-							{request.currentStatus}
+							{statusTexts[request.request_status_id] || "DESCONOCIDO"}
 						</p>
 					</a>
 				))}

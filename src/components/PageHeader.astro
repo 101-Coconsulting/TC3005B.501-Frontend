@@ -7,16 +7,16 @@
  * Example usage:
  * 	<PageHeader
  *    userName="John Doe"
- *	  userAvatar="/path/to/avatar.jpg"
- *		showButtonLabel="Admin"
+ *		buttonLabel="Admin"
  *  />
  */
 
-const { userName, userAvatar, showButtonLabel } = Astro.props;
----
+const { userName, buttonLabel } = Astro.props;
+import Icon from "@assets/user.svg";
+import MaterialIcon from "@components/MaterialIcon.astro";
 
-<!-- Material Icons -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,1,0" />
+const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
+---
 
 <header class="flex justify-between items-center p-4 bg-primary-300">
   <!-- Left Section -->
@@ -30,49 +30,38 @@ const { userName, userAvatar, showButtonLabel } = Astro.props;
   </div>
 
   <!-- Right Section -->
-  <div class="flex items-center gap-3">
+  <div class="flex items-center gap-4">
     <!-- User Role -->
     <div class="bg-neutral-300 text-black font-bold rounded-full py-1.5 px-4 text-sm">
-      {showButtonLabel}
+      {buttonLabel}
     </div>
-
-    <!-- Icons -->
-    <button
-      class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
-      aria-label="Sensor Door"
-    >
-      <span class="material-symbols-outlined text-white text-[24px] font-[400]">
-        sensor_door
-      </span>
-    </button>
-
-    <button
-      class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
-      aria-label="Wind Power"
-    >
-      <span class="material-symbols-outlined text-white text-[24px] font-[400]">
-        wind_power
-      </span>
-    </button>
+    <div class="flex items-center gap-2">
+      <button
+        class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
+        aria-label="Sensor Door"
+      >
+        <MaterialIcon icon="settings" />
+      </button>
+      <button
+        class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
+        aria-label="Wind Power"
+      >
+        <MaterialIcon icon="dark_mode" />
+      </button>
+    </div>
 
     <!-- User Info -->
     <div class="flex items-center gap-4">
       <div class="bg-black text-white py-1.5 px-4 rounded-full font-bold text-sm">
         {userName}
       </div>
-      <a href="/user-profile">
+      <a href="/perfil-usuario" class={isCurrentRoute ? "pointer-events-none" : ""}>
         <button
-          class="rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-primary-300 hover:shadow-primary-500"
+          class="flex items-center bg-white justify-center rounded-full overflow-hidden w-11 h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-primary-300 hover:shadow-primary-500"
         >
-          <img 
-            src={userAvatar}
-            alt="Profile" 
-            class="w-full h-full object-cover" 
-            width="45"
-            height="45"
-          />
+          <MaterialIcon icon="person" color="black" />
         </button>
       </a>
-    </div>
+    </div>    
   </div>
 </header>

@@ -5,7 +5,9 @@
  * Author: Kenia Ramos.
  **/
 
-import type { MenuItem } from "../types/sidebar.ts";
+import type { MenuItem } from "@type/menu-config";
+import MaterialIcon from "@components/MaterialIcon.astro";
+import Icon from "@assets/sign-in.svg";
 
 interface Props {
   item: MenuItem;
@@ -13,18 +15,21 @@ interface Props {
 }
 
 const { item, isActive } = Astro.props;
-const Icon = item.icon;
 ---
 
 <a
   href={item.route}
-  class={`flex bg-primary-300 hover:bg-secondary-400 items-center gap-3 p-3 rounded-lg transition-colors duration-200 group hover:text-white
-  ${
-    isActive
-      ? 'bg-primary-500 text-white'
-      : 'text-black'
-  }`}
+  class={`flex items-center gap-4 px-4 py-3 rounded-lg transition-colors duration-200 group
+    bg-primary-300 hover:bg-secondary-400
+    ${isActive ? 'bg-primary-500 text-white pointer-events-none' : 'text-black hover:text-white'}
+  `}
 >
-  <Icon class="w-6 h-6 group-hover:brightness-0 group-hover:invert" />
+  <span class="flex items-center justify-center w-6 h-6">
+    <MaterialIcon
+      icon={item.icon}
+      color={isActive ? 'white' : 'black'}
+      style="group-hover:brightness-0 group-hover:invert"
+    />
+  </span>
   <span class="truncate text-sm font-medium">{item.label}</span>
 </a>

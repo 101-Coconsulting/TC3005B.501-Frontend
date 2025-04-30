@@ -1,16 +1,21 @@
 ---
-import "./src/styles/global.css"
-import PageHeader from "@components/PageHeader.astro"
-import SideBar from "@components/Sidebar.astro"
-import type { UserRole } from "@/types/sidebar"
+import "../styles/global.css";
+import PageHeader from "@components/PageHeader.astro";
+import SideBar from "@components/Sidebar.astro";
+import Messages from "@/components/Messages.astro"
+import type { UserRole } from "@type/roles";
 
 interface Props {
-  title: string
-  headerData: { userName: string, userAvatar: string, showButtonLabel: string }
-  sidebarData: { role: string }
+  title: string;
+  data: {
+    userName: string;
+    buttonLabel: string;
+    role: UserRole;
+  };
+  showMessages?: boolean;
 }
 
-const { title, headerData, sidebarData } = Astro.props
+const { title, data, showMessages = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,30 +29,44 @@ const { title, headerData, sidebarData } = Astro.props
     <title>{title}</title>
   </head>
   <body>
-    <div id="app">
-		<!-- Page Header Section -->
-		<header id="page-header">
-			<PageHeader userName={headerData.userName} userAvatar={headerData.userAvatar} showButtonLabel={headerData.showButtonLabel} />
-		</header>
-		<!-- Sidebar -->
-		<aside id="sidebar">
-			<SideBar role={sidebarData.role as UserRole} />
-		</aside>
-		<!-- Main Content -->
-		<section id="content">
-			<slot />
-		</section>
+    <div id="app" class={`${showMessages ? 'list-messages' : ''}`}>
+      <header id="page-header">
+        <PageHeader
+          userName={data.userName}
+          buttonLabel={data.buttonLabel}
+        />
+      </header>
+
+      <aside id="sidebar">
+        <SideBar role={data.role} />
+      </aside>
+
+      <section id="content">
+        <div class="p-12">
+          <slot />
+        </div>
+      </section>
+
+      {showMessages && (
+        <aside id="messages">
+          <Messages />
+        </aside>
+      )}
     </div>
 
     <style>
       #app {
         display: grid;
         grid-template-areas:
-          "header header"
-          "sidebar content";
-        grid-template-columns: auto 1fr;
+          "header header header"
+          "sidebar content messages";
+        grid-template-columns: auto 1fr 0;
         grid-template-rows: auto 1fr;
         height: 100vh;
+      }
+
+      #app.list-messages {
+        grid-template-columns: auto 1fr 16rem;
       }
 
       #page-header {
@@ -60,6 +79,17 @@ const { title, headerData, sidebarData } = Astro.props
 
       #content {
         grid-area: content;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      #messages {
+        grid-area: messages;
+        background: white;
+        border-left: 1px solid #D6D8DE;
+        box-shadow: -2px 0 4px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        overflow-y: auto;
       }
     </style>
   </body>

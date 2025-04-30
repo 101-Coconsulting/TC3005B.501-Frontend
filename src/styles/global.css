@@ -45,6 +45,13 @@
   'Noto Sans', helvetica, arial, sans-serif;
 }
 
+/* Contextual classes */
+@layer utilities {
+  .content-wrapper {
+    @apply bg-gray-100 p-4 rounded shadow-sm w-full h-full hover:scale-101 hover:bg-gray-200 transform transition-transform duration-200;
+  }
+}
+
 /* Declaration of Roboto fonts */
 @font-face {
   font-family: 'Roboto';

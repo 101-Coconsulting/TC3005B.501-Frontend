@@ -1,0 +1,21 @@
+---
+/**
+ * Authors: Eduardo Porto Morales
+ * 
+ * Description: This is the accounts payable view of the dashboard.
+ **/
+
+import TextHeader from "@components/TextHeader.astro";
+import { getRequestPriority } from "@utils/getPriorityDates";
+
+const { userName, requests } = Astro.props;
+---
+
+<div>
+  <main>
+    <TextHeader
+      title={`BIENVENIDO, ${userName.toUpperCase()}`}
+      subtitle="DITTA CONSULTING"
+    />
+  </main>
+</div>

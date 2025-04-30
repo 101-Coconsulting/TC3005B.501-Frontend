@@ -8,33 +8,29 @@
 
 import InputField from '@components/InputField.astro';
 import Button from '@components/Button.astro';
-import Typography from '@components/Typography.astro';
+import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
+import Success from '@components/Success.astro';
 
-const headerData = {
-  userName: "John Doe",
-  userAvatar: "/profile-icon.jpg",
-  showButtonLabel: "Solicitante"
-};
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
 
-const sidebarData = {
-  role: "Applicant"
-};
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
 
-const pageTitle = "Crear Solicitud";
+// Dummy data for the form
+import gcc from '@data/get-cc.json';
 ---
 
-<MainLayout 
-  title={pageTitle} 
-  headerData={headerData} 
-  sidebarData={sidebarData}
->
-  <main class="bg-white rounded-lg shadow-md p-8">
-    <div class="bg-white rounded-lg shadow-md p-8">
-      <Typography variant="header" size="default" class="mb-6 text-black text-bold">
-        Crear Solicitud de Viaje
-      </Typography>
-
+<MainLayout title="Crear Solicitud" data={{ userName, buttonLabel, role }}>
+  <div>
+    <TextHeader
+      title="CREAR NUEVA SOLICITUD DE VIAJE"
+      subtitle="Por favor complete el siguiente formulario por completo"
+    />
+    <main class="bg-white rounded-lg shadow-md p-8">
       <form id="travelForm" class="space-y-8">
         <!-- Seccion 1: Destinos y Fechas -->
         <div class="border-b border-secondary-300 pb-4 mb-6">
@@ -187,16 +183,15 @@ const pageTitle = "Crear Solicitud";
           <InputField
             label="Departamento"
             name="departamento"
-            type="text"
-            required={true}
+            value={gcc.department_name}
+            disabled={true}
           />
           
           <InputField
             label="CeCo Obtenido"
             name="cecoObtenido"
-            value="123456"
+            value={gcc.costs_center}
             disabled={true}
-
           />
         </div>
 
@@ -220,8 +215,8 @@ const pageTitle = "Crear Solicitud";
           </Button>
         </div>
       </form>
-    </div>
-  </main>
+    </main>
+  </div>
 </MainLayout>
 
 <script is:inline>

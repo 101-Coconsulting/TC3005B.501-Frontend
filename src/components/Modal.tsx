@@ -1,5 +1,5 @@
-import { MODAL_STYLES } from "../config/modal";
-import type { ModalType } from "../config/modal";
+import { MODAL_STYLES } from "@config/modal";
+import type { ModalType } from "@config/modal";
 
 interface ModalProps {
   title: string;

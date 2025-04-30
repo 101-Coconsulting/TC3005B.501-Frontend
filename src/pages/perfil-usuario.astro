@@ -3,14 +3,13 @@ import MainLayout from "@layouts/HeaderLayout.astro";
 import Typography from "@components/Typography.astro";
 import Button from "@components/Button.astro";
 
-const headerData = {
-    userName: "Arturo López",
-    userAvatar: "/profile-icon.jpg",
-    showButtonLabel: "Solicitante"
-};
-const sidebarData = {
-    role: "Applicant"
-};
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
 
 // User profile domi data 
 const userProfile = {
@@ -41,16 +40,10 @@ const userProfile = {
         supervisor: "Sofia Perez"
     }
 };
-
-const pageTitle = "Perfil de Usuario";
-
 ---
 
-<MainLayout 
-    title={pageTitle} 
-    headerData={headerData} 
->
-    <div class="pt-12 px-12 bg-white">
+<MainLayout title="Perfil de Usuario" data={{ userName, buttonLabel }} >
+    <div>
 
         <div class="mb-8 flex items-center justify-between">
             <Typography variant="header">Información General</Typography>
