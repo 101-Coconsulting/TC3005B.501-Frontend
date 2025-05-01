@@ -26,7 +26,7 @@ var { userName, requests } = Astro.props;
 
       {requests.length > 0 ? (
         <div class="grid gap-4">
-          {requests.slice(0, 3).map((request: any) => {
+          {requests.map((request: any) => {
             const isApproved = request.status != 'En Proceso';
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
