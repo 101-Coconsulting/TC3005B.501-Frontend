@@ -1,0 +1,41 @@
+---
+
+/*
+    Author: José Antonio González
+    Description: This is the page where we separate the content that is stablished for a certain user of Account Payable team.
+
+*/ 
+import MainLayout from "@layouts/MainLayout.astro";
+import ExpensesValidation from "@components/ExpensesValidation.astro";
+import type { UserRole } from "@type/roles";
+
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+//FETCH DEMO DATA
+import { duplicateJson } from "@utils/duplicateJson";
+import getexpenses from '@data/get-expense-validations.json';
+
+export async function getStaticPaths() {
+  const requests = duplicateJson(getexpenses, 5);
+  return requests.map((req: any) => ({
+    params: { id: req.request_id.toString() },
+  }));
+}
+
+const { id } = Astro.params;
+const requests = duplicateJson(getexpenses, 5);
+const request = requests.find((req: any) => req.request_id.toString() === id);
+
+if (!request) {
+  throw new Error(`No request found with ID ${id}`);
+}
+---
+
+<MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
+  <ExpensesValidation request={request} />
+</MainLayout>
