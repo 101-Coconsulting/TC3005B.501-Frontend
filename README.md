@@ -54,3 +54,22 @@ npm run dev
 ```
 
 And you're good to go! A new browser window should open and you should be able to see the Authorizer's dashboard.
+
+### Configuring
+
+The current version lacks any sort of connection to any sort of backend, as well as any sort of login interface. Therefore, the way to access different dashboards for different roles, is to manually edit the [/src/data/cookies.ts](/src/data/cookies.ts) file to choose the role whose dashboard you want to visualize.
+
+Filename: /src/data/cookies.ts
+```typescript
+import type { UserRole } from "@type/roles";
+
+const mockCookies = {
+    username: "John Doe",
+    // CHANGE THIS
+    role: "Authorizer" as UserRole //'Applicant' | 'Authorizer' | 'Admin' | 'AccountsPayable' | 'TravelAgency';
+};
+
+export const getCookie = (key: keyof typeof mockCookies): string | UserRole => {
+    return mockCookies[key];
+};
+```
