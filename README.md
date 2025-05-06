@@ -36,3 +36,21 @@ pnpm install
 ```sh
 npm install
 ```
+
+### Running
+
+To run the Frontend, utilize whichever package manager you used for dependencies to run the project.
+
+#### Using `pnpm`
+
+```sh
+pnpm run dev
+```
+
+#### Using `npm`
+
+```sh
+npm run dev
+```
+
+And you're good to go! A new browser window should open and you should be able to see the Authorizer's dashboard.
