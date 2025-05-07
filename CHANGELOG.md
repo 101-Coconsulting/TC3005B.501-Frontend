@@ -22,23 +22,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Navigational sidebar accessible to all users.
 - Role-based navigation ensuring each user sees only the sections relevant to their role.
 - User profile page showing personal details.
-
-- **Applicant Role:**  
-    - Dashboard with a list of pending travel requests.  
-    - Ability to create new travel requests through a complete request form.  
-    - History page showing all completed, approved, or rejected requests.
-  
-- **Authorizer Role:**  
-    - Dashboard listing all pending requests awaiting authorization.  
-    - Detailed request view with all necessary information to approve or reject requests.
-
-- **Accounts Payable Role:**  
-    - Dashboard showing all pending budgeting requests to be quoted.
-    - Detailed request view with the ability to assign budgets and mark requests as attended.
-
-- **Travel Agency Role:**  
-    - Dashboard listing all pending travel arrangement requests.  
-    - Detailed request view with options to quote hotel and airfare costs, and mark requests as attended.
+- Applicant dashboard with a list of pending travel requests.
+- Applicant ability to create new travel requests through a complete request form.
+- Applicant history page showing all completed, approved, or rejected requests.
+- Authorizer dashboard listing all pending requests awaiting authorization.
+- Authorizer detailed request view with all necessary information to approve or reject requests.  
+- Accounts Payable dashboard showing all pending budgeting requests to be quoted.
+- Accounts Payable detailed request view with the ability to assign budgets and mark requests as attended.
+- Travel Agency dashboard listing all pending travel arrangement requests.
+- Travel Agency detailed request view with options to quote hotel and airfare costs, and mark requests as attended.
 
 [unreleased]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/compare/v0.1.0...HEAD  
 [0.1.0]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/releases/tag/v0.1.0
