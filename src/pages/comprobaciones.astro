@@ -1,0 +1,62 @@
+---
+/**
+ * Author: Diego Ortega
+ *
+ * Description:
+ * This page displays the comprobaciones for the logged-in user. It fetches data
+ * and renders it using the <ComprobationRequestsList /> component with pagination.
+ */
+
+import MainLayout from "@layouts/MainLayout.astro";
+import TextHeader from "@components/TextHeader.astro";
+import CheckRequestsList from "@components/requests/ComprobationRequestsList";
+import TableFallback from "@components/TableFallback.astro";
+
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+import travelRequests from "@data/get-travel-request.json";
+
+const requestsPerPage = 10;
+const headers = [
+  "Status",
+  "ID Viaje",
+  "Destino",
+  "Fecha Llegada",
+  "Fecha Salida",
+  "Motivo",
+  "MODIFICAR",
+];
+
+const pageTitle = `COMPROBACIONES DE ${userName.toUpperCase()}`;
+
+const allRequests = travelRequests;
+---
+
+<MainLayout title="Comprobaciones" data={{ userName, buttonLabel, role }}>
+  <div>
+    <TextHeader
+      title={pageTitle}
+      subtitle="Aquí puedes ver la información de las comprobaciones"
+    />
+    <div class="items-center justify-center">
+      {
+        allRequests && allRequests.length === 0 ? (
+          <TableFallback type="Alert" size="medium" className="mt-4" />
+        ) : (
+          <CheckRequestsList
+            client:visible
+            data={allRequests}
+            itemsPerPage={requestsPerPage}
+            headers={headers}
+          />
+        )
+      }
+    </div>
+  </div>
+</MainLayout>
