@@ -18,9 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Personalized page header displaying the user’s name and role.  
-- Navigational sidebar accessible to all users.  
-- Role-based navigation ensuring each user sees only the sections relevant to their role.  
+- Personalized page header displaying the user’s name and role.
+- Navigational sidebar accessible to all users.
+- Role-based navigation ensuring each user sees only the sections relevant to their role.
 - User profile page showing personal details.
 
 - **Applicant Role:**  
