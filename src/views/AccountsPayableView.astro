@@ -82,7 +82,7 @@ const { userName, requests } = Astro.props;
             {requests.slice(0, 4).map((request: any) => {
               const { daysAgo, priority } = getRequestPriority(request.request_date);
               return (
-                <a href={`/comprobar-comprobantes/${request.request_id}`} >
+                <a href={`/comprobar-gastos/${request.request_id}`} >
                   <div class="content-wrapper">
                     <div class="flex justify-between items-start mb-4">
                       <div class="flex items-center gap-4">
