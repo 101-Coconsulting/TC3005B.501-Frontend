@@ -8,7 +8,9 @@
 import Button from "@components/Button.astro";
 import TextHeader from "@components/TextHeader.astro";
 
-var { userName, requests } = Astro.props;
+import requests from '@data/get-user-requests.json';
+var { userName } = Astro.props;
+
 ---
 
 <div>
