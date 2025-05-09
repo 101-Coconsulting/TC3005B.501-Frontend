@@ -1,0 +1,62 @@
+---
+/**
+ * Author: Diego Ortega
+ *
+ * Description:
+ * This page displays the Autorizaciones for the logged-in user. It fetches data
+ * and renders it using the <AuthorizerRequestsList /> component with pagination.
+ */
+
+import MainLayout from "@layouts/MainLayout.astro";
+import TextHeader from "@components/TextHeader.astro";
+import AuthorizerRequestsList from "@components/requests/AuthorizerRequestsList";
+import TableFallback from "@components/TableFallback.astro";
+
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+import travelRequests from "@data/get-travel-request.json";
+
+const requestsPerPage = 10;
+const headers = [
+  "Status",
+  "ID Viaje",
+  "Destino",
+  "Fecha Llegada",
+  "Fecha Salida",
+  "Motivo",
+  "MODIFICAR",
+];
+
+const pageTitle = `AUTORIZACIONES DE ${userName.toUpperCase()}`;
+
+const allRequests = travelRequests;
+---
+
+<MainLayout title="Autorizaciones" data={{ userName, buttonLabel, role }}>
+  <div>
+    <TextHeader
+      title={pageTitle}
+      subtitle="Aquí puedes ver las solicitudes pendientes de autorización"
+    />
+    <div class="items-center justify-center">
+      {
+        allRequests && allRequests.length === 0 ? (
+          <TableFallback />
+        ) : (
+          <AuthorizerRequestsList
+            client:visible
+            data={allRequests}
+            itemsPerPage={requestsPerPage}
+            headers={headers}
+          />
+        )
+      }
+    </div>
+  </div>
+</MainLayout>
