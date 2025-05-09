@@ -1,0 +1,52 @@
+---
+/**
+ * Author: Julia Maria Stephanie Duenkelsbuehler Castillo
+ * 
+ * Description: This Astro page renders a success page after a travel request has been created.
+ */
+
+import Button from '@components/Button.astro';
+import Typography from '@components/Typography.astro';
+import MainLayout from "@layouts/MainLayout.astro";
+
+const headerData = {
+  userName: "John Doe",
+  showButtonLabel: "Solicitante"
+};
+
+const sidebarData = {
+  role: "Applicant"
+};
+
+const pageTitle = "Solicitud Creada";
+---
+
+<main class="p-12 bg-neutral-50 min-h-screen">
+  <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8 text-center">
+    <div class="mb-6">
+      <svg class="mx-auto h-16 w-16 text-success-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+
+    <Typography variant="header" size="default" class="mb-4 text-primary-500">
+      Solicitud Enviada
+    </Typography>
+    
+    <Typography variant="paragraph" class="mb-8 text-primary-400">
+      Tu solicitud de viaje ha sido registrada correctamente.
+    </Typography>
+
+    <div class="flex justify-center">
+      <a href="/dashboard" class="mr-4">
+        <Button 
+        variant="filled" 
+        color="primary" 
+        class="px-8"
+        >
+          Ir al Dashboard
+        </Button>
+      </a>
+    </div>
+  </div>
+</main>

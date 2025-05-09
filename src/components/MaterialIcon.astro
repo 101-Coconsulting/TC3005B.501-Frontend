@@ -1,0 +1,20 @@
+---
+interface Props {
+  icon: string;
+  color?: string;
+  style?: string;
+  variant?: 'outlined' | 'filled' | 'rounded' | 'sharp' | 'two-tone';
+}
+
+const {
+  icon, color = "white", style = "", variant = "outlined"
+} = Astro.props as Props;
+
+const className = `material-symbols-${variant} text-${color} ${style}`;
+---
+
+<link rel="stylesheet" href={`https://fonts.googleapis.com/css2?family=Material+Symbols+${variant.charAt(0).toUpperCase() + variant.slice(1)}:opsz,wght,FILL,GRAD@20..48,100..700,1,0`} />
+
+<span class={className}>
+  {icon}
+</span>

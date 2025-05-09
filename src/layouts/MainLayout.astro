@@ -1,0 +1,96 @@
+---
+import "../styles/global.css";
+import PageHeader from "@components/PageHeader.astro";
+import SideBar from "@components/Sidebar.astro";
+import Messages from "@/components/Messages.astro"
+import type { UserRole } from "@type/roles";
+
+interface Props {
+  title: string;
+  data: {
+    userName: string;
+    buttonLabel: string;
+    role: UserRole;
+  };
+  showMessages?: boolean;
+}
+
+const { title, data, showMessages = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="app" class={`${showMessages ? 'list-messages' : ''}`}>
+      <header id="page-header">
+        <PageHeader
+          userName={data.userName}
+          buttonLabel={data.buttonLabel}
+        />
+      </header>
+
+      <aside id="sidebar">
+        <SideBar role={data.role} />
+      </aside>
+
+      <section id="content">
+        <div class="p-12">
+          <slot />
+        </div>
+      </section>
+
+      {showMessages && (
+        <aside id="messages">
+          <Messages />
+        </aside>
+      )}
+    </div>
+
+    <style>
+      #app {
+        display: grid;
+        grid-template-areas:
+          "header header header"
+          "sidebar content messages";
+        grid-template-columns: auto 1fr 0;
+        grid-template-rows: auto 1fr;
+        height: 100vh;
+      }
+
+      #app.list-messages {
+        grid-template-columns: auto 1fr 16rem;
+      }
+
+      #page-header {
+        grid-area: header;
+      }
+
+      #sidebar {
+        grid-area: sidebar;
+      }
+
+      #content {
+        grid-area: content;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      #messages {
+        grid-area: messages;
+        background: white;
+        border-left: 1px solid #D6D8DE;
+        box-shadow: -2px 0 4px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        overflow-y: auto;
+      }
+    </style>
+  </body>
+</html>

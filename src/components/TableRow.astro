@@ -1,0 +1,28 @@
+---
+/**
+ * Author: Diego Ortega Fernández
+ */
+
+interface Props {
+  row: Record<string, any>;
+  index: number;
+}
+
+const { row, index } = Astro.props;
+---
+
+<tr class={index % 2 === 0 ? "bg-gray-100" : "bg-white"}>
+  {
+    Object.keys(row).map((key) => (
+      <td class="px-4 py-3 border-b border-neutral-200">
+        {key === "MODIFICAR" ? (
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition duration-300 ease-in-out">
+            Editar
+          </button>
+        ) : (
+          row[key]
+        )}
+      </td>
+    ))
+  }
+</tr>

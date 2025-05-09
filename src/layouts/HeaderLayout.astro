@@ -1,0 +1,58 @@
+---
+import "./src/styles/global.css"
+import PageHeader from "@components/PageHeader.astro"
+
+interface Props {
+  title: string;
+  data: {
+    userName: string;
+    buttonLabel: string;
+  };
+}
+
+const { title, data } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="app">
+		<header id="page-header">
+			<PageHeader userName={data.userName} buttonLabel={data.buttonLabel} />
+		</header>
+
+		<section id="content">
+      <div class="flex flex-col p-12 h-full">
+        <slot />
+      </div>
+		</section>
+    </div>
+
+    <style>
+      #app {
+        display: grid;
+        grid-template-areas:
+          "header"
+          "content";
+        grid-template-rows: auto 1fr;
+        height: 100vh;
+      }
+
+      #page-header {
+        grid-area: header;
+      }
+
+      #content {
+        grid-area: content;
+      }
+    </style>
+  </body>
+</html>

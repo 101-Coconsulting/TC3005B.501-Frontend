@@ -1,0 +1,1 @@
+export type UserRole = 'Applicant' | 'Authorizer' | 'Admin' | 'AccountsPayable' | 'TravelAgency';

@@ -1,0 +1,37 @@
+---
+/*
+  Component: Sidebar
+  Description: Renders a vertical sidebar menu based on the user's role.
+  Author: Kenia Ramos.
+*/
+
+import type { UserRole } from "@type/roles";
+import { SIDEBAR_CONFIG } from "@type/menu-config";
+import SidebarButton from "@components/SideBarButton.astro";
+
+interface Props {
+  role: UserRole;
+}
+
+const { role } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const items = SIDEBAR_CONFIG[role] ?? [];
+---
+
+<aside class="w-64 h-full bg-primary-200 border-r border-neutral-100 shadow-md">
+  <div class="h-full px-4 py-6 overflow-auto">
+    <ul class="space-y-4 font-medium list-none p-0 m-0">
+      {
+        items.map((item) => {
+          const isActive = currentPath.startsWith(item.route);
+          return (
+            <li>
+              <SidebarButton item={item} isActive={isActive} />
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</aside>
