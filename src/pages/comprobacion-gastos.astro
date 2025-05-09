@@ -1,0 +1,123 @@
+---
+/**
+ * Author: Gabriel Muñoz
+ * Description: Formulario para comprobar gastos de un viaje.
+ */
+
+ const { request } = Astro.props;
+import Button from "@components/Button.astro";
+---
+
+<section class="bg-white p-6 rounded-lg shadow-md space-y-6">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-primary-500">
+      Generar Comprobación de Gastos del viaje
+    </h2>
+    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-mono">
+      #{request.request_id}
+    </span>
+  </div>
+
+  <p class="text-sm text-gray-600">
+    <strong>Destino:</strong> {request.country_name} &nbsp;&nbsp;
+    <strong>Fechas:</strong> {request.beginning_date} – {request.ending_date}
+  </p>
+
+  <form id="comprobacionForm" class="space-y-8">
+    <!-- Sección: Gastos a comprobar -->
+    <div>
+      <h3 class="text-base font-semibold mb-2 text-primary-400">Gastos a Comprobar</h3>
+      <div class="grid md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label class="text-sm font-medium">Concepto</label>
+          <select name="concepto" class="w-full border rounded-md px-3 py-2">
+            <option>Útiles Varios</option>
+            <option>Transporte</option>
+            <option>Hospedaje</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium">Forma de Pago</label>
+          <select name="formaPago" class="w-full border rounded-md px-3 py-2">
+            <option>Tarjeta Crédito</option>
+            <option>Efectivo</option>
+            <option>Transferencia</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium">Fecha del Gasto</label>
+          <input type="date" name="fechaGasto" class="w-full border rounded-md px-3 py-2" />
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="text-sm font-medium">Motivo</label>
+        <textarea name="motivo" rows="3" class="w-full border rounded-md px-3 py-2"></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="text-sm font-medium block mb-1">Comprobantes (PDF/XML)</label>
+        <input 
+          type="file" 
+          name="archivosGasto" 
+          accept=".pdf,.xml" 
+          multiple 
+          class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-secondary-100 file:text-primary-500 hover:file:bg-secondary-200"
+        />
+        <ul id="previewGastos" class="mt-2 text-sm text-blue-600 space-y-1"></ul>
+      </div>
+    </div>
+
+    <!-- Sección: Solicitar Reembolso -->
+    <div>
+      <h3 class="text-base font-semibold mb-2 text-primary-400">Solicitar Reembolso</h3>
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div>
+          <label class="text-sm font-medium">Concepto</label>
+          <select name="conceptoReembolso" class="w-full border rounded-md px-3 py-2">
+            <option>Viáticos</option>
+            <option>Alimentos</option>
+            <option>Transporte</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium">Monto</label>
+          <input type="text" name="monto" placeholder="Ej. 1000$" class="w-full border rounded-md px-3 py-2" />
+        </div>
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Motivo</label>
+        <textarea name="motivoReembolso" rows="3" class="w-full border rounded-md px-3 py-2"></textarea>
+      </div>
+    </div>
+    <div class="flex justify-end gap-4 pt-4">
+      <Button variant="filled" color="primary" type="submit">Enviar Comprobación</Button>
+      <a href={"/dashboard"}>
+        <Button variant="border" color="warning" type="reset">
+            Cancelar
+        </Button>
+      </a>
+      <a href={`/comprobantes-anteriores`}>
+        <Button type="button" color="secondary" variant="border" on:click="verComprobantes()" class="ml-auto">
+            Comprobantes Anteriores
+        </Button>
+      </a>
+    </div>
+  </form>
+</section>
+
+<script is:inline>
+  document.querySelector('input[name="archivosGasto"]')?.addEventListener('change', function () {
+    const list = document.getElementById('previewGastos');
+    list.innerHTML = '';
+    Array.from(this.files).forEach(file => {
+      const li = document.createElement('li');
+      li.textContent = file.name;
+      list.appendChild(li);
+    });
+  });
+</script>
