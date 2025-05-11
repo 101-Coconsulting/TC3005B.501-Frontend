@@ -215,6 +215,16 @@ import gcc from '@data/get-cc.json';
           </Button>
         </div>
       </form>
+      <a href="/dashboard" class="mt-8 flex justify-end">
+        <Button 
+          variant="filled" 
+          color="primary" 
+          type="submit"
+          class="px-6"
+        >
+          Guardar Cambios
+        </Button>
+      </a>
     </main>
   </div>
 </MainLayout>
@@ -223,7 +233,7 @@ import gcc from '@data/get-cc.json';
   // Form submission handler
   document.getElementById('travelForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     // Validate required fields
     const requiredFields = this.querySelectorAll('[required]');
     let isValid = true;
@@ -257,7 +267,7 @@ import gcc from '@data/get-cc.json';
     
     // Show success message and redirect
     alert('Solicitud enviada correctamente (demo frontend)');
-    window.location.href = '/success';
+    window.location.href = '/dashboard';
   });
 
   // Handle additional destinations
