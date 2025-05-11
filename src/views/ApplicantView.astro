@@ -5,16 +5,16 @@
  * Description: This is the applicant view of the dashboard.
  **/
 
- import Button from "@components/Button.astro";
+import MaterialIcon from "@/components/MaterialIcon.astro";
+import Button from "@components/Button.astro";
 import TextHeader from "@components/TextHeader.astro";
 
-var { userName, requests } = Astro.props;
+const { userName, requests } = Astro.props;
 
-// Diccionario de estados con colores
 const statusColors: Record<string, string> = {
-  "En Proceso": "text-blue-500", // Azul
-  "Completado": "text-green-500", // Verde
-  "Cancelado": "text-red-500", // Rojo
+  "En Proceso": "text-blue-500",
+  "Completado": "text-green-500",
+  "Cancelado": "text-red-500",
 };
 ---
 
@@ -34,8 +34,7 @@ const statusColors: Record<string, string> = {
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isCancelable = request.status === "En Proceso"; // Solo se puede cancelar si está "En Proceso"
-            const statusColor = statusColors[request.status] || "text-gray-500"; // Color por defecto si no coincide
+            const isEditable = request.status === "En Proceso";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
                 <a href={`/detalle/${request.request_id}`} class="col-span-2">
@@ -46,7 +45,7 @@ const statusColors: Record<string, string> = {
                       <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
                       <p>
                         <span class="font-semibold">Estado:</span> 
-                        <span class={`ml-1 font-semibold ${statusColor}`}>
+                        <span class={`ml-1 font-semibold ${statusColors[request.status] || "text-gray-500"}`}>
                           {(request.status ? request.status.toUpperCase() : '')}
                         </span>
                       </p>
@@ -54,28 +53,30 @@ const statusColors: Record<string, string> = {
                     </div>
                   </div>
                 </a>
-                <div class="flex flex-col justify-center h-full gap-2">
-                  <a href={`/editar/${request.request_id}`}>
-                    <Button color="primary" disabled={!isCancelable} variant="filled" size="medium" customSizeClass="w-full">
-                      EDITAR
-                    </Button>
-                  </a>
-                  <a href={`/comprobar/${request.request_id}`}>
-                    <Button color="primary" disabled={!isCancelable} variant="filled" size="medium" customSizeClass="w-full">
-                      COMPROBAR
-                    </Button>
-                  </a>
-                  <a href={`/cancelar/${request.request_id}`}>
-                  <Button
-                    color={isCancelable ? "warning" : "gray"}
-                    disabled={!isCancelable}
-                    variant="filled"
-                    size="medium"
-                    customSizeClass="w-full"
-                  >
-                    CANCELAR
-                  </Button>
-                </a>
+                <div class="grid grid-cols-[1fr_auto] gap-4 items-center">
+                  <div class="flex flex-col gap-2">
+                    <a href={`/editar/${request.request_id}`}>
+                      <Button color="primary" disabled={!isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                        EDITAR
+                      </Button>
+                    </a>
+                    <a href={`/comprobar/${request.request_id}`}>
+                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                        COMPROBAR
+                      </Button>
+                    </a>
+                  </div>
+                  <div class="flex justify-end items-center h-full">
+                    <a href={`/cancelar-solicitud/${request.request_id}`} class={isEditable ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'}>
+                      <span class="flex items-center justify-center w-6 h-6">
+                        <MaterialIcon
+                          icon="delete"
+                          color="black"
+                          style="cursor: pointer"
+                        />
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
             );
