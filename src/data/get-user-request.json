@@ -1,5 +1,4 @@
 {
-  "A37452": {
     "request_id": "A37452",
     "request_status_id": "1",
     "notes": "Reunión regional con equipo comercial",
@@ -7,74 +6,22 @@
     "imposed_fee": 1150.00,
     "request_date": "2025-02-10",
     "request_time": "09:30:00",
-    "user": {
-      "user_name": "Arturo López",
-      "user_email": "arturoperez59@hotmail.com",
-      "user_phone_number": "(719) 860-5684"
+    "user":{
+		"user_name": "Arturo López",
+		"user_email": "arturoperez59@hotmail.com",
+		"user_phone_number": "(719) 860-5684"
     },
     "routes": {
-      "id_origin_country": 1,
-      "id_origin_city": 1,
-      "id_destination_country": 2,
-      "id_destination_city": 2,
-      "beginning_date": "2025-02-15",
-      "beginning_time": "07:00:00",
-      "ending_date": "2025-02-22",
-      "ending_time": "19:00:00",
-      "hotel_needed": true,
-      "plane_needed": true
+        "id_origin_country": 1,
+        "id_origin_city": 1,
+        "id_destination_country": 2,
+        "id_destination_city": 2,
+        "beginning_date": "2025-02-15",
+        "beginning_time": "07:00:00",
+        "ending_date": "2025-02-22",
+        "ending_time": "19:00:00",
+        "hotel_needed": true,
+        "plane_needed": true
     }
-  },
-  "B99221": {
-    "request_id": "B99221",
-    "request_status_id": "2",
-    "notes": "Capacitación internacional",
-    "requested_fee": 3000.00,
-    "imposed_fee": 2800.00,
-    "request_date": "2025-03-01",
-    "request_time": "10:00:00",
-    "user": {
-      "user_name": "Daniela Pérez",
-      "user_email": "daniela.perez@example.com",
-      "user_phone_number": "(555) 123-4567"
-    },
-    "routes": {
-      "id_origin_country": 1,
-      "id_origin_city": 5,
-      "id_destination_country": 3,
-      "id_destination_city": 9,
-      "beginning_date": "2025-04-01",
-      "beginning_time": "08:00:00",
-      "ending_date": "2025-04-15",
-      "ending_time": "20:00:00",
-      "hotel_needed": false,
-      "plane_needed": true
-    }
-  },
-  "C78812": {
-    "request_id": "C78812",
-    "request_status_id": "3",
-    "notes": "Evento cancelado por organizadores",
-    "requested_fee": 1800.00,
-    "imposed_fee": 0.00,
-    "request_date": "2025-04-05",
-    "request_time": "11:15:00",
-    "user": {
-      "user_name": "Carlos Jiménez",
-      "user_email": "cjimenez@example.com",
-      "user_phone_number": "(333) 444-5555"
-    },
-    "routes": {
-      "id_origin_country": 1,
-      "id_origin_city": 3,
-      "id_destination_country": 4,
-      "id_destination_city": 7,
-      "beginning_date": "2025-05-10",
-      "beginning_time": "06:00:00",
-      "ending_date": "2025-05-20",
-      "ending_time": "18:00:00",
-      "hotel_needed": true,
-      "plane_needed": false
-    }
-  }
 }
+  
