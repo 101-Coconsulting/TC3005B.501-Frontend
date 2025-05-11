@@ -4,18 +4,17 @@
  * 
  * Description: Page to edit a travel request using mock data from get-user-request.json
  * 
- */
+ **/
 export const prerender = false;
 
-
- import InputField from '@components/InputField.astro';
+import InputField from '@components/InputField.astro';
 import Button from '@components/Button.astro';
 import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
 
 import { getCookie } from "@data/cookies";
 import gcc from '@data/get-cc.json';
-import rawRequests from '@data/get-user-request.json';
+import rawRequests from '@data/get-user-request-2.json';
 import type { UserRole } from '@type/roles';
 import { roleLabels } from '@config/role-labels';
 
@@ -160,8 +159,8 @@ const buttonLabel = roleLabels[role];
 
       console.log('Edited data:', data); // Simulate backend PUT request
 
-      alert('Solicitud editada correctamente (demo)');
-      window.location.href = '/success';
+      alert('Solicitud editada correctamente (DEMO)');
+      window.location.href = '/dashboard';
     });
   </script>
 </MainLayout>
