@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import Pagination from "@components/Pagination";
+import Pagination from "@/components/Table/Pagination";
 
 interface Props {
   data: any[];

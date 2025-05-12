@@ -1,16 +1,13 @@
 ---
 /**
- * Author: Diego Ortega
+ * Author: Diego Ortega Fernández
  *
- * Description:
- * This page displays the atenciones for the logged-in user. It fetches data
- * and renders it using the <AttentionRequestsList /> component with pagination.
- */
+ **/
 
 import MainLayout from "@layouts/MainLayout.astro";
 import TextHeader from "@components/TextHeader.astro";
-import AttentionRequestsList from "@components/requests/AttentionRequestsList";
-import TableFallback from "@components/TableFallback.astro";
+import AuthRequestsList from "@/components/RequestsLists/AuthRequestsList";
+import TableFallback from "@/components/Table/TableFallback.astro";
 
 import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
@@ -20,43 +17,27 @@ const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
-import travelRequests from "@data/get-travel-request.json";
+//FETCH DEMO DATA
+import { duplicateJson } from "@utils/duplicateJson";
+import getuserrequest from '@data/get-user-request.json';
 
-const requestsPerPage = 10;
-const headers = [
-  "Status",
-  "ID Viaje",
-  "Destino",
-  "Fecha Llegada",
-  "Fecha Salida",
-  "Motivo",
-  "MODIFICAR",
-];
-
-const pageTitle = `ATENCIONES PARA ${userName.toUpperCase()}`;
-
-const allRequests = travelRequests;
+const requests = duplicateJson(getuserrequest, 42);
 ---
 
-<MainLayout title="Atenciones" data={{ userName, buttonLabel, role }}>
+<MainLayout title="Atenciones pendientes" data={{ userName, buttonLabel, role }}>
   <div>
-    <TextHeader
-      title={pageTitle}
-      subtitle="Aquí puedes ver la lista de atenciones"
-    />
-    <div class="items-center justify-center">
-      {
-        allRequests && allRequests.length === 0 ? (
-          <TableFallback type="Alert" size="medium" className="mt-4" />
-        ) : (
-          <AttentionRequestsList
-            client:visible
-            data={allRequests}
-            itemsPerPage={requestsPerPage}
-            headers={headers}
-          />
-        )
-      }
+    {requests && requests.length === 0 ? (
+      <TableFallback />
+    ) : (
+      <TextHeader
+        title={"ATENCIONES DE " + userName.toUpperCase()}
+        subtitle="Aquí puedes ver las solicitudes pendientes de atender"
+      />
+      <AuthRequestsList
+        client:visible
+        data={requests}
+      />
+    )}
     </div>
   </div>
 </MainLayout>
