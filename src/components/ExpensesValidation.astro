@@ -1,0 +1,70 @@
+---
+/**
+ * Authors: José Antonio González
+ * 
+ * Description: This is the page where the Account Payable team can see the details of the expenses of a user
+ * 
+ * 
+ **/
+
+import Button from '@components/Button.astro';
+import TextHeader from '@components/TextHeader.astro';
+
+const { request } = Astro.props;
+
+//Diferent colors for the status of the request
+const status_colors = {
+  'Pending': 'text-warning-400',
+  'Aproved': 'text-success-400',
+  'Declined': 'text-danger-400',
+};
+---
+<main class="flex flex-col items-center">
+  <div class="w-full flex flex-col rounded border border-gray-300 p-10">
+
+    <div class="flex justify-between items-center">
+      <TextHeader
+        title={`SOLICITUD #${request.request_id}`}
+        subtitle="Comprobantes de Gastos"
+      
+      />
+      
+      <h1 class=`text-m ${status_colors[request.status]} font-semibold`>{request.status}</h1>
+    </div>
+  <div>
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Comprobantes</h3>
+
+    <div class="grid gap-4">
+      <!-- we separate the "expenses" content of the object -->
+        {request.expenses.map((request: any) => (
+            
+            <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
+              
+              <div class="col-span-2 space-y-2 content-wrapper">
+                <p class="font-bold text-lg break-words">#{request.receipt_id}</p>
+                <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
+                  
+                  <p><span class="font-semibold">Monto:</span> {request.amount} </p>
+                  <p><span class="font-semibold">Rubro:</span> {request.receipt_type_name}</p>
+                  <p><span class="font-semibold">Status:</span> {request.expense_status}</p>
+                </div>
+              </div>
+              
+              <div class="flex flex-col justify-center h-full gap-2">
+                <a >
+                  <Button color="primary"  variant="filled" size="medium" customSizeClass="w-full" >
+                     {/* This button should download the receipt */}
+                    Descargar Comprobante
+                  </Button>
+                  {/* Here is pending the functionality of downloading the receipt */}
+                </a>
+                
+              </div>
+            </div>
+            
+        ))}
+      </div>
+  </div>
+    
+  </div>
+</main>
