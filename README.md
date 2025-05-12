@@ -1,5 +1,11 @@
-# TC3005B.501-Frontend
+<div align="center">
 
+[![Contributors][contributors-shield]][contributors-url]
+[![Issues][issues-shield]][issues-url]
+
+</div>
+
+# TC3005B.501-Frontend
 Web Application of the travel management system portal developed during course TC3005B by group 501.
 
 ## Getting Started
@@ -74,3 +80,23 @@ export const getCookie = (key: keyof typeof mockCookies): string | UserRole => {
     return mockCookies[key];
 };
 ```
+
+### Development Stack
+
+- [![Astro][astro-badge]][astro-url] — The web framework for content-driven websites.
+- [![TypeScript][typescript-badge]][typescript-url] — Strongly typed JavaScript for scalable applications.
+- [![Tailwind CSS][tailwind-badge]][tailwind-url] — A utility-first CSS framework for building custom designs efficiently.
+- [![React][react-badge]][react-url] — A JavaScript library for building user interfaces.
+
+[astro-url]: https://astro.build/
+[typescript-url]: https://www.typescriptlang.org/
+[tailwind-url]: https://tailwindcss.com/
+[react-url]: https://reactjs.org/
+[astro-badge]: https://img.shields.io/badge/Astro-fff?style=for-the-badge&logo=astro&logoColor=bd303a&color=352563
+[typescript-badge]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white&color=blue
+[tailwind-badge]: https://img.shields.io/badge/Tailwind-ffffff?style=for-the-badge&logo=tailwindcss&logoColor=38bdf8
+[react-badge]: https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black&color=blue
+[contributors-shield]: https://img.shields.io/github/contributors/101-Coconsulting/TC3005B.501-Frontend.svg?style=for-the-badge
+[contributors-url]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/graphs/contributors
+[issues-shield]: https://img.shields.io/github/issues/101-Coconsulting/TC3005B.501-Frontend.svg?style=for-the-badge
+[issues-url]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/issues
