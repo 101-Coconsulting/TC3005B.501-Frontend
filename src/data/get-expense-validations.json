@@ -1,0 +1,18 @@
+{
+    "request_id": 1023,
+    "status": "Pending",
+    "expenses": [
+        {
+            "receipt_id": 1,
+            "receipt_type_name": "Airfare",
+            "amount": 1245.50,
+            "expense_status": "Pending"
+        },
+        {
+            "receipt_id": 2,
+            "receipt_type_name": "Hotel",
+            "amount": 12.50,
+            "expense_status": "Pending"
+        }
+    ]
+}
