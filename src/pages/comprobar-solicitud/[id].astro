@@ -1,0 +1,43 @@
+---
+/**
+ * Author: Gabriel Muñoz
+ * 
+ * Description: This page allows the applicant to generate an expense report for a specific travel request.
+ */
+
+import MainLayout from "@layouts/MainLayout.astro";
+import ComprobacionGastos from "@pages/comprobacion-gastos.astro";
+
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+// Auth data
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+// Fetch request data (simulate from JSON)
+import { duplicateJson } from "@utils/duplicateJson";
+import getuserrequest from '@data/get-user-requests.json';
+
+export async function getStaticPaths() {
+  const requests = duplicateJson(getuserrequest, 5);
+  return requests.map((req: any) => ({
+    params: { id: req.request_id.toString() },
+  }));
+}
+
+// Extract request ID
+const { id } = Astro.params;
+const requests = duplicateJson(getuserrequest, 5);
+const request = requests.find((req: any) => req.request_id.toString() === id);
+
+if (!request) {
+  throw new Error(`No request found with ID ${id}`);
+}
+---
+
+<MainLayout title={`Comprobar Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
+  <ComprobacionGastos request={request} />
+</MainLayout>
