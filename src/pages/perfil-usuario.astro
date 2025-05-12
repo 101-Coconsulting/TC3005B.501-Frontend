@@ -1,5 +1,4 @@
 ---
-
 /**
  * Author: Michael Devlyn 
  * 
@@ -15,25 +14,11 @@ import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
 //FETCH DEMO DATA
-const userDataRaw = await import.meta.glob('@data/get-user-data.json', { eager: true });
-const userData = Object.values(userDataRaw)[0] as {
-  user_id: number;
-  user_name: string;
-  email: string;
-  phone_number: string;
-  workstation: string;
-  department_name: string;
-  costs_center: string;
-  creation_date: string;
-  role_name: string;
-};
+import userdata from '@data/get-user-data.json';
 
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
-
-// Use the imported user data
-const userProfile = userData;
 ---
 
 <MainLayout title="Perfil de Usuario" data={{ userName, buttonLabel }} >
@@ -42,12 +27,12 @@ const userProfile = userData;
         <div class="mb-8 flex items-center justify-between">
             <Typography variant="header">Información General</Typography>
             <a href="/dashboard">
-            <Button variant="filled" color="primary">Regresar al Dashboard</Button>
+                <Button variant="filled" color="secondary">Regresar al Dashboard</Button>
             </a>
         </div>
 
         <!-- Personal Information Section -->
-        <div class="mb-8 bg-[#f9f9f9] rounded-lg p-6 shadow-sm">
+        <div class="mb-8 bg-gray-100 rounded-lg p-6 shadow-sm">
             <div class="flex justify-between mb-4">
                 <Typography variant="subHeader">Información Personal</Typography>
                 <Button variant="empty" color="primary">Editar</Button>
@@ -57,42 +42,34 @@ const userProfile = userData;
                 <div>
                     <div class="mb-4">
                         <Typography variant="paragraph" size="small" class="text-neutral-500">ID Empleado</Typography>
-                        <Typography variant="paragraph">{userProfile.user_id}</Typography>
+                        <Typography variant="paragraph">{userdata.user_id}</Typography>
                     </div>
                     <div class="mb-4">
                         <Typography variant="paragraph" size="small" class="text-neutral-500">Nombre</Typography>
-                        <Typography variant="paragraph">{userProfile.user_name}</Typography>
-                    </div>
-                    <div class="mb-4">
-                        <Typography variant="paragraph" size="small" class="text-neutral-500">Número</Typography>
-                        <Typography variant="paragraph">{userProfile.phone_number}</Typography>
+                        <Typography variant="paragraph">{userdata.user_name}</Typography>
                     </div>
                     <div class="mb-4">
                         <Typography variant="paragraph" size="small" class="text-neutral-500">Correo Electrónico</Typography>
-                        <Typography variant="paragraph">{userProfile.email}</Typography>
+                        <Typography variant="paragraph">{userdata.email}</Typography>
                     </div>
                     <div class="mb-4">
-                        <Typography variant="paragraph" size="small" class="text-neutral-500">Contraseña</Typography>
-                        <Typography variant="paragraph">***********</Typography>
-                    </div>
-                    <div class="mb-4">
-                        <Typography variant="paragraph" size="small" class="text-neutral-500">Creación de cuenta</Typography>
-                        <Typography variant="paragraph">{new Date(userProfile.creation_date).toLocaleDateString()}</Typography>
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Número</Typography>
+                        <Typography variant="paragraph">{userdata.phone_number}</Typography>
                     </div>
                 </div>
 
                 <div>
                     <div class="mb-4">
-                        <Typography variant="paragraph" size="small" class="text-neutral-500">Estación de trabajo</Typography>
-                        <Typography variant="paragraph">{userProfile.workstation}</Typography>
-                    </div>
-                    <div class="mb-4">
-                        <Typography variant="paragraph" size="small" class="text-neutral-500">Rol</Typography>
-                        <Typography variant="paragraph">{userProfile.role_name}</Typography>
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Creación de cuenta</Typography>
+                        <Typography variant="paragraph">{new Date(userdata.creation_date).toLocaleDateString()}</Typography>
                     </div>
                     <div class="mb-4">
                         <Typography variant="paragraph" size="small" class="text-neutral-500">Centro de Costos</Typography>
-                        <Typography variant="paragraph">{userProfile.costs_center}</Typography>
+                        <Typography variant="paragraph">{userdata.costs_center}</Typography>
+                    </div>
+                    <div class="mb-4">
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Rol</Typography>
+                        <Typography variant="paragraph">{userdata.role_name}</Typography>
                     </div>
                 </div>
             </div>
@@ -100,13 +77,13 @@ const userProfile = userData;
 
         <!-- Position Information Section -->
         <div class="mb-6">
-            <Typography variant="header">Posición en la Empresa</Typography>
+            <Typography variant="header">Área dentro de la Empresa</Typography>
         </div>
 
         <!-- Position Information Section -->
-        <div class="mb-8 bg-[#f9f9f9] rounded-lg p-6 shadow-sm">
+        <div class="mb-8 bg-gray-100 rounded-lg p-6 shadow-sm">
             <div class="flex justify-between mb-4">
-                <Typography variant="subHeader">Puesto</Typography>
+                <Typography variant="subHeader">Información de Empleado</Typography>
                 <Button variant="empty" color="primary">Editar</Button>
             </div>
 
@@ -114,11 +91,11 @@ const userProfile = userData;
                 <div>
                     <div class="mb-4">
                         <Typography variant="paragraph" size="small" class="text-neutral-500">Departamento</Typography>
-                        <Typography variant="paragraph">{userProfile.department_name}</Typography>
+                        <Typography variant="paragraph">{userdata.department_name}</Typography>
                     </div>
                     <div class="mb-4">
-                        <Typography variant="paragraph" size="small" class="text-neutral-500">Centro de Costos</Typography>
-                        <Typography variant="paragraph">{userProfile.costs_center}</Typography>
+                        <Typography variant="paragraph" size="small" class="text-neutral-500">Estación de trabajo</Typography>
+                        <Typography variant="paragraph">{userdata.workstation}</Typography>
                     </div>
                 </div>
             </div>
