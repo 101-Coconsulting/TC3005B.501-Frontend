@@ -1,0 +1,32 @@
+---
+/**
+ * Author: Diego Ortega Fernández
+ */
+
+interface Props {
+  title?: string;
+  message?: string;
+  buttonText?: string;
+  buttonLink?: string;
+}
+
+const {
+  title = "¡Oops, no hay solicitudes pendientes!",
+  message = "Actualmente no hay información disponible para mostrar.",
+  buttonText = "Regresar al dashboard",
+  buttonLink = "/dashboard",
+} = Astro.props;
+---
+
+<div class="flex flex-grow h-[calc(100vh-175px)] items-center justify-center bg-gray-50 px-4 py-12">
+  <div class="max-w-lg w-full bg-white rounded-2xl shadow-lg p-10 text-center">
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-4">{title}</h1>
+    <p class="text-base text-gray-600 mb-6">{message}</p>
+    <a
+      href={buttonLink}
+      class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-300"
+    >
+      {buttonText}
+    </a>
+  </div>
+</div>

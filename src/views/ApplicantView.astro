@@ -9,7 +9,8 @@ import MaterialIcon from "@/components/MaterialIcon.astro";
 import Button from "@components/Button.astro";
 import TextHeader from "@components/TextHeader.astro";
 
-const { userName, requests } = Astro.props;
+import requests from '@data/get-user-requests-2.json';
+var { userName } = Astro.props;
 
 const statusColors: Record<string, string> = {
   "En Proceso": "text-blue-500",
@@ -89,7 +90,7 @@ const statusColors: Record<string, string> = {
       )}
     </section>
 
-    <a href="/solicitud" class="mt-8 flex justify-center">
+    <a href="/crear-solicitud" class="mt-8 flex justify-center">
       <Button variant="filled" color="secondary" size="custom" customSizeClass="w-128 py-3 text-base font-bold">
         SOLICITA UN NUEVO VIAJE
       </Button>

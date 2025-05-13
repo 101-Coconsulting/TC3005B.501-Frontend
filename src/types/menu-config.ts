@@ -7,7 +7,7 @@ export interface MenuItem {
 export const SIDEBAR_CONFIG: Record<string, MenuItem[]> = {
   Applicant: [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
-    { label: 'SOLICITUD DE VIAJE', route: '/solicitud', icon: 'flight' },
+    { label: 'SOLICITUD DE VIAJE', route: '/crear-solicitud', icon: 'flight' },
     { label: 'COMPROBAR GASTOS', route: '/comprobante', icon: 'payments' },
     { label: 'HISTORIAL DE VIAJE', route: '/historial', icon: 'inventory' }
   ],
