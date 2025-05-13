@@ -38,7 +38,7 @@ const statusColors: Record<string, string> = {
             const isEditable = request.status === "En Proceso";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
-                <a href={`/detalle/${request.request_id}`} class="col-span-2">
+                <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
                   <div class="col-span-2 space-y-2 content-wrapper">
                     <p class="font-bold text-lg break-words">#{request.request_id}</p>
                     <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
