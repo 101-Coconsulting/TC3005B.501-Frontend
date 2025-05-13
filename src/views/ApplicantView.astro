@@ -5,12 +5,18 @@
  * Description: This is the applicant view of the dashboard.
  **/
 
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import Button from "@components/Button.astro";
 import TextHeader from "@components/TextHeader.astro";
 
 import requests from '@data/get-user-requests-2.json';
 var { userName } = Astro.props;
 
+const statusColors: Record<string, string> = {
+  "En Proceso": "text-blue-500",
+  "Completado": "text-green-500",
+  "Cancelado": "text-red-500",
+};
 ---
 
 <div>
@@ -29,36 +35,49 @@ var { userName } = Astro.props;
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isApproved = request.status != 'En Proceso';
+            const isEditable = request.status === "En Proceso";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
                 <a href={`/detalle/${request.request_id}`} class="col-span-2">
-                <div class="col-span-2 space-y-2 content-wrapper">
-                  <p class="font-bold text-lg break-words">#{request.request_id}</p>
-                  <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
-                    <p><span class="font-semibold">Lugar:</span> {request.country_name}</p>
-                    <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
-                    <p>
-                      <span class="font-semibold">Estado:</span> 
-                      <span class={`ml-1 font-semibold ${isApproved ? 'text-success-400' : 'text-warning-400'}`}>
-                        {(request.status ? request.status.toUpperCase() : '')}
-                      </span>
-                    </p>
-                    <p><span class="font-semibold">Responsable:</span> Eduardo Porto Morales</p>
+                  <div class="col-span-2 space-y-2 content-wrapper">
+                    <p class="font-bold text-lg break-words">#{request.request_id}</p>
+                    <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
+                      <p><span class="font-semibold">Lugar:</span> {request.country_name}</p>
+                      <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
+                      <p>
+                        <span class="font-semibold">Estado:</span> 
+                        <span class={`ml-1 font-semibold ${statusColors[request.status] || "text-gray-500"}`}>
+                          {(request.status ? request.status.toUpperCase() : '')}
+                        </span>
+                      </p>
+                      <p><span class="font-semibold">Responsable:</span> Eduardo Porto Morales</p>
+                    </div>
                   </div>
-                </div>
                 </a>
-                <div class="flex flex-col justify-center h-full gap-2">
-                  <a href={`/editar-solicitud/${request.request_id}`}>
-                    <Button color="primary" disabled={isApproved} variant="filled" size="medium" customSizeClass="w-full">
-                      EDITAR
-                    </Button>
-                  </a>
-                  <a href={`/comprobar/${request.request_id}`}>
-                    <Button color="primary" disabled={!isApproved} variant="filled" size="medium" customSizeClass="w-full">
-                      COMPROBAR
-                    </Button>
-                  </a>
+                <div class="grid grid-cols-[1fr_auto] gap-4 items-center">
+                  <div class="flex flex-col gap-2">
+                    <a href={`/editar/${request.request_id}`}>
+                      <Button color="primary" disabled={!isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                        EDITAR
+                      </Button>
+                    </a>
+                    <a href={`/comprobar/${request.request_id}`}>
+                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                        COMPROBAR
+                      </Button>
+                    </a>
+                  </div>
+                  <div class="flex justify-end items-center h-full">
+                    <a href={`/cancelar-solicitud/${request.request_id}`} class={isEditable ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'}>
+                      <span class="flex items-center justify-center w-6 h-6">
+                        <MaterialIcon
+                          icon="delete"
+                          color="black"
+                          style="cursor: pointer"
+                        />
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
             );
