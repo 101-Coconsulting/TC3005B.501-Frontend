@@ -8,6 +8,7 @@
 
 import Button from '@components/Button.astro';
 import TextHeader from '@components/TextHeader.astro';
+import RequestActions from '@components/RequestActions.tsx';
 
 const { request } = Astro.props;
 ---
@@ -51,7 +52,7 @@ const { request } = Astro.props;
         </div>
       </section>
       <div class="flex justify-end gap-4">
-        <Button
+        <!-- <Button
           variant="filled"
           color="success"
           class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
@@ -64,7 +65,13 @@ const { request } = Astro.props;
           class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
         >
           Rechazar
-        </Button>
+        </Button> -->
+
+        <RequestActions
+          client:only="react"
+          request_id={request.request_id}
+          request_status_id={request.request_status_id} 
+        />
       </div>
     </div>
   </div>
