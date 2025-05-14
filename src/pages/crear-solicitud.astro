@@ -11,6 +11,7 @@ import Button from '@components/Button.astro';
 import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
 import Success from '@components/Success.astro';
+import ModalWrapper from '@components/ModalWrapper.tsx';
 
 import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
@@ -197,33 +198,40 @@ import gcc from '@data/get-cc.json';
 
         <!-- Botones -->
         <div class="flex justify-end gap-4 pt-4">
-          <Button 
+          <ModalWrapper
+            client:only="react" 
+            title="limpiar formulario"
+            message="¿Está seguro de que desea limpiar el formulario?"
             variant="border" 
-            color="secondary" 
-            type="reset"
-            class="px-6"
+            button_type="secondary" 
+            modal_type="confirm"
           >
             Limpiar
-          </Button>
-          <Button 
+          </ModalWrapper>
+          <ModalWrapper 
+            client:only="react"
+            title="Confirmar Envío"
+            message="¿Está seguro de que desea enviar la solicitud?"
             variant="filled" 
-            color="primary" 
-            type="submit"
-            class="px-6"
+            button_type="primary" 
+            modal_type="confirm"
+            
           >
             Enviar
-          </Button>
+          </ModalWrapper>
         </div>
       </form>
       <a href="/dashboard" class="mt-8 flex justify-end">
-        <Button 
+        <ModalWrapper 
+          title="Guardar Cambios"
+          message="¿Está seguro de que desea guardar los cambios?"
           variant="filled" 
-          color="primary" 
-          type="submit"
+          button_type="primary" 
+          modal_type="confirm"
           class="px-6"
         >
           Guardar Cambios
-        </Button>
+        </ModalWrapper>
       </a>
     </main>
   </div>
