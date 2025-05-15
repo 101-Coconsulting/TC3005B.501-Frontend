@@ -1,0 +1,18 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import ComprobacionesView from "@views/ApplicantChecks.astro";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+import { duplicateJson } from "@utils/duplicateJson";
+
+import getuserrequests from "@data/get-user-requests.json";
+
+const userName = getCookie("username");
+const role = getCookie("role");
+const buttonLabel = roleLabels[role];
+const requests = duplicateJson(getuserrequests, 5);
+---
+
+<MainLayout title="Comprobaciones" data={{ userName, buttonLabel, role }} showMessages={false}>
+  <ComprobacionesView userName={userName} requests={requests} />
+</MainLayout>

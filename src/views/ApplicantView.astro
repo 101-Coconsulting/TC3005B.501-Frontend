@@ -36,7 +36,7 @@ const statusColors: Record<string, string> = {
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isEditable = request.status === "En Proceso";
+            const isEditable = request.status === "Comprobación gastos del viaje";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
                 <a href={`/detalle/${request.request_id}`} class="col-span-2">
@@ -58,12 +58,12 @@ const statusColors: Record<string, string> = {
                 <div class="grid grid-cols-[1fr_auto] gap-4 items-center">
                   <div class="flex flex-col gap-2">
                     <a href={`/editar/${request.request_id}`}>
-                      <Button color="primary" disabled={!isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
                         EDITAR
                       </Button>
                     </a>
                     <a href={`/comprobar/${request.request_id}`}>
-                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                      <Button color="primary" disabled={!isEditable} variant="filled" size="medium" customSizeClass="w-full">
                         COMPROBAR
                       </Button>
                     </a>

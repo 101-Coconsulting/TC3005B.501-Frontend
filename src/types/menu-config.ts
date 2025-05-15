@@ -8,7 +8,7 @@ export const SIDEBAR_CONFIG: Record<string, MenuItem[]> = {
   Applicant: [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
     { label: 'SOLICITUD DE VIAJE', route: '/crear-solicitud', icon: 'flight' },
-    { label: 'COMPROBAR GASTOS', route: '/comprobante', icon: 'payments' },
+    { label: 'COMPROBAR GASTOS', route: '/comprobacion', icon: 'payments' },
     { label: 'HISTORIAL DE VIAJE', route: '/historial', icon: 'inventory' }
   ],
   Authorizer: [
