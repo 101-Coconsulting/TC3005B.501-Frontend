@@ -34,7 +34,7 @@ const filteredRequests = requests.filter(
       {filteredRequests.length > 0 ? (
         <div class="grid gap-4">
           {filteredRequests.map((request: any) => (
-            <a href={`/detalle/${request.request_id}`} class="col-span-2">
+            <a href={`/lista-comprobantes/${request.request_id}`} class="block hover:bg-gray-100 p-4 rounded">
             <div class="col-span-2 space-y-2 content-wrapper">
               <div class="grid grid-cols-[1fr] gap-4">
                 <div class="space-y-2">

@@ -1,0 +1,61 @@
+---
+export const prerender = false;
+import MainLayout from "@layouts/MainLayout.astro";
+import TextHeader from "@components/TextHeader.astro";
+import Button from "@components/Button.astro";
+import { getCookie } from "@data/cookies";
+
+import allReceipts from "@data/receipts.json"; // JSON con todos los comprobantes
+
+const userName = getCookie("username");
+const role = getCookie("role");
+const buttonLabel = role; // Puedes usar roleLabels[role] si ya lo tienes
+
+const { id } = Astro.params;
+const receipts = allReceipts.filter((r: any) => r.request_id === id);
+---
+
+<MainLayout title={`Comprobantes de ${id}`} data={{ userName, role, buttonLabel }}>
+  <main>
+    <div class="flex justify-between items-center mb-4">
+      <TextHeader
+        title={`COMPROBANTES DE #${id}`}
+        subtitle="Aquí puedes ver o subir tus comprobantes de gasto"
+      />
+      <a href={`/comprobar-solicitud/${id}`}>
+        <Button variant="filled" color="primary">
+          Subir Comprobante
+        </Button>
+      </a>
+    </div>
+
+    {receipts.length > 0 ? (
+      <div class="grid gap-4">
+        {receipts.map((receipt: any) => (
+          <div class="p-4 border rounded bg-gray-50">
+            <p><strong>Fecha:</strong> {receipt.date}</p>
+            <p><strong>Concepto:</strong> {receipt.description}</p>
+            <p><strong>Monto:</strong> ${receipt.amount}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="p-6 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 font-semibold rounded">
+        Aún no has subido comprobantes.
+      </div>
+    )}
+  </main>
+
+  ...
+</main>
+
+<a
+  href={`/enviar-comprobantes/${id}`} 
+  class="fixed bottom-6 right-6 z-50"
+>
+  <Button variant="filled" color="primary" size="medium">
+    Enviar
+  </Button>
+</a>
+
+</MainLayout>
