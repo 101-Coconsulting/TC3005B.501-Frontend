@@ -8,6 +8,7 @@
 import MaterialIcon from "@/components/MaterialIcon.astro";
 import Button from "@components/Button.astro";
 import TextHeader from "@components/TextHeader.astro";
+import ModalWrapper from "@components/ModalWrapper.tsx";
 
 import requests from '@data/get-user-requests-2.json';
 var { userName } = Astro.props;
@@ -68,15 +69,28 @@ const statusColors: Record<string, string> = {
                     </a>
                   </div>
                   <div class="flex justify-end items-center h-full">
-                    <a href={`/cancelar-solicitud/${request.request_id}`} class={isEditable ? '' : 'pointer-events-none opacity-50 cursor-not-allowed'}>
-                      <span class="flex items-center justify-center w-6 h-6">
-                        <MaterialIcon
-                          icon="delete"
-                          color="black"
-                          style="cursor: pointer"
-                        />
+                    <span class="flex items-center justify-center w-6 h-6">
+                        
+                        <ModalWrapper
+                          client:only="react"
+                          title="Borrar Solicitud"
+                          message="¿Estás seguro de que deseas borrar esta solicitud?"
+                          button_type="primary"
+                          variant="empty"
+                          modal_type="confirm"
+                          >
+                            <div>
+                            <MaterialIcon
+                              icon="delete"
+                              color="black"
+                              style="cursor: pointer"
+                            />
+                            </div>
+                        </ModalWrapper>
+
                       </span>
-                    </a>
+                    
+                    
                   </div>
                 </div>
               </div>

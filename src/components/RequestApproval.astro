@@ -8,6 +8,7 @@
 
 import Button from '@components/Button.astro';
 import TextHeader from '@components/TextHeader.astro';
+import ModalWrapper from '@components/ModalWrapper.tsx';
 
 const { request } = Astro.props;
 ---
@@ -51,7 +52,7 @@ const { request } = Astro.props;
         </div>
       </section>
       <div class="flex justify-end gap-4">
-        <Button
+        <!-- <Button
           variant="filled"
           color="success"
           class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
@@ -64,7 +65,27 @@ const { request } = Astro.props;
           class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
         >
           Rechazar
-        </Button>
+        </Button> -->
+
+        <ModalWrapper
+          client:only="react"
+          title="Confirmar autorización",
+          
+          message="¿Está seguro de que desea autorizar esta solicitud?",
+          button_type="success",
+          modal_type="success",
+          onConfirm={() => console.log("Confirmado")}> 
+          Aceptar
+        </ModalWrapper>
+        <ModalWrapper
+          client:only="react"
+          title="Rechazar Autorización",
+          message="¿Está seguro de que desea rechazar esta solicitud?",
+          button_type="warning",
+          modal_type="warning",
+        >
+        Rechazar
+        </ModalWrapper>
       </div>
     </div>
   </div>
