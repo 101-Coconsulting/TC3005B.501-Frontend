@@ -1,0 +1,36 @@
+---
+/**
+ * Author: Gabriel Muñoz
+ * Description: Página para generar comprobación de gastos de una solicitud específica
+ */
+
+// 🚫 Desactiva el prerender para permitir rutas dinámicas
+export const prerender = false;
+
+import MainLayout from "@layouts/MainLayout.astro";
+import ComprobacionGastos from "@pages/comprobacion-gastos.astro";
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+import getuserrequest from "@data/get-user-requests-2.json";
+
+// Datos del usuario
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+// Obtener el ID desde la URL
+const { id } = Astro.params;
+
+// Buscar la solicitud que coincide con el ID
+const request = getuserrequest.find((req: any) => req?.request_id?.toString() === id);
+
+if (!request) {
+  throw new Error(`No se encontró una solicitud con el ID ${id}`);
+}
+---
+
+<MainLayout title={`Comprobar Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }}>
+  <ComprobacionGastos request={request} />
+</MainLayout>
