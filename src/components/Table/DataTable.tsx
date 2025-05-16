@@ -11,9 +11,9 @@ import { getCookie } from "@data/cookies";
 const role: UserRole = getCookie("role") as UserRole;
 
 const roleDictionary = {
-  Authorizer: "autorizaciones",
-  AccountsPayable: "comprobaciones",
-  TravelAgency: "atenciones",
+  Authorizer: "autorizar-solicitud",
+  AccountsPayable: "cotizar-solicitud",
+  TravelAgency: "atender-solicitud",
 } as const;
 
 type ValidRole = keyof typeof roleDictionary;
