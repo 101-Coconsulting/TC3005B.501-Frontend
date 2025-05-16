@@ -7,9 +7,10 @@ export interface MenuItem {
 export const SIDEBAR_CONFIG: Record<string, MenuItem[]> = {
   Applicant: [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
-    { label: 'SOLICITUD DE VIAJE', route: '/crear-solicitud', icon: 'flight' },
-    { label: 'COMPROBAR GASTOS', route: '/comprobante', icon: 'payments' },
-    { label: 'HISTORIAL DE VIAJE', route: '/historial', icon: 'inventory' }
+    { label: 'CREAR SOLICITUD', route: '/crear-solicitud', icon: 'flight' },
+    { label: 'DRAFT SOLICITUDES', route: '/solicitudes-draft', icon: 'draft' },
+    { label: 'COMPROBAR GASTOS', route: '/comprobar-gastos', icon: 'payments' },
+    { label: 'HISTORIAL DE VIAJES', route: '/historial', icon: 'inventory' }
   ],
   Authorizer: [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
@@ -17,6 +18,7 @@ export const SIDEBAR_CONFIG: Record<string, MenuItem[]> = {
   ],  
   AccountsPayable: [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
+    { label: 'COTIZACIONES', route: '/cotizaciones', icon: 'paid' },
     { label: 'COMPROBACIONES', route: '/comprobaciones', icon: 'receipt' }
   ],
   TravelAgency: [
