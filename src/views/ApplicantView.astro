@@ -57,40 +57,36 @@ const statusColors: Record<string, string> = {
                 </a>
                 <div class="grid grid-cols-[1fr_auto] gap-4 items-center">
                   <div class="flex flex-col gap-2">
-                    <a href={`/editar/${request.request_id}`}>
+                    <a href={`/editar-solicitud/${request.request_id}`}>
                       <Button color="primary" disabled={!isEditable} variant="filled" size="medium" customSizeClass="w-full">
                         EDITAR
                       </Button>
                     </a>
-                    <a href={`/comprobar/${request.request_id}`}>
+                    <a href={`/comprobar-solicitud/${request.request_id}`}>
                       <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
                         COMPROBAR
                       </Button>
                     </a>
                   </div>
                   <div class="flex justify-end items-center h-full">
-                    <span class="flex items-center justify-center w-6 h-6">
-                        
-                        <ModalWrapper
-                          client:only="react"
-                          title="Borrar Solicitud"
-                          message="¿Estás seguro de que deseas borrar esta solicitud?"
-                          button_type="primary"
-                          variant="empty"
-                          modal_type="confirm"
-                          >
-                            <div>
+                    <span class="flex items-center justify-center w-6 h-6">                        
+                      <ModalWrapper
+                        client:only="react"
+                        title="Borrar Solicitud"
+                        message="¿Estás seguro de que deseas borrar esta solicitud?"
+                        button_type="primary"
+                        variant="empty"
+                        modal_type="confirm"
+                        >
+                          <div>
                             <MaterialIcon
                               icon="delete"
                               color="black"
                               style="cursor: pointer"
                             />
-                            </div>
-                        </ModalWrapper>
-
-                      </span>
-                    
-                    
+                          </div>
+                      </ModalWrapper>
+                    </span>
                   </div>
                 </div>
               </div>
