@@ -5,14 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]: Request Follow-Up
+## [Unreleased] - Post-Trip Flow
 
 ### Added
 
-- Visualization of Inactive Requests
-- Visualization of Active Requests
-- Modification of Active Requests
-- Request Cancelation
+- Expenses Justification
+- Expense Approval
+- Expense Validation
+
+## [0.2.0]: 2025-05-16: Request Follow-Up
+
+### Added
+
+- Applicant visualization of inactive requests (history of past trips).
+- Applicant ability to edit active requests before approval.
+- Applicant cancellation of active requests before they are approved.
+- New Applicant draft requests page with continuous editing support.
+- Pages for all authorization, attention, and reimbursement with pagination by role.
+
+### Changed
+
+- Confirmation modals added for critical actions.
+- Adjusted href routes in navigation buttons to fix navigation issues.
 
 ## [0.1.0] - 2025-05-05: Pre-Trip Flow
 
@@ -32,5 +46,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Travel Agency dashboard listing all pending travel arrangement requests.
 - Travel Agency detailed request view with options to quote hotel and airfare costs, and mark requests as attended.
 
-[unreleased]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/compare/v0.1.0...HEAD  
+[unreleased]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/101-Coconsulting/TC3005B.501-Frontend/releases/tag/v0.1.0

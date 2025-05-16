@@ -17,10 +17,10 @@ import {getButtonClasses} from "@type/button";
 
 interface ModalWrapperProps {
   title: string;
-  text: string; // Texto del botón
   message: string;
   button_type: "success" | "warning" | "primary" | "secondary";
   modal_type: "confirm" | "warning" | "error" | "success";
+  variant?: "filled" | "border" | "empty";
   show?: boolean;
   buttonClassName?: string;
   onConfirm?: () => void;
@@ -37,7 +37,6 @@ const MODAL_BUTTONS = {
 
 export default function ModalWrapper({
   title,
-  text,
   message,
   button_type,
   modal_type,
