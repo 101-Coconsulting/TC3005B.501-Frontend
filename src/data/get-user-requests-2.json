@@ -1,23 +1,74 @@
 [
     {
-        "request_id": "A37452",
+        "request_id": "37452",
         "country_name": "Argentina",
         "beginning_date": "2025-02-15",
         "ending_date": "2025-03-20",
-        "status": "En Proceso"
+        "status": "Abierto"
     },
     {
-        "request_id": "B99221",
+        "request_id": "99221",
         "country_name": "España",
         "beginning_date": "2025-04-01",
         "ending_date": "2025-04-15",
-        "status": "Aprobado"
+        "status": "Primera Revisión"
     },
     {
-        "request_id": "C78812",
+        "request_id": "78812",
         "country_name": "Brasil",
         "beginning_date": "2025-05-10",
         "ending_date": "2025-05-20",
+        "status": "Segunda Revisión"
+    }
+    ,
+    {
+        "request_id": "12345",
+        "country_name": "Chile",
+        "beginning_date": "2025-06-01",
+        "ending_date": "2025-06-15",
+        "status": "Cotización del Viaje"
+    },
+    {
+        "request_id": "67890",
+        "country_name": "Colombia",
+        "beginning_date": "2025-07-01",
+        "ending_date": "2025-07-15",
+        "status": "Atención Agencia de Viajes"
+    },
+    {
+        "request_id": "54321",
+        "country_name": "Perú",
+        "beginning_date": "2025-08-01",
+        "ending_date": "2025-08-15",
+        "status": "Comprobación gastos del viaje'"
+    }
+    ,
+    {
+        "request_id": "98765",
+        "country_name": "Uruguay",
+        "beginning_date": "2025-09-01",
+        "ending_date": "2025-09-15",
+        "status": "Validación de comprobantes"
+    },
+    {
+        "request_id": "13579",
+        "country_name": "Paraguay",
+        "beginning_date": "2025-10-01",
+        "ending_date": "2025-10-15",
+        "status": "Finalizado"
+    },
+    {
+        "request_id": "24680",
+        "country_name": "Venezuela",
+        "beginning_date": "2025-11-01",
+        "ending_date": "2025-11-15",
+        "status": "Cancelado"
+    },
+    {
+        "request_id": "46394",
+        "country_name": "Venezuela",
+        "beginning_date": "2025-11-01",
+        "ending_date": "2025-11-15",
         "status": "Rechazado"
     }
 ]
