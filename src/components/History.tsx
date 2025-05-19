@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import Pagination from "@components/Pagination";
+import Pagination from "@/components/Table/Pagination";
 
 interface Props {
   data: any[];
@@ -42,7 +42,7 @@ export default function History({ data, itemsPerPage = 5 }: Props) {
 				{pageRequests.map((request) => (
 					<a
             key={request.request_id}
-						href={`/historial/${request.request_id}`}
+						href={`/detalles-solicitud/${request.request_id}`}
 						className="flex items-center justify-between max-w-4xl content-wrapper"
 					>
 						<div className="flex flex-col gap-1">
