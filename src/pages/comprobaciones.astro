@@ -1,0 +1,38 @@
+---
+/**
+ * Author: Diego Ortega Fernández
+ *
+ **/
+import MainLayout from "@layouts/MainLayout.astro";
+import TextHeader from "@components/TextHeader.astro";
+import AuthRequestsList from "@/components/RequestsLists/AuthRequestsList";
+import TableFallback from "@/components/Table/TableFallback.astro";
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+//FETCH DEMO DATA
+import { duplicateJson } from "@utils/duplicateJson";
+import getuserrequest from '@data/get-user-request.json';
+const requests = duplicateJson(getuserrequest, 42);
+---
+
+<MainLayout title="Comprobaciones pendientes" data={{ userName, buttonLabel, role }}>
+  <div>
+    {requests && requests.length === 0 ? (
+      <TableFallback />
+    ) : (
+      <TextHeader
+        title={"COMPROBACIONES DE " + userName.toUpperCase()}
+        subtitle="Aquí puedes ver las solicitudes pendientes de comprobar"
+      />
+      <AuthRequestsList
+        client:visible
+        data={requests}
+      />
+    )}
+    </div>
+  </div>
+</MainLayout>
