@@ -5,7 +5,7 @@
 **/
 
 import MaterialIcon from "@/components/MaterialIcon.astro";
-import Button from "@components/Button.astro";
+import ModalWrapper from "@components/ModalWrapper.tsx";
 import TextHeader from "@components/TextHeader.astro";
 
 import requests from '@data/get-user-requests-2.json';
@@ -42,15 +42,25 @@ var { userName } = Astro.props;
                   </div>
                 </a>
                 <div class="flex justify-end items-center h-full p-2">
-                <a href={`/cancelar-solicitud/${request.request_id}`}>
-                    <span class="flex items-center justify-center w-6 h-6">
-                    <MaterialIcon
-                        icon="delete"
-                        color="black"
-                        style="cursor: pointer"
-                    />
-                    </span>
-                </a>
+                  <span class="flex items-center justify-center w-6 h-6">                        
+                    <ModalWrapper
+                      client:only="react"
+                      title="Borrar Solicitud"
+                      message="¿Estás seguro de que deseas borrar esta solicitud?"
+                      button_type="primary"
+                      variant="empty"
+                      modal_type="confirm"
+                      text="Borrar"
+                      >
+                        <div>
+                          <MaterialIcon
+                            icon="delete"
+                            color="black"
+                            style="cursor: pointer"
+                          />
+                        </div>
+                    </ModalWrapper>
+                  </span>
                 </div>
               </div>
             );
