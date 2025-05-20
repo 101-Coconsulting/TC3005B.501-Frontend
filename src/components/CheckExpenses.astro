@@ -6,8 +6,7 @@
 
 import TextHeader from "@components/TextHeader.astro";
 
-import requests from '@data/get-expense-validations-2.json';
-var { userName } = Astro.props;
+var { userName, requests } = Astro.props;
 
 function getVerificationStats(request: any) {
   const total = request.verifications?.length || 0;
@@ -34,7 +33,7 @@ function getVerificationStats(request: any) {
 
             return (
               <div class="grid grid-cols-[1fr_auto] items-center rounded-lg">
-                <a href={`/ver-comprobaciones/${request.request_id}`} class="block w-full">
+                <a href={`/comprobar-solicitud/${request.request_id}`} class="block w-full">
                   <div class="space-y-2 content-wrapper">
                     <div class="flex items-center justify-between">
                       <p class="font-bold text-lg break-words">#{request.request_id}</p>
