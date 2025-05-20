@@ -18,7 +18,7 @@ const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
 const { id } = Astro.params;
-const request = allRequests.find((r: any) => r.request_id === id);
+const request = allRequests.request_id === id ? allRequests : null;
 ---
 
 <MainLayout title="Crear Recibo" data={{ userName, buttonLabel, role }}>

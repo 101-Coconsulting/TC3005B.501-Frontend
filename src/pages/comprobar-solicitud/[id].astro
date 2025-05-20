@@ -18,7 +18,9 @@ const role = getCookie("role");
 const buttonLabel = role;
 
 const { id } = Astro.params;
-const request = allRequests.find((r: any) => r.request_id === id);
+const request = Array.isArray(allRequests)
+  ? allRequests.find((r: any) => r.request_id === id)
+  : (allRequests.request_id === id ? allRequests : null);
 ---
 
 <MainLayout title={`Comprobantes de la solicitud #${id}`} data={{ userName, role, buttonLabel }}>
