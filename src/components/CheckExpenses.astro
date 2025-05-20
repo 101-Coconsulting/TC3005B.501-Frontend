@@ -1,0 +1,90 @@
+---
+/**
+* Authors: Eduardo Porto Morales
+* Description: Shows pending expense verifications with visual status segmentation.
+**/
+
+import TextHeader from "@components/TextHeader.astro";
+
+import requests from '@data/get-expense-validations-2.json';
+var { userName } = Astro.props;
+
+function getVerificationStats(request: any) {
+  const total = request.verifications?.length || 0;
+  const accepted = request.verifications?.filter((v: any) => v.status === 'ACEPTADA').length || 0;
+  const rejected = request.verifications?.filter((v: any) => v.status === 'RECHAZADA').length || 0;
+  const pending = total - accepted - rejected;
+  return { total, accepted, rejected, pending };
+}
+---
+
+<div>
+  <main>
+    <TextHeader
+      title={`COMPROBACIONES PENDIENTES DE ${userName.toUpperCase()}`}
+      subtitle="Aquí puedes conocer el estado de solicitudes en proceso de comprobación"
+    />
+
+    <section class="bg-white p-6 rounded-lg shadow w-full">
+      {requests.length > 0 ? (
+        <div class="grid gap-8">
+          {requests.map((request: any) => {
+            const { total, accepted, rejected, pending } = getVerificationStats(request);
+            const percent = (count: number) => total ? (count / total) * 100 : 0;
+
+            return (
+              <div class="grid grid-cols-[1fr_auto] items-center rounded-lg">
+                <a href={`/recibos-subidos/${request.request_id}`} class="block w-full">
+                  <div class="space-y-2 content-wrapper">
+                    <div class="flex items-center justify-between">
+                      <p class="font-bold text-lg break-words">#{request.request_id}</p>
+                      <p class="text-sm text-gray-500">{accepted}/{total} ACEPTADAS</p>
+                    </div>
+
+                    <div class="w-full h-2 bg-gray-200 rounded overflow-hidden flex">
+                      <div class="bg-green-500 h-full" style={`width: ${percent(accepted)}%`} />
+                      <div class="bg-red-500 h-full" style={`width: ${percent(rejected)}%`} />
+                      <div class="bg-yellow-400 h-full" style={`width: ${percent(pending)}%`} />
+                    </div>
+
+                    <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
+                      <p><span class="font-semibold">Lugar:</span> {request.country_name}</p>
+                      <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
+                      <p>
+                        <span class="font-semibold">Estado:</span> 
+                        <span
+                          class={`ml-1 font-semibold ${
+                            pending > 0
+                              ? 'text-yellow-600'
+                              : accepted === total
+                                ? 'text-green-600'
+                                : rejected === total
+                                  ? 'text-red-600'
+                                  : 'text-blue-600'
+                          }`}
+                        >
+                          {pending > 0
+                            ? 'PENDIENTE'
+                            : accepted === total
+                              ? 'ACEPTADA'
+                              : rejected === total
+                                ? 'RECHAZADA'
+                                : 'MIXTA'}
+                        </span>
+                      </p>
+                      <p><span class="font-semibold">Responsable:</span> Eduardo Porto Morales</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="bg-gray-100 p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
+          NO TIENES COMPROBACIONES PENDIENTES
+        </div>
+      )}
+    </section>
+  </main>
+</div>

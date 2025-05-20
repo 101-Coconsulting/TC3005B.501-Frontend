@@ -1,4 +1,8 @@
 ---
+/**
+* Authors: Gabriel Muñoz Luna
+* Description: Muestra los recibos subidos a una solicitud especifica.
+**/
 export const prerender = false;
 
 import MainLayout from "@layouts/MainLayout.astro";
@@ -24,7 +28,7 @@ const request = allRequests.find((r: any) => r.request_id === id);
         title={`Lista de comprobantes de la solicitud #${id}`}
         subtitle="Aquí puedes ver o subir tus comprobantes de gasto"
       />
-      <a href={`/comprobar-solicitud/${id}`}>
+      <a href={`/subir-comprobante/${id}`}>
         <AstroButton variant="filled" color="primary">
           Agregar 
         </AstroButton>
@@ -36,7 +40,6 @@ const request = allRequests.find((r: any) => r.request_id === id);
     </div>
   </main>
 
-  <!-- Botón React flotante en lugar del de Astro -->
   <div class="fixed bottom-6 right-6 z-50">
     <Button client:only="react" variant="filled" color="success" size="medium" onClick={() => window.location.href = "/dashboard"}>
       Mandar a validar

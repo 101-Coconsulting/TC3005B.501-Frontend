@@ -1,94 +1,26 @@
 ---
-import AstroButton from "@components/Button.astro";
+/**
+* Authors: Gabriel Muñoz Luna
+* Description: Muestra el formulario.
+**/
+export const prerender = false;
 
-const { request } = Astro.props;
+import MainLayout from "@layouts/MainLayout.astro";
+import ExpensesForm from "@components/ExpensesForm.astro";
+
+import { getCookie } from "@data/cookies";
+import allRequests from "@data/get-user-request.json";
+import type { UserRole } from "@type/roles";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+const { id } = Astro.params;
+const request = allRequests.find((r: any) => r.request_id === id);
 ---
 
-<section class="bg-white p-6 rounded-lg shadow-md space-y-6">
-  <div class="flex items-center justify-between">
-    <h2 class="text-xl font-bold text-primary-500">Generar Comprobación de Gastos del viaje</h2>
-    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-mono">
-      #{request.request_id}
-    </span>
-  </div>
-
-  <p class="text-sm text-gray-600">
-    <strong>Destino:</strong> {request.country_name} &nbsp;&nbsp;
-    <strong>Fechas:</strong> {request.beginning_date} – {request.ending_date}
-  </p>
-
-  <form id="comprobacionForm" class="space-y-8">
-    <div>
-      <h3 class="text-base font-semibold mb-2 text-primary-400">Gastos a Comprobar</h3>
-      <div class="grid md:grid-cols-4 gap-4 mb-4">
-        <div>
-          <label class="text-sm font-medium">Concepto</label>
-          <select name="concepto" class="w-full border rounded-md px-3 py-2">
-            <option>Transporte</option>
-            <option>Hospedaje</option>
-            <option>Comida</option>
-            <option>Caseta</option>
-            <option>Autobús</option>
-            <option>Vuelo</option>
-            <option>Otro</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-sm font-medium">Forma de Pago</label>
-          <select name="formaPago" class="w-full border rounded-md px-3 py-2">
-            <option>Tarjeta Crédito</option>
-            <option>Efectivo</option>
-            <option>Transferencia</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-sm font-medium">Fecha del Gasto</label>
-          <input type="date" name="fechaGasto" class="w-full border rounded-md px-3 py-2" />
-        </div>
-        <div>
-          <label class="text-sm font-medium">Monto</label>
-          <input type="text" name="monto" placeholder="Ej. 1000$" class="w-full border rounded-md px-3 py-2" />
-        </div>
-      </div>
-
-      <div class="mb-4">
-        <label class="text-sm font-medium">Motivo</label>
-        <textarea name="motivo" rows="3" class="w-full border rounded-md px-3 py-2"></textarea>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <label class="text-sm font-medium block mb-1">Subir archivo PDF</label>
-          <input
-            type="file"
-            name={`archivoPDF-${request.request_id}`}
-            accept=".pdf"
-            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-secondary-100 file:text-primary-500 hover:file:bg-secondary-200"
-          />
-        </div>
-        <div>
-          <label class="text-sm font-medium block mb-1">Subir archivo XML</label>
-          <input
-            type="file"
-            name={`archivoXML-${request.request_id}`}
-            accept=".xml"
-            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-secondary-100 file:text-primary-500 hover:file:bg-secondary-200"
-          />
-        </div>
-      </div>
-    </div>
-
-    <!-- Botones -->
-    <div class="flex justify-end gap-4 pt-4">
-      <a href={`/lista-comprobantes/${request.request_id}`}>
-        <AstroButton variant="border" color="warning" type="button">
-          Cancelar
-        </AstroButton>
-      </a>
-
-      <AstroButton variant="filled" color="primary" type="submit">
-        Enviar Comprobación
-      </AstroButton>
-    </div>
-  </form>
-</section>
+<MainLayout title="Crear Recibo" data={{ userName, buttonLabel, role }}>
+  <ExpensesForm request={request} />
+</MainLayout>

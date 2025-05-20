@@ -1,14 +1,11 @@
 ---
 /**
- * Authors: Gabriel Muñoz, José González, Eduardo Porto
- *
- * Description: This is the dashboard page for the application. 
- * It displays different content based on the user's role (Applicant or Authorizer).
- * 
- **/
+* Authors: Eduardo Porto Morales
+* Description: This page allows the user to view and manage their draft requests.
+**/
 
 import MainLayout from "@layouts/MainLayout.astro";
-import { roleViews } from "@views/role-views";
+import CheckExpenses from "@components/CheckExpenses.astro";
 import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
@@ -17,19 +14,15 @@ import { roleLabels } from "@config/role-labels";
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
-const ViewComponent = roleViews[role];
 
-import Button from "@/components/Button.astro";
+//FETCH DEMO DATA
+import { duplicateJson } from "@utils/duplicateJson";
+import getuserrequests from '@data/get-user-requests.json';
 
-
-
+const requests = duplicateJson(getuserrequests, 5);
 
 ---
 
 <MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
-  <a href={`/recibos-subidos/${37452}`}>
-        <Button variant="filled" color="primary">
-          Subir Comprobante
-        </Button>
-    </a>
+  <CheckExpenses userName={userName} requests={requests} />
 </MainLayout>
