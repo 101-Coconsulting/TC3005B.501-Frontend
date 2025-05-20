@@ -10,21 +10,6 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 const role: UserRole = getCookie("role") as UserRole;
 
-const roleDictionary = {
-  Authorizer: "autorizar-solicitud",
-  AccountsPayable: "cotizar-solicitud",
-  TravelAgency: "atender-solicitud",
-} as const;
-
-type ValidRole = keyof typeof roleDictionary;
-
-function getRoleHref(role: UserRole): string {
-  if (role in roleDictionary) {
-    return roleDictionary[role as ValidRole];
-  }
-  return "error";
-}
-
 interface Column {
   key: string;
   label: string;
@@ -33,11 +18,31 @@ interface Column {
 interface Props {
   columns: Column[];
   rows: Record<string, any>[];
+  type?: string;
 }
 
-export default function DataTable({ columns, rows }: Props) {
+const roleDictionary = {
+  Authorizer: "autorizar-solicitud",
+  AccountsPayable: "cotizar-solicitud",
+  TravelAgency: "atender-solicitud",
+} as const;
+
+type ValidRole = keyof typeof roleDictionary;
+
+function getRoleHref(role: UserRole, type: string): string {
+  if (type) {
+    return type;
+  }
+  if (role in roleDictionary) {
+    return roleDictionary[role as ValidRole];
+  }
+  return "error";
+}
+
+
+export default function DataTable({ columns, rows, type }: Props) {
   const isLoading = rows.length === 0;
-  const roleHref = getRoleHref(role);
+  const roleHref = getRoleHref(role, type ?? "");
 
   if (isLoading) {
     return (
