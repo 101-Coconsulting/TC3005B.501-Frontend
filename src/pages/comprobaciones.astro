@@ -30,13 +30,13 @@ const requests = duplicateJson(getuserrequest, 42);
       <TableFallback />
     ) : (
       <TextHeader
-        title={"COTIZACIONES DE " + userName.toUpperCase()}
-        subtitle="Aquí puedes ver las solicitudes pendientes de cotizar"
+        title={"COMPROBACIONES DE " + userName.toUpperCase()}
+        subtitle="Aquí puedes ver las solicitudes pendientes de comprobar"
       />
       <AuthRequestsList
         client:visible
         data={requests}
-        type="cotizar-solicitud"
+        type="comprobar-gastos"
       />
     )}
     </div>
