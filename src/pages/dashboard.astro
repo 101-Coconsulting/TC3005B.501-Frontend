@@ -18,23 +18,8 @@ const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 const ViewComponent = roleViews[role];
-
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequests from '@data/get-user-requests.json';
-import getuserrequest from '@data/get-user-request.json';
-
-const dummyData = {
-  Applicant: getuserrequests,
-  Authorizer: getuserrequest,
-  Admin: getuserrequest,
-  AccountsPayable: getuserrequest,
-  TravelAgency: getuserrequest
-};
-
-const requests = duplicateJson(dummyData[role], 5);
 ---
 
 <MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
-  <ViewComponent userName={userName} requests={requests} />
+  <ViewComponent userName={userName}/>
 </MainLayout>
