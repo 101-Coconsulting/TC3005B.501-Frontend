@@ -9,6 +9,7 @@ import Pagination from '@components/Table/Pagination';
 
 interface Props {
   data: any[];
+  type?: string;
 }
 
 interface Column {
@@ -37,7 +38,7 @@ function mapRequestToTableRow(request: Record<string, any>): Record<string, any>
   };
 }
 
-export default function AuthorizerRequestsList({ data }: Props) {
+export default function AuthorizerRequestsList({ data, type }: Props) {
   const requestsPerPage = 10;
   const [page, setPage] = useState(1);
   const [visibleRequests, setVisibleRequests] = useState<Record<string, any>[]>([]);
@@ -54,7 +55,7 @@ export default function AuthorizerRequestsList({ data }: Props) {
   return (
     <div>
       <div className="flex flex-col w-full gap-4 min-h-160">
-        <DataTable columns={columns} rows={visibleRequests}/>
+        <DataTable columns={columns} rows={visibleRequests} type={type} />
       </div>
       <Pagination
         totalPages={totalPages}
