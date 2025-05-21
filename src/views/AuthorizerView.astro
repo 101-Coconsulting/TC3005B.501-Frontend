@@ -7,36 +7,12 @@
 
 import TextHeader from "@components/TextHeader.astro";
 import RequestSection from "@components/RequestSection.astro";
+import {apiRequest} from "@utils/apiClient";
+import { getCookie } from "@data/cookies";
+import { getStaticPaths } from "../pages/cotizar-solicitud/[id].astro";
 
-let requests = [];
 
-const deptId = 1;
-const statusId = 2;
-const limit = 50;
-
-try {
-  
-  console.log(`Fetching requests from: http://localhost:3000/api/authorizer/get-alerts/${deptId}/${statusId}/${limit}`);
-  
-  const res = await fetch(`http://localhost:3000/api/authorizer/get-alerts/${deptId}/${statusId}/${limit}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  
-  if (res.ok) {
-    requests = await res.json();
-    console.log('Fetched requests:', requests);
-  } else {
-    console.error('Failed to fetch requests:', res.status, res.statusText);
-    const errorText = await res.text();
-    console.error('Error details:', errorText);
-  }
-} catch (err) {
-  console.error('Error fetching requests:', err);
-}
-
+const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/2`);
 const { userName } = Astro.props;
 ---
 
