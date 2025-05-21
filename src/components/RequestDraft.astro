@@ -10,7 +10,7 @@ import TextHeader from "@components/TextHeader.astro";
 import CancelRequestModal from "@components/CancelRequestModal.tsx";
 
 var { userName, requests } = Astro.props;
-const filteredRequests = requests.filter(request => request.status === "Draft");
+const filteredRequests = requests.filter(request => request.status === "Abierto");
 requests= filteredRequests;
 
 ---
