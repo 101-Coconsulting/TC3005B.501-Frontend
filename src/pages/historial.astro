@@ -19,8 +19,12 @@ const buttonLabel = roleLabels[role];
 //FETCH DEMO DATA
 import { duplicateJson } from "@utils/duplicateJson";
 import getuserrequest from '@data/get-user-request.json';
+import { apiRequest } from "@/utils/apiClient";
 
-const requests = duplicateJson(getuserrequest, 42);
+
+const user_id = getCookie("id");
+const requests = await apiRequest(`/applicant/get-completed-requests/${user_id}`);
+console.log("Requests: ", requests);
 ---
 
 <MainLayout title="Historial" data={{ userName, buttonLabel, role }}>

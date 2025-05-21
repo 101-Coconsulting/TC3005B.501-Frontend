@@ -19,12 +19,6 @@ export default function History({ data, itemsPerPage = 5 }: Props) {
   const end = start + itemsPerPage;
   const pageRequests = data.slice(start, end);
 
-  const statusTexts: { [key: number]: string } = {
-    "1": "COMPLETADO",
-    "2": "EN PROCESO",
-    "3": "CANCELADO",
-  };
-
   const getStatusStyle = (status: string) => {
     switch (status) {
       case "Aprobado":
@@ -47,11 +41,13 @@ export default function History({ data, itemsPerPage = 5 }: Props) {
 					>
 						<div className="flex flex-col gap-1">
 							<h2 className="text-lg font-semibold">#{request.request_id}</h2>
-							<p className="text-sm">Destino: {request.routes.id_origin_country}</p>
-							<p className="text-sm">Fecha Creación: {request.request_date}</p>
+              <p className="text-sm">Origen: {request.origin_country}</p>
+							<p className="text-sm">Destino: {request.destination_country}</p>
+							<p className="text-sm">Fecha Inicio: {request.beginning_date}</p>
+              <p className="text-sm">Fecha Fin: {request.ending_date}</p>
 						</div>
 						<p className={`text-center text-xs font-medium px-3 py-2 rounded-md shadow-sm ${getStatusStyle(request.currentStatus)}`}>
-							{statusTexts[request.request_status_id] || "DESCONOCIDO"}
+							{request.status.toUpperCase()  || "DESCONOCIDO"}
 						</p>
 					</a>
 				))}
