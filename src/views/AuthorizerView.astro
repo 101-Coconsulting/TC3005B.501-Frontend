@@ -7,14 +7,12 @@
 
 import TextHeader from "@components/TextHeader.astro";
 import RequestSection from "@components/RequestSection.astro";
-
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequests from '@data/get-user-requests.json';
-
-const requests = duplicateJson(getuserrequests, 4);
+import {apiRequest} from "@utils/apiClient";
+import { getCookie } from "@data/cookies";
+import { getStaticPaths } from "../pages/cotizar-solicitud/[id].astro";
 
 
+const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/2`);
 const { userName } = Astro.props;
 ---
 

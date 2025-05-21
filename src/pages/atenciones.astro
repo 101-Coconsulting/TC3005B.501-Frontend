@@ -8,6 +8,7 @@ import MainLayout from "@layouts/MainLayout.astro";
 import TextHeader from "@components/TextHeader.astro";
 import AuthRequestsList from "@/components/RequestsLists/AuthRequestsList";
 import TableFallback from "@/components/Table/TableFallback.astro";
+import { apiRequest } from "@/utils/apiClient";
 
 import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
@@ -21,7 +22,16 @@ const buttonLabel = roleLabels[role];
 import { duplicateJson } from "@utils/duplicateJson";
 import getuserrequest from '@data/get-user-request.json';
 
-const requests = duplicateJson(getuserrequest, 42);
+const dept = getCookie("department_id");
+
+let requests;
+
+try {
+  requests = apiRequest(`user/get-travel-requests/${dept}/5/`);
+}
+catch {
+  requests = [];
+}
 ---
 
 <MainLayout title="Atenciones pendientes" data={{ userName, buttonLabel, role }}>
