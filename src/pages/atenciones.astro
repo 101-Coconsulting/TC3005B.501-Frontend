@@ -4,7 +4,7 @@
  *
  **/
 
- import MainLayout from "@layouts/MainLayout.astro";
+import MainLayout from "@layouts/MainLayout.astro";
 import TextHeader from "@components/TextHeader.astro";
 import AuthRequestsList from "@/components/RequestsLists/AuthRequestsList";
 import TableFallback from "@/components/Table/TableFallback.astro";
@@ -13,171 +13,31 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-// Define TypeScript interfaces for our data
-interface Alert {
-  alert_id: number;
-  user_name: string;
-  request_id: number;
-  message_text: string;
-  alert_date: string;
-  alert_time: string;
-}
-
-interface RequestDetails {
-  request_id: number;
-  request_status: string;
-  notes: string;
-  routes: Array<{
-    destination_country: string;
-    beginning_date: string;
-    ending_date: string;
-  }>;
-}
-
-// Add this interface for the transformed request data
-interface TransformedRequest {
-  request_id: number;
-  request_status_id: string;
-  routes: {
-    id_destination_country: string;
-    ending_date: string;
-    beginning_date: string;
-  };
-  notes: string;
-}
-
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
-// Helper function to format dates
-function formatDate(dateString: string | null | undefined): string {
-  if (!dateString) return "Pendiente";
-  
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-MX', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    });
-  } catch (e) {
-    return dateString; // Return the original string if parsing fails
-  }
-}
+//FETCH DEMO DATA
+import { duplicateJson } from "@utils/duplicateJson";
+import getuserrequest from '@data/get-user-request.json';
 
-// Fetch real data from backend
-let rawRequests: TransformedRequest[] = []; // Add the type annotation here
-const deptId = 1; // Department ID 
-const statusId = 2; // Status ID for pending authorizations
-
-try {
-  // Get the alerts first
-  console.log(`Fetching alerts from: https://localhost:3000/api/authorizer/get-alerts/${deptId}/${statusId}/50`);
-  
-  const alertsRes = await fetch(`https://localhost:3000/api/authorizer/get-alerts/${deptId}/${statusId}/50`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  
-  if (alertsRes.ok) {
-    const alertsData: Alert[] = await alertsRes.json();
-    console.log('Fetched alerts:', alertsData);
-    
-    // Fetch detailed information for each travel request
-    if (alertsData && alertsData.length > 0) {
-      const requestPromises = alertsData.map(async (alert: Alert): Promise<TransformedRequest> => {
-        try {
-          console.log(`Fetching details for request ID: ${alert.request_id}`);
-          
-          const requestRes = await fetch(`https://localhost:3000/api/user/get-travel-request/${alert.request_id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          
-          if (requestRes.ok) {
-            const requestData: RequestDetails = await requestRes.json();
-            console.log(`Details for request ${alert.request_id}:`, requestData);
-            
-            // IMPORTANT: Format the data exactly as expected by mapRequestToTableRow
-            return {
-              // These are the fields mapRequestToTableRow expects
-              request_id: alert.request_id,
-              request_status_id: requestData.request_status || "Primera Revisión",
-              routes: {
-                id_destination_country: requestData.routes && requestData.routes.length > 0 
-                  ? requestData.routes[0].destination_country 
-                  : "Pendiente",
-                ending_date: requestData.routes && requestData.routes.length > 0 
-                  ? formatDate(requestData.routes[0].ending_date) 
-                  : "Pendiente",
-                beginning_date: requestData.routes && requestData.routes.length > 0 
-                  ? formatDate(requestData.routes[0].beginning_date) 
-                  : "Pendiente",
-              },
-              notes: requestData.notes || alert.message_text || "No especificado",
-            };
-          } else {
-            // Return fallback data in the expected structure
-            return {
-              request_id: alert.request_id,
-              request_status_id: "Primera Revisión",
-              routes: {
-                id_destination_country: "Pendiente",
-                ending_date: formatDate(alert.alert_date),
-                beginning_date: formatDate(alert.alert_date),
-              },
-              notes: alert.message_text || "No especificado",
-            };
-          }
-        } catch (err) {
-          console.error(`Error fetching details for request ${alert.request_id}:`, err);
-          return {
-            request_id: alert.request_id,
-            request_status_id: "Primera Revisión",
-            routes: {
-              id_destination_country: "Pendiente",
-              ending_date: formatDate(alert.alert_date),
-              beginning_date: formatDate(alert.alert_date),
-            },
-            notes: alert.message_text || "No especificado",
-          };
-        }
-      });
-      
-      // Wait for all request details to be fetched
-      rawRequests = await Promise.all(requestPromises);
-      console.log('Raw data for all requests:', rawRequests);
-    }
-  } else {
-    console.error('Failed to fetch alerts:', alertsRes.status, alertsRes.statusText);
-    const errorText = await alertsRes.text();
-    console.error('Error details:', errorText);
-  }
-} catch (err) {
-  console.error('Error in data fetching process:', err);
-}
+const requests = duplicateJson(getuserrequest, 42);
 ---
 
 <MainLayout title="Atenciones pendientes" data={{ userName, buttonLabel, role }}>
   <div>
-    {rawRequests && rawRequests.length === 0 ? (
+    {requests && requests.length === 0 ? (
       <TableFallback />
     ) : (
-      <>
-        <TextHeader
-          title={"ATENCIONES DE " + userName.toUpperCase()}
-          subtitle="Aquí puedes ver las solicitudes pendientes de atender"
-        />
-        <AuthRequestsList
-          client:visible
-          data={rawRequests}
-        />
-      </>
+      <TextHeader
+        title={"ATENCIONES DE " + userName.toUpperCase()}
+        subtitle="Aquí puedes ver las solicitudes pendientes de atender"
+      />
+      <AuthRequestsList
+        client:visible
+        data={requests}
+      />
     )}
+    </div>
   </div>
 </MainLayout>
