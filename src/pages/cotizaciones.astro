@@ -18,10 +18,16 @@ const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
 //FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequest from '@data/get-user-request.json';
+//import { duplicateJson } from "@utils/duplicateJson";
+///import getuserrequest from '@data/get-user-request.json';
 
-const requests = duplicateJson(getuserrequest, 42);
+import { apiRequest } from '@utils/apiClient';
+
+const user_id = getCookie("id");
+const dept= getCookie("dept");
+const requests = await apiRequest(`/user/get-travel-requests/${dept}/4`);
+
+
 ---
 
 <MainLayout title="Comprobaciones pendientes" data={{ userName, buttonLabel, role }}>
