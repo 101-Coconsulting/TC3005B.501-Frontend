@@ -13,14 +13,10 @@ import { roleLabels } from "@config/role-labels";
 
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
-const user_id = getCookie("id");
-const dept= getCookie("dept");
 const buttonLabel = roleLabels[role];
 
-//FETCH DEMO DATA
-
-import {apiRequest} from '@utils/apiClient';
-
+import { apiRequest } from '@utils/apiClient';
+const user_id = getCookie("id");
 const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
 ---
 
