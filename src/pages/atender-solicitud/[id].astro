@@ -10,25 +10,23 @@ import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
+import { apiRequest } from "@/utils/apiClient";
 
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequest from '@data/get-user-request.json';
+const department = getCookie("department_id");
 
 export async function getStaticPaths() {
-  const requests = duplicateJson(getuserrequest, 5);
-  return requests.map((req: any) => ({
+  //Update 
+  const allRequests = await apiRequest(`user/get-travel-requests/${department}/5`);
+  return allRequests.map((req: any) => ({
     params: { id: req.request_id.toString() },
   }));
 }
-
 const { id } = Astro.params;
-const requests = duplicateJson(getuserrequest, 5);
-const request = requests.find((req: any) => req.request_id.toString() === id);
+const request = await apiRequest(`/applicant/get-user-request/${id}`);
 
 if (!request) {
   throw new Error(`No request found with ID ${id}`);

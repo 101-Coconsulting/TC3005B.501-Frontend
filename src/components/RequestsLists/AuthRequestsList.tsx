@@ -32,8 +32,7 @@ function mapRequestToTableRow(request: Record<string, any>): Record<string, any>
     request_id: request.request_id,
     destination: request.destination_country,
     arrival_date: request.ending_date,
-    departure_date: request.beginning_date,
-    reason: request.notes,
+    departure_date: request.beginning_date
   };
 }
 

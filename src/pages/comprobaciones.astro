@@ -19,8 +19,13 @@ const buttonLabel = roleLabels[role];
 //FETCH DEMO DATA
 import { duplicateJson } from "@utils/duplicateJson";
 import getuserrequest from '@data/get-user-request.json';
+import { apiRequest } from "@/utils/apiClient";
 
-const requests = duplicateJson(getuserrequest, 42);
+//Status corresponding to Accounts Payable
+const status = 4;
+const department = getCookie("department_id");
+
+const requests = await apiRequest(`/user/get-travel-requests/${department}/${status}/10`);
 ---
 
 <MainLayout title="Comprobaciones pendientes" data={{ userName, buttonLabel, role }}>
