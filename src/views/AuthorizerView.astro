@@ -12,17 +12,29 @@ let requests = [];
 
 const deptId = 1;
 const statusId = 2;
-const limit = 10;
+const limit = 50;
 
 try {
-  const res = await fetch(`https://localhost:3000/api/user/get-travel-requests/:dept/:status`);
+  
+  console.log(`Fetching requests from: http://localhost:3000/api/authorizer/get-alerts/${deptId}/${statusId}/${limit}`);
+  
+  const res = await fetch(`http://localhost:3000/api/authorizer/get-alerts/${deptId}/${statusId}/${limit}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+  
   if (res.ok) {
     requests = await res.json();
+    console.log('Fetched requests:', requests);
   } else {
-    console.error('Failed to fetch alerts:', res.statusText);
+    console.error('Failed to fetch requests:', res.status, res.statusText);
+    const errorText = await res.text();
+    console.error('Error details:', errorText);
   }
 } catch (err) {
-  console.error('Error fetching alerts:', err);
+  console.error('Error fetching requests:', err);
 }
 
 const { userName } = Astro.props;
