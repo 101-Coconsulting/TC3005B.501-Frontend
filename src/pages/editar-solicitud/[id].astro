@@ -18,6 +18,12 @@ import rawRequests from '@data/get-user-request-2.json';
 import type { UserRole } from '@type/roles';
 import { roleLabels } from '@config/role-labels';
 
+
+//Fetch to backend
+import { apiRequest } from '@utils/apiClient';
+const user_id = getCookie("id");
+const requests = await apiRequest(`/applicant/create-request/${user_id}`);
+
 type TravelRequest = {
   request_id: string;
   request_status_id: string;
