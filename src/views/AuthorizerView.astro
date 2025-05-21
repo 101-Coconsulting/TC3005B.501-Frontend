@@ -8,21 +8,21 @@
 import TextHeader from "@components/TextHeader.astro";
 import RequestSection from "@components/RequestSection.astro";
 
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequests from '@data/get-user-requests.json';
-import { apiRequest } from "@/utils/apiClient";
-import { getCookie } from "@/data/cookies";
+let requests = [];
 
-const dept = getCookie("department_id");
-
-let requests;
+const deptId = 1;
+const statusId = 2;
+const limit = 10;
 
 try {
-  requests = await apiRequest(`user/get-travel-requests/${dept}/2`);
-}
-catch {
-  requests = [];
+  const res = await fetch(`https://localhost:3000/api/user/get-travel-requests/:dept/:status`);
+  if (res.ok) {
+    requests = await res.json();
+  } else {
+    console.error('Failed to fetch alerts:', res.statusText);
+  }
+} catch (err) {
+  console.error('Error fetching alerts:', err);
 }
 
 const { userName } = Astro.props;
