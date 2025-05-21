@@ -8,11 +8,18 @@
 import TextHeader from "@components/TextHeader.astro";
 import RequestSection from "@components/RequestSection.astro";
 
+import { getCookie } from "@data/cookies";
+import { apiRequest } from '@utils/apiClient';
+
 //FETCH DEMO DATA
 import { duplicateJson } from "@utils/duplicateJson";
 import getuserrequests from '@data/get-user-requests.json';
 
-const requests = duplicateJson(getuserrequests, 4);
+const deparment = getCookie("department_id");
+const requestsInCotizar = await apiRequest(`/user/get-travel-requests/${deparment}/4`);
+const requestsInComprobar = await apiRequest(`/user/get-travel-requests/${deparment}/6`);
+
+
 
 // ACA HAY QUE PONER DOS FETCH, UNO PARA SOLICITUDES POR COTIZAR Y OTRO PARA SOLICITUDES POR COMPROBAR
 
@@ -29,7 +36,7 @@ const { userName } = Astro.props;
     <div class="grid grid-cols-1 gap-8">
       <RequestSection
         title="SOLICITUDES POR COTIZAR"
-        requests={requests}
+        requests={requestsInCotizar}
         anchor="cotizaciones"
         urlBase="cotizar-solicitud"
         subtitle="Esta solicitud está esperando cotización."
@@ -38,7 +45,7 @@ const { userName } = Astro.props;
 
       <RequestSection
         title="SOLICITUDES POR COMPROBAR"
-        requests={requests}
+        requests={requestsInComprobar}
         anchor="comprobaciones"
         urlBase="comprobar-gastos"
         subtitle="Esta solicitud está esperando comprobación."
