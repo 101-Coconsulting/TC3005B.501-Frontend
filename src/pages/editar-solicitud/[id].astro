@@ -22,7 +22,7 @@ import { roleLabels } from '@config/role-labels';
 //Fetch to backend
 import { apiRequest } from '@utils/apiClient';
 const user_id = getCookie("id");
-const requests = await apiRequest(`/applicant/create-request/${user_id}`);
+const requests = await apiRequest(`/applicant/edit-travel-request/${user_id}`);
 
 type TravelRequest = {
   request_id: string;
@@ -78,7 +78,7 @@ const buttonLabel = roleLabels[role];
       subtitle="Modifica los datos necesarios y vuelve a enviar"
     />
     <main class="bg-white rounded-lg shadow-md p-8">
-      <form id="editForm" class="space-y-8">
+      <form id="editForm" class="space-y-8" method="POST" onsubmit="handleSubmit(event)">
         <!-- Sección 1 -->
         <div class="border-b border-secondary-300 pb-4 mb-6">
           <h3 class="text-lg font-bold text-primary-400">1. Destinos y Fechas</h3>
@@ -172,4 +172,53 @@ const buttonLabel = roleLabels[role];
       window.location.href = '/dashboard';
     });
   </script>
+
+  <script>
+  async function handleSubmit(event: Event) {
+    event.preventDefault(); // Evita recargar la página
+
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    // Construimos el JSON como espera tu backend
+    const travelDetails = {
+      notes: formData.get("motivo"),
+      requested_fee: 0, // O el valor real si lo usas
+      imposed_fee: 0, // O el valor real si lo usas
+      routes: {
+        id_origin_country: Number(formData.get("paísOrigen")),
+        id_origin_city: Number(formData.get("ciudadOrigen")),
+        id_destination_country: Number(formData.get("paísDestino")),
+        id_destination_city: Number(formData.get("ciudadDestino")),
+        beginning_date: formData.get("fechaInicio"),
+        beginning_time: formData.get("horaInicio"),
+        ending_date: formData.get("fechaFin"),
+        ending_time: formData.get("horaFin"),
+        hotel_needed: false, // Agrega campos checkbox si es necesario
+        plane_needed: false,
+      }
+    };
+
+    try {
+      const res = await fetch(`/api/edit-travel-request/${Astro.url.searchParams.get('id')}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(travelDetails)
+      });
+
+      if (res.ok) {
+        alert("Solicitud actualizada con éxito.");
+        // Redireccionar o recargar si quieres
+      } else {
+        alert("Hubo un error al actualizar la solicitud.");
+      }
+    } catch (error) {
+      console.error("Error al enviar solicitud:", error);
+      alert("Error de conexión con el servidor.");
+    }
+  }
+</script>
+
 </MainLayout>
