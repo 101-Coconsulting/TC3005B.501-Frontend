@@ -24,7 +24,6 @@ import { apiRequest } from "@/utils/apiClient";
 
 const user_id = getCookie("id");
 const requests = await apiRequest(`/applicant/get-completed-requests/${user_id}`);
-console.log("Requests: ", requests);
 ---
 
 <MainLayout title="Historial" data={{ userName, buttonLabel, role }}>
