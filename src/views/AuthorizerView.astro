@@ -11,9 +11,19 @@ import RequestSection from "@components/RequestSection.astro";
 //FETCH DEMO DATA
 import { duplicateJson } from "@utils/duplicateJson";
 import getuserrequests from '@data/get-user-requests.json';
+import { apiRequest } from "@/utils/apiClient";
+import { getCookie } from "@/data/cookies";
 
-const requests = duplicateJson(getuserrequests, 4);
+const dept = getCookie("department_id");
 
+let requests;
+
+try {
+  requests = await apiRequest(`user/get-travel-requests/${dept}/2`);
+}
+catch {
+  requests = [];
+}
 
 const { userName } = Astro.props;
 ---
