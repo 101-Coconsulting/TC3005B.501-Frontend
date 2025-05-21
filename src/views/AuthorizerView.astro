@@ -7,16 +7,16 @@
 
 import TextHeader from "@components/TextHeader.astro";
 import RequestSection from "@components/RequestSection.astro";
+import { apiRequest } from '@utils/apiClient';
+import { getCookie } from "@data/cookies";
 
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequests from '@data/get-user-requests.json';
-
-const requests = duplicateJson(getuserrequests, 4);
-
+const dept = getCookie("dept");
+const requests = await apiRequest(`/user/get-travel-requests/${dept}/1`);  //el 1(abierto) el status y agregar numero por si se necesita limite
 
 const { userName } = Astro.props;
+
 ---
+
 
 <div>
   <main>
