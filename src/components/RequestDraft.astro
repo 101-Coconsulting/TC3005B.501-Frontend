@@ -7,8 +7,12 @@
 import MaterialIcon from "@/components/MaterialIcon.astro";
 import ModalWrapper from "@components/ModalWrapper.tsx";
 import TextHeader from "@components/TextHeader.astro";
+import CancelRequestModal from "@components/CancelRequestModal.tsx";
 
 var { userName, requests } = Astro.props;
+const filteredRequests = requests.filter(request => request.status === "Draft");
+requests= filteredRequests;
+
 ---
 
 <div>
@@ -17,11 +21,12 @@ var { userName, requests } = Astro.props;
       title={`DRAFT DE VIAJES DE ${userName.toUpperCase()}`}
       subtitle="Aquí puedes ver los draft de solicitudes por completar"
     />
-
+    
     <section class="bg-white p-6 rounded-lg shadow w-full">
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
+            const isEditable = request.status === "Abierto" || request.status === "Draft";
             return (
               <div class="grid grid-cols-[1fr_auto] gap-6 items-center">
                 <a href={`/editar-solicitud/${request.request_id}`} class="block">
@@ -33,7 +38,7 @@ var { userName, requests } = Astro.props;
                       <p>
                         <span class="font-semibold">Estado:</span> 
                         <span class={`ml-1 font-semibold text-gray-500`}>
-                          DRAFT
+                          {request.status}
                         </span>
                       </p>
                       <p><span class="font-semibold">Responsable:</span> Eduardo Porto Morales</p>
@@ -42,13 +47,10 @@ var { userName, requests } = Astro.props;
                 </a>
                 <div class="flex justify-end items-center h-full p-2">
                   <span class="flex items-center justify-center w-6 h-6">                        
-                    <ModalWrapper
-                      client:only="react"
-                      title="Borrar Solicitud"
-                      message="¿Estás seguro de que deseas borrar esta solicitud?"
-                      button_type="primary"
-                      variant="empty"
-                      modal_type="confirm"
+                    <CancelRequestModal
+                        client:only="react"
+                        id={request.request_id}
+                        disabled={!isEditable}
                       >
                         <div>
                           <MaterialIcon
@@ -57,7 +59,7 @@ var { userName, requests } = Astro.props;
                             style="cursor: pointer"
                           />
                         </div>
-                    </ModalWrapper>
+                      </CancelRequestModal>
                   </span>
                 </div>
               </div>

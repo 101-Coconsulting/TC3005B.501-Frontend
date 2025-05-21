@@ -13,11 +13,15 @@ import { roleLabels } from "@config/role-labels";
 
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
+const user_id = getCookie("id");
+const dept= getCookie("dept");
 const buttonLabel = roleLabels[role];
 
 //FETCH DEMO DATA
-import requests from '@data/get-user-requests-2.json';
 
+import {apiRequest} from '@utils/apiClient';
+
+const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
 ---
 
 <MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
