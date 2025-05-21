@@ -17,9 +17,12 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
+
+
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
+const userId = getCookie("id");
 
 // Dummy data for the form
 import gcc from '@data/get-cc.json';
@@ -32,7 +35,7 @@ import gcc from '@data/get-cc.json';
       subtitle="Por favor complete el siguiente formulario por completo"
     />
     <main class="bg-white rounded-lg shadow-md p-8">
-      <form id="travelForm" class="space-y-8">
+      <form id="travelForm" class="space-y-8 " data-user-id={userId}>
         <!-- Seccion 1: Destinos y Fechas -->
         <div class="border-b border-secondary-300 pb-4 mb-6">
           <h3 class="text-lg font-bold text-primary-400">1. Destinos y Fechas</h3>
@@ -224,65 +227,5 @@ import gcc from '@data/get-cc.json';
   </div>
 </MainLayout>
 
-<script is:inline>
-  // Form submission handler
-  document.getElementById('travelForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+<script type="module" src="/submitTravelForm.js"></script>
 
-    // Validate required fields
-    const requiredFields = this.querySelectorAll('[required]');
-    let isValid = true;
-    
-    requiredFields.forEach(field => {
-      if (!field.value.trim()) {
-        field.classList.add('border-warning-400');
-        isValid = false;
-      } else {
-        field.classList.remove('border-warning-400');
-      }
-    });
-
-    if (!isValid) {
-      alert('Por favor complete todos los campos requeridos');
-      return;
-    }
-
-    // Collect form data
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
-    
-    // Handle additional destinations
-    const additionalDestinations = [];
-    document.querySelectorAll('[name="destinosAdicionales"]').forEach(input => {
-      if (input.value.trim()) additionalDestinations.push(input.value.trim());
-    });
-    data.destinosAdicionales = additionalDestinations;
-
-    console.log('Form data:', data); // For testing
-    
-    // Show success message and redirect
-    alert('Solicitud enviada correctamente (demo frontend)');
-    window.location.href = '/dashboard';
-  });
-
-  // Handle additional destinations
-  function addDestino() {
-    const container = document.getElementById('destinosAdicionalesList');
-    const div = document.createElement('div');
-    div.className = 'flex gap-2';
-    div.innerHTML = `
-      <input type="text" name="destinosAdicionales" 
-        class="flex-1 px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm"
-        placeholder="Ciudad, País">
-      <button type="button" class="text-warning-400 px-2" onclick="this.parentElement.remove()">✕</button>
-    `;
-    container.appendChild(div);
-  }
-
-  // Toggle additional destinations visibility
-  document.querySelectorAll('input[name="requiereMasDestinos"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-      document.getElementById('destinosAdicionalesContainer').classList.toggle('hidden', this.value === 'no');
-    });
-  });
-</script>
