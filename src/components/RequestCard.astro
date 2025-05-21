@@ -13,7 +13,7 @@ const { priority } = getRequestPriority(request.request_date);
 <a href={`/${urlBase}/${request.request_id}`}>
   <div class="content-wrapper">
     <div class="mb-4">
-      <p class="text-lg font-semibold text-neutral-800">Viaje a {request.country_name}</p>
+      <p class="text-lg font-semibold text-neutral-800">Viaje a {request.destination_country}</p>
       <p class="text-sm text-neutral-500">{subtitle}</p>
     </div>
 
@@ -25,7 +25,7 @@ const { priority } = getRequestPriority(request.request_date);
           <span class="inline font-medium text-neutral-500 ml-2">al:</span> 
           <p class="inline">{request.ending_date}</p>
         </div>
-        <p class="text-xs text-neutral-500">Estado actual: {request.status}</p>
+        <p class="text-xs text-neutral-500">Estado actual: {request.request_status}</p>
       </div>
       <div class="flex flex-col justify-end items-end text-right">
         <p class="text-sm">
