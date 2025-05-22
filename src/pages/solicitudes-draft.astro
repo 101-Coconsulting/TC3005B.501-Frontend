@@ -16,8 +16,13 @@ const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
 import { apiRequest } from '@utils/apiClient';
-const user_id = getCookie("id");
-const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-user-requests/${getCookie("id")}/`);
+  } catch (error) {
+    return [];
+  }
+})()
 ---
 
 <MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>

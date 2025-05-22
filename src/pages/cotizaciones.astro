@@ -18,11 +18,15 @@ const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
 import { apiRequest } from '@utils/apiClient';
-const department_id = getCookie("department_id");
 //Status corresponding to Accounts Payable
 const status = 4;
-const requests = await apiRequest(`/user/get-travel-requests/${department_id}/${status}`);
-
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
+  } catch (error) {
+    return [];
+  }
+})()
 ---
 
 <MainLayout title="Comprobaciones pendientes" data={{ userName, buttonLabel, role }}>

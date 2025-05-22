@@ -16,8 +16,8 @@ const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
 export async function getStaticPaths() {
-  //Status corresponding to Accounts Payable
-  const status = 6;
+  //Status corresponding to Accounts Payable COTIZAR SOLICITUD
+  const status = 4;
   const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
   return requests.map((req: any) => ({
     params: { id: req.request_id.toString() },
