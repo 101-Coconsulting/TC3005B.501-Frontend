@@ -12,7 +12,14 @@ import { apiRequest } from '@utils/apiClient';
 import RequestSection from "@components/RequestSection.astro";
 
 const { userName} = Astro.props;
-const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/5`);
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/5`);
+  } catch (error) {
+    return [];
+  }
+})()
+
 ---
 
 <div>

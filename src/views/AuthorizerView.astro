@@ -12,7 +12,14 @@ import { getCookie } from "@data/cookies";
 import { getStaticPaths } from "../pages/cotizar-solicitud/[id].astro";
 
 
-const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/2`);
+const requests = await (async () => {
+  try {
+    //The status is hard coded and should be fixed to adapt to N1 or N2
+    return await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/2`);
+  } catch (error) {
+    return [];
+  }
+})()
 const { userName } = Astro.props;
 ---
 
