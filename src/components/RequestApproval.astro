@@ -24,7 +24,7 @@ const id = request.request_id;
       <TravelRequestActionWrapper
         client:only="react"
         request_id={id}
-        endpoint="/authorizer/authorize-travel-request/"
+        endpoint="/authorizer/authorize-travel-request"
         role={4}
         title="Confirmar autorización"
         message="¿Está seguro de que desea autorizar esta solicitud?"
@@ -37,7 +37,7 @@ const id = request.request_id;
       <TravelRequestActionWrapper
         client:only="react"
         request_id={id}
-        endpoint="/authorizer/decline-travel-request/"
+        endpoint="/authorizer/decline-travel-request"
         role={4}
         title="Rechazar autorización"
         message="¿Está seguro de que desea rechazar esta solicitud?"
