@@ -18,17 +18,30 @@ const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
+// export async function getStaticPaths() {
+//   //Status corresponding to Accounts Payable COMPROBAR GASTOS
+//   const status = 6;
+//   const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
+//   return requests.map((req: any) => ({
+//     params: { id: req.request_id.toString() },
+//   }));
+// }
+
+// const { id } = Astro.params;
+// const request = await apiRequest(`/user/get-travel-request/${id}`);
+
+// FETCH DUMMY DATA
+import expenses from "@data/get-expense-validations.json";
 export async function getStaticPaths() {
-  //Status corresponding to Accounts Payable COMPROBAR GASTOS
-  const status = 6;
-  const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
+  const requests = expenses
   return requests.map((req: any) => ({
     params: { id: req.request_id.toString() },
   }));
 }
 
 const { id } = Astro.params;
-const request = await apiRequest(`/user/get-travel-request/${id}`);
+const request = expenses[0]
+
 
 if (!request) {
   throw new Error(`No request found with ID ${id}`);

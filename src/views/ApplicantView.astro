@@ -27,7 +27,14 @@ const colorDesign: { [key: string]: string } = {
 };
 
 const user_id = getCookie("id");
-const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-user-requests/${user_id}`);
+  } catch (error) {
+    return [];
+  }
+})()
 
 var { userName } = Astro.props;
 ---

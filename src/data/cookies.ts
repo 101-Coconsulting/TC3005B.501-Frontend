@@ -10,3 +10,19 @@ const mockCookies = {
 export const getCookie = (key: keyof typeof mockCookies): string | UserRole => {
     return mockCookies[key];
 };
+
+/*
+COOKIES WITH DATA:
+
+1. Authorizer:
+    department_id:1
+
+2. Admin:
+    department_id:
+
+3. AccountsPayable:
+    department_id:
+
+4.TravelAgency:
+    department_id:
+*/
