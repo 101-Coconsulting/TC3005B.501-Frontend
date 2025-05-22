@@ -16,10 +16,22 @@ import { duplicateJson } from "@utils/duplicateJson";
 import getuserrequests from '@data/get-user-requests.json';
 
 const deparment = getCookie("department_id");
-const requestsInCotizar = await apiRequest(`/user/get-travel-requests/${deparment}/4`);
-const requestsInComprobar = await apiRequest(`/user/get-travel-requests/${deparment}/6`);
 
+const requestsInCotizar = await (async () => {
+  try {
+    return await apiRequest(`/user/get-travel-requests/${deparment}/4`);
+  } catch (error) {
+    return [];
+  }
+})()
 
+const requestsInComprobar = await (async () => {
+  try {
+    return await apiRequest(`/user/get-travel-requests/${deparment}/6`);
+  } catch (error) {
+    return [];
+  }
+})()
 
 // ACA HAY QUE PONER DOS FETCH, UNO PARA SOLICITUDES POR COTIZAR Y OTRO PARA SOLICITUDES POR COMPROBAR
 
