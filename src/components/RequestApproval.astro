@@ -8,8 +8,10 @@
 
 import ModalWrapper from '@components/ModalWrapper.tsx';
 import RequestDetail from '@components/RequestDetail.astro';
+import TravelRequestActionWrapper from '@components/TravelRequestActionWrapper.tsx';
 
 const { request } = Astro.props;
+const id = request.request_id;
 ---
 <main class="flex flex-col">
   <div>
@@ -19,24 +21,31 @@ const { request } = Astro.props;
       subtitle="Detalles de la solicitud"
     />
     <div class="flex justify-end gap-4 mt-8">
-      <ModalWrapper
+      <TravelRequestActionWrapper
         client:only="react"
-        title="Confirmar Autorización",
-        message="¿Está seguro de que desea autorizar esta solicitud?",
-        button_type="success",
-        modal_type="success",
-      >
+        request_id={id}
+        endpoint="/authorizer/authorize-travel-request/"
+        role={4}
+        title="Confirmar autorización"
+        message="¿Está seguro de que desea autorizar esta solicitud?"
+        redirection="/dashboard"
+        modal_type="success"
+        >
         Aceptar
-      </ModalWrapper>
-      <ModalWrapper
+      </TravelRequestActionWrapper>
+
+      <TravelRequestActionWrapper
         client:only="react"
-        title="Rechazar Autorización",
-        message="¿Está seguro de que desea rechazar esta solicitud?",
-        button_type="warning",
-        modal_type="warning",
-      >
+        request_id={id}
+        endpoint="/authorizer/decline-travel-request/"
+        role={4}
+        title="Rechazar autorización"
+        message="¿Está seguro de que desea rechazar esta solicitud?"
+        redirection="/dashboard"
+        modal_type="warning"
+        >
         Rechazar
-      </ModalWrapper>
+      </TravelRequestActionWrapper>
     </div>
   </div>
 </main>
