@@ -66,8 +66,12 @@ export default function CreateTravelRequestForm() {
 
   const handleSubmitRequest = async (e) => {
     e.preventDefault();
-    const mainRoute = {
+
+    const payload = {
       router_index: 0,
+      notes: formData.notes,
+      requested_fee: parseFloat(formData.requested_fee),
+      imposed_fee: 0,
       origin_country_name: formData.origin_country_name,
       origin_city_name: formData.origin_city_name,
       destination_country_name: formData.destination_country_name,
@@ -77,27 +81,22 @@ export default function CreateTravelRequestForm() {
       ending_date: formData.ending_date,
       ending_time: formData.ending_time,
       plane_needed: formData.plane_needed,
-      hotel_needed: formData.hotel_needed
+      hotel_needed: formData.hotel_needed,
+      additionalRoutes: formData.additionalRoutes || []
     };
-
-    const payload = {
-      notes: formData.notes,
-      requested_fee: parseFloat(formData.requested_fee),
-      imposed_fee: 0,
-      routes: [mainRoute, ...formData.additionalRoutes]
-    };
-
+    
+    console.log(payload)
     try {
       await apiRequest(`/applicant/create-travel-request/${getCookie("id")}`, {
         method: 'POST',
-        data: { payload }
+        data: payload
       });
       alert('Solicitud enviada exitosamente');
     } catch (error) {
-      console.log(payload)
       console.error('Error al enviar la solicitud:', error);
-      alert('Solicitud enviada exitosamente');
-      window.location.reload();
+      alert('Hubo un error al enviar la solicitud');
+    } finally {
+      window.location.href = '/dashboard';
     }
   };
 
