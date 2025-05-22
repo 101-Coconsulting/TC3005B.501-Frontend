@@ -23,26 +23,26 @@ const id = request.request_id;
     <div class="flex justify-end gap-4 mt-8">
       <TravelRequestActionWrapper
         client:only="react"
-        requestId={id}
-        action="approve"
+        request_id={id}
+        endpoint="/authorizer/authorize-travel-request/"
+        role={4}
         title="Confirmar autorización"
         message="¿Está seguro de que desea autorizar esta solicitud?"
-        buttonType="success"
-        modalType="success"
-        redirectTo="/dashboard"
+        redirection="/dashboard"
+        modal_type="success"
         >
         Aceptar
       </TravelRequestActionWrapper>
 
       <TravelRequestActionWrapper
         client:only="react"
-        requestId={id}
-        action="decline"
+        request_id={id}
+        endpoint="/authorizer/decline-travel-request/"
+        role={4}
         title="Rechazar autorización"
         message="¿Está seguro de que desea rechazar esta solicitud?"
-        buttonType="warning"
-        modalType="warning"
-        redirectTo="/dashboard"
+        redirection="/dashboard"
+        modal_type="warning"
         >
         Rechazar
       </TravelRequestActionWrapper>
