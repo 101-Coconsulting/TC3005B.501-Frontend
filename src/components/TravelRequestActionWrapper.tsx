@@ -41,7 +41,6 @@ export default function TravelRequestActionWrapper({
       console.error("Error en la solicitud:", error);
     }
   }, [requestId, action, redirectTo]);
-
   return (
     <ModalWrapper
       title={title}
