@@ -19,15 +19,16 @@ const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
+import { apiRequest } from '@utils/apiClient';
+
 export async function getStaticPaths() {
-  const dept = getCookie("dept");
-  const allRequests = await apiRequest(`/user/get-travel-requests/${dept}/1`); ;
+  const allRequests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/2`);
   return allRequests.map((req: any) => ({
     params: { id: req.request_id.toString() },
   }));
 }
 const { id } = Astro.params;
-const request = await apiRequest(`/user/get-travel-request/${id}`); 
+const request = await apiRequest(`/user/get-travel-request/${id}`);
 
 ---
 

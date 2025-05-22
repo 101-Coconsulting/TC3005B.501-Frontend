@@ -16,11 +16,14 @@ const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequest from '@data/get-user-request.json';
-
-const requests = duplicateJson(getuserrequest, 42);
+import { apiRequest } from "@/utils/apiClient";
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-completed-requests/${getCookie("id")}`);
+  } catch (error) {
+    return [];
+  }
+})()
 ---
 
 <MainLayout title="Historial" data={{ userName, buttonLabel, role }}>
