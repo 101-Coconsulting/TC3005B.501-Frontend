@@ -17,10 +17,10 @@ const buttonLabel = roleLabels[role];
 
 import { apiRequest } from '@utils/apiClient';
 //Status corresponding to Accounts Payable COMPROBAR GASTOS
-const status = 6;
+const user_id = getCookie("id");
 const requests = await (async () => {
   try {
-    return await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
+    return await apiRequest(`/applicant/get-user-requests/${user_id}`);
   } catch (error) {
     return [];
   }

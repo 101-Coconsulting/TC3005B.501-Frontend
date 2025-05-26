@@ -28,6 +28,7 @@ function getVerificationStats(request: any) {
       {requests.length > 0 ? (
         <div class="grid gap-8">
           {requests.map((request: any) => {
+            if (request.status !== 'Comprobación gastos del viaje') return null;
             const { total, accepted, rejected, pending } = getVerificationStats(request);
             const percent = (count: number) => total ? (count / total) * 100 : 0;
 
