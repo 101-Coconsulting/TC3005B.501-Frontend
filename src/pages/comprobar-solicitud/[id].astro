@@ -23,7 +23,7 @@ const { id } = Astro.params;
 
 
 const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
-console.log(request);
+
 
 if (!request) {
   throw new Error(`No request found with ID ${id}`);
