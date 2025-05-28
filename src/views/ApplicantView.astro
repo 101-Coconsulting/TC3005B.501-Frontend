@@ -56,6 +56,7 @@ var { userName } = Astro.props;
         <div class="grid gap-4">
           {requests.map((request: any) => {
             const isEditable = request.status === "Abierto" || request.status === "Draft";
+            const isComp = request.status === "Comprobación gastos del viaje";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
                 <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
@@ -82,7 +83,7 @@ var { userName } = Astro.props;
                       </Button>
                     </a>
                     <a href={`/comprobar-solicitud/${request.request_id}`}>
-                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                      <Button color="primary" disabled={!isComp} variant="filled" size="medium" customSizeClass="w-full">
                         COMPROBAR
                       </Button>
                     </a>
