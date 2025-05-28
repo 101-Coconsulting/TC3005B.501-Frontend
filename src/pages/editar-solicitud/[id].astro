@@ -2,168 +2,45 @@
 /**
  * Author: Julia Maria Stephanie Duenkelsbuehler Castillo Y Nicole Davila
  * 
- * Description: Page to edit a travel request using mock data from get-user-request.json
+ * Description: Page to edit a travel request using mock data.
  * 
  **/
 export const prerender = false;
 
-import InputField from '@components/InputField.astro';
-import Button from '@components/Button.astro';
-import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
-
+import TextHeader from "@components/TextHeader.astro";
+import RequestEdit from "@components/RequestEditList.astro";
 import { getCookie } from "@data/cookies";
-import gcc from '@data/get-cc.json';
-import rawRequests from '@data/get-user-request-2.json';
-import type { UserRole } from '@type/roles';
-import { roleLabels } from '@config/role-labels';
-
-type TravelRequest = {
-  request_id: string;
-  request_status_id: string;
-  notes: string;
-  requested_fee: number;
-  imposed_fee: number;
-  request_date: string;
-  request_time: string;
-  user: {
-    user_name: string;
-    user_email: string;
-    user_phone_number: string;
-  };
-  routes: {
-    id_origin_country: number;
-    id_origin_city: number;
-    id_destination_country: number;
-    id_destination_city: number;
-    beginning_date: string;
-    beginning_time: string;
-    ending_date: string;
-    ending_time: string;
-    hotel_needed: boolean;
-    plane_needed: boolean;
-  };
-};
-
-const allRequests = rawRequests as Record<string, TravelRequest>;
+import { roleLabels } from "@config/role-labels";
+import type { UserRole } from "@type/roles";
+import { apiRequest } from "@utils/apiClient";
 
 const { id } = Astro.params;
 
 if (!id) {
-  throw new Error('No se proporcionó ID de solicitud.');
+  throw new Error("No se proporcionó ID de solicitud.");
 }
 
-const travelRequest = allRequests[id];
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+const user_id = getCookie("id");
+const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+const request = requests.find((r: any) => String(r.request_id) === String(id));
 
-if (!travelRequest) {
+if (!request) {
   throw new Error(`No se encontró la solicitud con ID: ${id}`);
 }
 
-const route = travelRequest.routes;
-const role = getCookie("role") as UserRole;
-const userName = getCookie("username");
-const buttonLabel = roleLabels[role];
+if (request.status !== "Abierto") {
+  throw new Error("Solo se pueden editar solicitudes con estado 'Abierto'.");
+}
+
 ---
-
-<MainLayout title="Editar Solicitud" data={{ userName, role, buttonLabel }}>
-  <div>
-    <TextHeader
-      title={`EDITAR SOLICITUD #${id}`}
-      subtitle="Modifica los datos necesarios y vuelve a enviar"
-    />
-    <main class="bg-white rounded-lg shadow-md p-8">
-      <form id="editForm" class="space-y-8">
-        <!-- Sección 1 -->
-        <div class="border-b border-secondary-300 pb-4 mb-6">
-          <h3 class="text-lg font-bold text-primary-400">1. Destinos y Fechas</h3>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <InputField label="País de Origen" name="paísOrigen" type="text" required={true} value={route.id_origin_country} />
-          <InputField label="Ciudad de Origen" name="ciudadOrigen" type="text" required={true} value={route.id_origin_city} />
-          <InputField label="País Destino" name="paísDestino" type="text" required={true} value={route.id_destination_country} />
-          <InputField label="Ciudad Destino" name="ciudadDestino" type="text" required={true} value={route.id_destination_city} />
-          <InputField label="Fecha Inicio" name="fechaInicio" type="date" required={true} value={route.beginning_date} />
-          <InputField label="Fecha Fin" name="fechaFin" type="date" required={true} value={route.ending_date} />
-        </div>
-
-        <!-- Sección 2 -->
-        <div class="border-b border-secondary-300 pb-4 mb-6">
-          <h3 class="text-lg font-bold text-primary-400">2. Horario Preferente del Viaje</h3>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <InputField label="Hora Inicio" name="horaInicio" type="time" value={route.beginning_time} />
-          <InputField label="Hora Fin" name="horaFin" type="time" value={route.ending_time} />
-          <InputField label="Duración (horas)" name="duracion" type="number" value="4" />
-        </div>
-
-        <!-- Sección 3 -->
-        <div class="border-b border-secondary-300 pb-4 mb-6">
-          <h3 class="text-lg font-bold text-primary-400">3. Información Adicional</h3>
-        </div>
-
-        <div class="mb-8">
-          <label for="motivo" class="block text-sm font-medium mb-2 text-black">Motivo del Viaje <span class="text-warning-400">*</span></label>
-          <textarea id="motivo" name="motivo" rows="3" required class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">{travelRequest.notes}</textarea>
-
-          <label for="justificacion" class="block text-sm font-medium mb-2 text-black mt-6">Justificación <span class="text-warning-400">*</span></label>
-          <textarea id="justificacion" name="justificacion" rows="3" required class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">Justificación del viaje...</textarea>
-        </div>
-
-        <!-- Sección 4 -->
-        <div class="border-b border-secondary-300 pb-4 mb-6">
-          <h3 class="text-lg font-bold text-primary-400">4. Asignación del Costo de Viaje</h3>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <InputField label="Área Funcional" name="areaFuncional" type="text" required={true} value="Comercial" />
-          <InputField label="Departamento" name="departamento" value={gcc.department_name} disabled={true} />
-          <InputField label="CeCo Obtenido" name="cecoObtenido" value={gcc.costs_center} disabled={true} />
-        </div>
-
-        <!-- Botones -->
-        <div class="flex justify-end gap-4 pt-4">
-          <a href="/dashboard">
-            <Button variant="border" color="secondary" type="button" class="px-6">Cancelar</Button>
-          </a>          
-          <Button variant="filled" color="primary" type="submit" class="px-6">Guardar Cambios</Button>
-          <a href="/dashboard">
-            <Button variant="border" color="secondary" type="button" class="px-6">ENVIAR</Button>
-          </a>          
-        </div>
-      </form>
-    </main>
-  </div>
-
-  <script is:inline>
-    document.getElementById('editForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const requiredFields = this.querySelectorAll('[required]');
-      let isValid = true;
-
-      requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-          field.classList.add('border-warning-400');
-          isValid = false;
-        } else {
-          field.classList.remove('border-warning-400');
-        }
-      });
-
-      if (!isValid) {
-        alert('Por favor complete todos los campos requeridos');
-        return;
-      }
-
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData.entries());
-
-      console.log('Edited data:', data); // Simulate backend PUT request
-
-      alert('Solicitud editada correctamente (DEMO)');
-      window.location.href = '/dashboard';
-    });
-  </script>
+<MainLayout title={`Editar Solicitud #${id}`} data={{ userName, role, buttonLabel }}>
+  <TextHeader
+    title={`EDITAR SOLICITUD #${id}`}
+    subtitle="Modifica los datos necesarios y vuelve a enviar"
+  />
+  <RequestEdit request={request} />
 </MainLayout>

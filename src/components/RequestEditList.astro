@@ -1,0 +1,80 @@
+---
+/**
+ * Author: Nicole Dávila Hernández
+ * Description: Prefilled travel request form for editing an existing application.
+ */
+
+import InputField from '@components/InputField.astro';
+import Button from '@components/Button.astro';
+
+const { request } = Astro.props;
+
+const route = request.routes || {
+  id_origin_country: request.origin_country || '',
+  id_origin_city: request.origin_city || '',
+  id_destination_country: request.destination_country || '',
+  id_destination_city: request.destination_city || '',
+  beginning_date: request.beginning_date || '',
+  ending_date: request.ending_date || '',
+  beginning_time: request.beginning_time || '',
+  ending_time: request.ending_time || '',
+};
+const notes = request.notes || '';
+---
+
+<form id="editForm" class="space-y-8">
+  <!-- Destinos y Fechas -->
+  <div class="border-b border-secondary-300 pb-4 mb-6">
+    <h3 class="text-lg font-bold text-primary-400">1. Destinos y Fechas</h3>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <InputField label="País de Origen" name="paísOrigen" type="text" required={true} value={route.id_origin_country || ''} />
+    <InputField label="Ciudad de Origen" name="ciudadOrigen" type="text" required={true} value={route.id_origin_city || ''} />
+    <InputField label="País Destino" name="paísDestino" type="text" required={true} value={route.id_destination_country || ''} />
+    <InputField label="Ciudad Destino" name="ciudadDestino" type="text" required={true} value={route.id_destination_city || ''} />
+    <InputField label="Fecha Inicio" name="fechaInicio" type="date" required={true} value={route.beginning_date || ''} />
+    <InputField label="Fecha Fin" name="fechaFin" type="date" required={true} value={route.ending_date || ''} />
+  </div>
+
+  <!-- Horario -->
+  <div class="border-b border-secondary-300 pb-4 mb-6">
+    <h3 class="text-lg font-bold text-primary-400">2. Horario Preferente del Viaje</h3>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <InputField label="Hora Inicio" name="horaInicio" type="time" value={route.beginning_time || ''} />
+    <InputField label="Hora Fin" name="horaFin" type="time" value={route.ending_time || ''} />
+    <InputField label="Duración (horas)" name="duracion" type="number" value="4" />
+  </div>
+
+  <!-- Adicional -->
+  <div class="border-b border-secondary-300 pb-4 mb-6">
+    <h3 class="text-lg font-bold text-primary-400">3. Información Adicional</h3>
+  </div>
+
+  <div class="mb-8">
+    <label for="motivo" class="block text-sm font-medium mb-2 text-black">Motivo del Viaje <span class="text-warning-400">*</span></label>
+    <textarea id="motivo" name="motivo" rows="3" required class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">{notes}</textarea>
+
+    <label for="justificacion" class="block text-sm font-medium mb-2 text-black mt-6">Justificación <span class="text-warning-400">*</span></label>
+    <textarea id="justificacion" name="justificacion" rows="3" required class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">Justificación del viaje...</textarea>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-end gap-4 pt-4">
+    <Button variant="border" color="secondary" type="reset" class="px-6">Cancelar</Button>
+    <Button variant="filled" color="primary" type="submit" class="px-6">Guardar Cambios</Button>
+  </div>
+
+  <script is:inline>
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+      console.log("Edited form:", data);
+      alert("Cambios guardados (simulación)");
+      window.location.href = "/dashboard";
+    });
+  </script>
+</form>
