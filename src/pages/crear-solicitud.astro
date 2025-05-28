@@ -8,7 +8,7 @@
 
 import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
-import CreateTravelRequestForm from "@components/CreateTravelRequestForm.tsx";
+import TravelRequestForm from "@/components/TravelRequestForm";
 
 import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
@@ -26,7 +26,7 @@ const userName = getCookie("username");
       subtitle="Por favor complete el siguiente formulario por completo"
     />
     <main class="bg-white rounded-lg shadow-md p-8">
-      <CreateTravelRequestForm
+      <TravelRequestForm
         client:only="react"
       />
     </main>
