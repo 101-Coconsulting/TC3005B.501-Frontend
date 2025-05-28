@@ -12,18 +12,12 @@ interface Props {
   itemsPerPage?: number;
 }
 
-export default function History({ data, itemsPerPage = 5 }: Props) {
+export default function History({ data , itemsPerPage = 5 }: Props) {
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const start = (page - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const pageRequests = data.slice(start, end);
-
-  const statusTexts: { [key: number]: string } = {
-    "1": "COMPLETADO",
-    "2": "EN PROCESO",
-    "3": "CANCELADO",
-  };
 
   const getStatusStyle = (status: string) => {
     switch (status) {
@@ -38,30 +32,40 @@ export default function History({ data, itemsPerPage = 5 }: Props) {
 
   return (
     <div>
-			<div className="flex flex-col items-center w-full gap-4 min-h-160">
-				{pageRequests.map((request) => (
-					<a
-            key={request.request_id}
-						href={`/detalles-solicitud/${request.request_id}`}
-						className="flex items-center justify-between max-w-4xl content-wrapper"
-					>
-						<div className="flex flex-col gap-1">
-							<h2 className="text-lg font-semibold">#{request.request_id}</h2>
-							<p className="text-sm">Destino: {request.routes.id_origin_country}</p>
-							<p className="text-sm">Fecha Creación: {request.request_date}</p>
-						</div>
-						<p className={`text-center text-xs font-medium px-3 py-2 rounded-md shadow-sm ${getStatusStyle(request.currentStatus)}`}>
-							{statusTexts[request.request_status_id] || "DESCONOCIDO"}
-						</p>
-					</a>
-				))}
+			<div className="bg-white p-6 rounded-lg shadow w-full">
+        {data.length > 0 ? (
+          <div>
+            {pageRequests.map((request: any) => (
+              <a
+                key={request.request_id}
+                href={`/detalles-solicitud/${request.request_id}`}
+                className="flex items-center justify-between max-w-4xl content-wrapper"
+              >
+                <div className="flex flex-col gap-1">
+                  <h2 className="text-lg font-semibold">#{request.request_id}</h2>
+                  <p className="text-sm">Origen: {request.origin_country}</p>
+                  <p className="text-sm">Destino: {request.destination_country}</p>
+                  <p className="text-sm">Fecha Inicio: {request.beginning_date}</p>
+                  <p className="text-sm">Fecha Fin: {request.ending_date}</p>
+                </div>
+                <p className={`text-center text-xs font-medium px-3 py-2 rounded-md shadow-sm ${getStatusStyle(request.currentStatus)}`}>
+                  {(request.status || "DESCONOCIDO").toUpperCase()}
+                </p>
+              </a>
+            ))}
+            <Pagination
+              totalPages={totalPages}
+              page={page}
+              setPage={setPage}
+              maxVisible={5}
+            />
+          </div>
+        ) : (
+          <div className="bg-gray-100 p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
+            NO CUENTAS CON VIAJES COMPLETADOS, CANCELADOS O RECHAZADOS
+          </div>
+        )}
 			</div>
-      <Pagination
-        totalPages={totalPages}
-        page={page}
-        setPage={setPage}
-        maxVisible={5}
-      />
     </div>
   );
 }

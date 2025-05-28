@@ -39,7 +39,6 @@ function handleReject(id: number) {
       <TextHeader
         title={`SOLICITUD #${request.request_id}`}
         subtitle="Comprobantes de Gastos"
-      
       />
       
       <h1 class=`text-m ${status_colors[request.status]} font-semibold`>{request.status}</h1>
@@ -80,7 +79,6 @@ function handleReject(id: number) {
                 {/* Here is pending the functionality of downloading the receipt */}
               </a>
 
-              <!-- Component with approve/reject buttons for each receipt -->
               <ReceiptActions
                 client:only="react"
                 receipt_id={request.receipt_id}
