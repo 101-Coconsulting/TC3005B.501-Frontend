@@ -56,7 +56,7 @@ export default function ReceiptActions({
         alert(data.error || "No se pudo actualizar.");
       }
     } catch (err) {
-      alert("Error de red.");
+      //alert("Error de red.");
     } finally {
       setLoading(false);
       setShowModal(false);
