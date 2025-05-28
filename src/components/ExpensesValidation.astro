@@ -49,18 +49,18 @@ function handleReject(id: number) {
 
     <div class="grid gap-4">
       <!-- We separate the "expenses" content of the object -->      
-      {request.expenses.map((request: any) => {
-        const { label, class: statusClass } = getStatusProps(request.expense_status);
+      {request.Expenses?.length > 0 && request.Expenses.map((receipt: any) => {
+        const { label, class: statusClass } = getStatusProps(receipt.validation);
 
         return (
           <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
             
             <div class="col-span-2 space-y-2 content-wrapper">
-              <p class="font-bold text-lg break-words">#{request.receipt_id}</p>
+              <p class="font-bold text-lg break-words">#{receipt.receipt_id}</p>
               <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
                 
-                <p><span class="font-semibold">Monto:</span> {request.amount}</p>
-                <p><span class="font-semibold">Rubro:</span> {request.receipt_type_name}</p>
+                <p><span class="font-semibold">Monto:</span> {receipt.amount}</p>
+                <p><span class="font-semibold">Rubro:</span> {receipt.receipt_type_name}</p>
                 
                 <p class="flex items-center gap-2">
                   <span class="font-semibold">Status:</span>
@@ -72,19 +72,25 @@ function handleReject(id: number) {
             </div>
             
             <div class="flex flex-col justify-center h-full gap-3">
-              <a>
+              <a
+                href={""}  // Replace with actual PDF URL (e.g., from MongoDB or backend endpoint)
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                
                 <Button color="primary" variant="filled" size="medium" customSizeClass="w-full">
                   {/* This button should download the receipt */}                    
                   Descargar Comprobante
                 </Button>
                 {/* Here is pending the functionality of downloading the receipt */}
+                
               </a>
 
               <!-- Component with approve/reject buttons for each receipt -->
               <ReceiptActions
                 client:only="react"
-                receipt_id={request.receipt_id}
-                expense_status={request.expense_status}
+                receipt_id={receipt.receipt_id}
+                expense_status={receipt.validation}
                 onApprove={handleApprove}
                 onReject={handleReject}
               />
