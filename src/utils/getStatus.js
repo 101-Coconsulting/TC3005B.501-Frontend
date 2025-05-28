@@ -6,7 +6,7 @@ export function getStatusProps(status) {
       case "pendiente":
       case "pending":
         return { label: "Pendiente", class: "bg-yellow-100 text-yellow-700" };
-      case "rechazado":s
+      case "rechazado":
       case "declined":
         return { label: "Rechazado", class: "bg-red-100 text-red-700" };
       default:

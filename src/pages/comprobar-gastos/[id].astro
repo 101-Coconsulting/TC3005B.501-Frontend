@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 
 /**
  * Author: José Antonio González and Kenia Esmeralda Ramos Javier
@@ -9,6 +10,7 @@
 import MainLayout from "@layouts/MainLayout.astro";
 import ExpensesValidation from "@components/ExpensesValidation.astro";
 import type { UserRole } from "@type/roles";
+import { apiRequest } from "@/utils/apiClient";
 
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
@@ -18,6 +20,7 @@ const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
 //FETCH DEMO DATA
+/*
 import { duplicateJson } from "@utils/duplicateJson";
 import getexpenses from '@data/get-expense-validations-3.json';
 
@@ -35,6 +38,14 @@ const request = requests.find((req: any) => req.request_id.toString() === id);
 if (!request) {
   throw new Error(`No request found with ID ${id}`);
 }
+*/
+const id = 4 ; // fix the params
+const numericId = Number(id);
+if (isNaN(numericId)) {
+  throw new Error(`El ID debe ser numérico. Recibido: ${id}`);
+}
+
+const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
