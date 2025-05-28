@@ -29,6 +29,12 @@ if (!request) {
   throw new Error(`No request found with ID ${id}`);
 }
 
+const StateColors = {
+  'Aprobado': ' text-green-500',
+  'Rechazado': ' text-red-500',
+  'Pendiente': ' text-yellow-500'
+};
+
 ---
 
 <MainLayout title={`Comprobantes de la solicitud #${id}`} data={{ userName, role, buttonLabel }}>
@@ -49,11 +55,13 @@ if (!request) {
     <section class="bg-white p-6 rounded-lg shadow w-full">
       {request.Expenses.length > 0 ? (
         <div class="grid gap-8">
-          {request.Expenses.map((expense: any) => (
+          {request.Expenses.map((expense: any, index) => (
+            
             <div class="border border-gray-200 rounded p-4 text-sm text-gray-700 space-y-2">
+              <p class="font-bold text-lg break-words">Comprobante #{index+1}</p>
               <p><span class="font-semibold">Tipo de gasto:</span> {expense.receipt_type_name}</p>
               <p><span class="font-semibold">Monto:</span> ${expense.amount}</p>
-              <p><span class="font-semibold">Estado:</span> {expense.validation}</p>
+              <p class=`text-right text-lg ${StateColors[expense.validation]} font-semibold`><span class="font-semibold text-black">Estado:</span > {expense.validation}</p>
             </div>
           ))}
         </div>
