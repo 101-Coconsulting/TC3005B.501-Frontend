@@ -1,9 +1,10 @@
+// ExpensesFormClient.tsx
 import React, { useState } from "react";
 import UploadFiles from "@components/UploadFiles";
 import Button from "@components/Button.tsx";
 import { submitTravelExpense } from "@components/SubmitTravelWarper";
 import ModalWrapper from "@components/ModalWrapper.tsx";
-
+import UploadReceiptFiles from "@components/UploadReceiptFiles.tsx";
 
 interface Props {
   requestId: number;
@@ -14,18 +15,35 @@ export default function ExpensesFormClient({ requestId }: Props) {
   const [monto, setMonto] = useState("");
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [xmlFile, setXmlFile] = useState<File | null>(null);
+  const [isInternational, setIsInternational] = useState(false);
+  const [lastReceiptId, setLastReceiptId] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
     try {
-      await submitTravelExpense({
+      setSubmitting(true);
+
+      let finalXmlFile = xmlFile;
+      if (isInternational && !xmlFile) {
+        const response = await fetch("../assets/default.xml");
+        const blob = await response.blob();
+        finalXmlFile = new File([blob], "default.xml", { type: "application/xml" });
+        setXmlFile(finalXmlFile); // opcional para la UI
+      }
+
+      const { lastReceiptId } = await submitTravelExpense({
         requestId,
         concepto,
         monto: parseFloat(monto),
       });
-      window.location.href = `/comprobar-solicitud/${requestId}`;
+
+      console.log("Último receipt_id:", lastReceiptId);
+      setLastReceiptId(lastReceiptId);
+
     } catch (err) {
       console.error(err);
       alert("Error al enviar la comprobación");
+      setSubmitting(false);
     }
   };
 
@@ -63,7 +81,12 @@ export default function ExpensesFormClient({ requestId }: Props) {
         </div>
       </div>
 
-      <UploadFiles onPdfChange={setPdfFile} onXmlChange={setXmlFile} />
+      <UploadFiles
+        onPdfChange={setPdfFile}
+        onXmlChange={setXmlFile}
+        isInternational={isInternational}
+        setIsInternational={setIsInternational}
+      />
 
       <div className="flex justify-end gap-4 pt-4">
         <a href={`/comprobar-solicitud/${requestId}`}>
@@ -82,6 +105,23 @@ export default function ExpensesFormClient({ requestId }: Props) {
           Subir Comprobante
         </ModalWrapper>
       </div>
+
+      {lastReceiptId !== null && (
+        <UploadReceiptFiles
+          receiptId={lastReceiptId}
+          pdfFile={pdfFile}
+          xmlFile={xmlFile}
+          onDone={() => {
+            console.log("Archivos subidos correctamente.");
+            window.location.href = `/comprobar-solicitud/${requestId}`;
+          }}
+          onError={(err) => {
+            console.error(err);
+            alert("Error al subir los archivos");
+            setSubmitting(false);
+          }}
+        />
+      )}
     </div>
   );
 }

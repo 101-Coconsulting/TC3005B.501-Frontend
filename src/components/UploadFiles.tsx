@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-
 interface Props {
   onPdfChange?: (file: File | null) => void;
   onXmlChange?: (file: File | null) => void;
+  isInternational: boolean;
+  setIsInternational: (value: boolean) => void;
 }
 
-export default function UploadFiles({ onPdfChange, onXmlChange }: Props) {
-  const [isInternational, setIsInternational] = useState(false);
-
+export default function UploadFiles({
+  onPdfChange,
+  onXmlChange,
+  isInternational,
+  setIsInternational,
+}: Props) {
   return (
     <div className="space-y-4">
       <label className="flex items-center gap-2">

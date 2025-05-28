@@ -20,7 +20,7 @@ export async function submitTravelExpense({
   requestId,
   concepto,
   monto,
-}: SubmitExpenseParams) {
+}: SubmitExpenseParams): Promise<{ count: number; lastReceiptId: number | null }> {
   const receipt_type_id = receiptTypeMap[concepto];
   if (!receipt_type_id) throw new Error(`Concepto inválido: ${concepto}`);
 
@@ -34,8 +34,28 @@ export async function submitTravelExpense({
     ],
   };
 
-  return await apiRequest("/applicant/create-expense-validation", {
+  // POST
+  await apiRequest("/applicant/create-expense-validation", {
     method: "POST",
     data: payload,
   });
+
+  // Espera un momento para asegurar que se refleje la nueva información
+  await new Promise((res) => setTimeout(res, 500));
+
+  // GET actualizaciones
+  const res = await apiRequest(`/accounts-payable/get-expense-validations/${requestId}`, {
+    method: "GET",
+  });
+
+  const expenses = res.Expenses ?? [];
+  const count = expenses.length;
+
+  // Ordenar por receipt_id descendente para asegurar el más reciente
+  expenses.sort((a, b) => b.receipt_id - a.receipt_id);
+  const lastReceiptId = count > 0 ? expenses[0].receipt_id : null;
+
+  alert(`Comprobante enviado exitosamente.\nÚltimo receipt_id: ${lastReceiptId}`);
+
+  return { count, lastReceiptId };
 }
