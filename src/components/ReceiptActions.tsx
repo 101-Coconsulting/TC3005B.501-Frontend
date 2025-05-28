@@ -18,23 +18,55 @@ interface ReceiptProps {
 
 export default function ReceiptActions({
   receipt_id,
+  expense_status,
   onApprove,
   onReject,
 }: ReceiptProps) {
   const [showModal, setShowModal] = useState(false);
   const [action, setAction] = useState<"approve" | "reject" | null>(null);
+  const [status,setStatus]= useState(expense_status);
+  const [loading,setLoading] = useState(false);
 
   const handleClick = (type: "approve" | "reject") => {
     setAction(type);
     setShowModal(true);
   };
 
-  const confirmAction = () => {
-    if (action === "approve") onApprove(receipt_id);
-    if (action === "reject") onReject(receipt_id);
-    setShowModal(false);
-    setAction(null);
+  const confirmAction = async () => {
+    const approval = action === "approve" ? 1 : 0;
+
+    try {
+      setLoading(true);
+      const res = await fetch(
+      `${import.meta.env.PUBLIC_API_BASE_URL}/accounts-payable/validate-receipt/${receipt_id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ approval }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        const newStatus = data.validation;
+        setStatus(newStatus);
+        approval === 1 ? onApprove(receipt_id) : onReject(receipt_id);
+      } else {
+        alert(data.error || "No se pudo actualizar.");
+      }
+    } catch (err) {
+      alert("Error de red.");
+    } finally {
+      setLoading(false);
+      setShowModal(false);
+      setAction(null);
+    }
   };
+
+  if (status !== "Pendiente") {
+    return <p className="text-sm text-gray-500 italic">Ya fue {status}</p>;
+  }
 
   /*  ---  Legacy alert-based confirmation logic (replaced by modal) ----
   const handleApprove = () => {
@@ -69,7 +101,6 @@ export default function ReceiptActions({
         onClose={() => setShowModal(false)}
         onConfirm={confirmAction}
       />
-
     </div>
   );
 }
