@@ -10,14 +10,16 @@ import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
+import { apiRequest } from "@/utils/apiClient";
 
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
 //FETCH DEMO DATA
-import requests from '@data/get-expense-validations-2.json';
+//import requests from '@data/get-expense-validations-2.json';
 
+const requests = await apiRequest('/accounts-payable/get-expense-requests')
 ---
 
 <MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
