@@ -16,7 +16,7 @@ export default function UploadReceiptFiles({
   onError,
 }: Props) {
   useEffect(() => {
-  if (!pdfFile && !xmlFile) return; // Nada que subir
+  if (!pdfFile && !xmlFile) return;
 
   const upload = async () => {
     try {

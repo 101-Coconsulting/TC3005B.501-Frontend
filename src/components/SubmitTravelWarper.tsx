@@ -34,16 +34,14 @@ export async function submitTravelExpense({
     ],
   };
 
-  // POST
   await apiRequest("/applicant/create-expense-validation", {
     method: "POST",
     data: payload,
   });
 
-  // Espera un momento para asegurar que se refleje la nueva información
+  // Espera un momento dice mike
   await new Promise((res) => setTimeout(res, 500));
 
-  // GET actualizaciones
   const res = await apiRequest(`/accounts-payable/get-expense-validations/${requestId}`, {
     method: "GET",
   });
@@ -51,7 +49,6 @@ export async function submitTravelExpense({
   const expenses = res.Expenses ?? [];
   const count = expenses.length;
 
-  // Ordenar por receipt_id descendente para asegurar el más reciente
   expenses.sort((a, b) => b.receipt_id - a.receipt_id);
   const lastReceiptId = count > 0 ? expenses[0].receipt_id : null;
 

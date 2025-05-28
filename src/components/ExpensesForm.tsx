@@ -1,4 +1,3 @@
-// ExpensesFormClient.tsx
 import React, { useState } from "react";
 import UploadFiles from "@components/UploadFiles";
 import Button from "@components/Button.tsx";
@@ -28,7 +27,7 @@ export default function ExpensesFormClient({ requestId }: Props) {
         const response = await fetch("../assets/default.xml");
         const blob = await response.blob();
         finalXmlFile = new File([blob], "default.xml", { type: "application/xml" });
-        setXmlFile(finalXmlFile); // opcional para la UI
+        setXmlFile(finalXmlFile);
       }
 
       const { lastReceiptId } = await submitTravelExpense({
@@ -42,7 +41,7 @@ export default function ExpensesFormClient({ requestId }: Props) {
 
     } catch (err) {
       console.error(err);
-      alert("Error al enviar la comprobación");
+      //alert("Error al enviar la comprobación");
       setSubmitting(false);
     }
   };
@@ -117,7 +116,7 @@ export default function ExpensesFormClient({ requestId }: Props) {
           }}
           onError={(err) => {
             console.error(err);
-            alert("Error al subir los archivos");
+            // alert("Error al subir los archivos");
             setSubmitting(false);
           }}
         />
