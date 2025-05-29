@@ -6,6 +6,7 @@
 
 import ModalWrapper from '@components/ModalWrapper.tsx';
 import RequestDetail from '@components/RequestDetail.astro';
+import AproveRequest from '@components/AproveRequestModal.tsx';
 
 const { request } = Astro.props;
 ---
@@ -17,16 +18,17 @@ const { request } = Astro.props;
       subtitle="Detalles de la Solicitud a Atender"
     />
     <div class="flex justify-end gap-4 mt-8">
-      <ModalWrapper
-        client:only="react" 
-        title="Atender Solicitud"
-        message="¿Está seguro de que desea marcar como atendida esta solicitud?"
+       <AproveRequest
+        client:only="react"
+        request_id={request.request_id}
+        title="Confirmar envío"
+        message="¿Está seguro de aprobar esta solicitud?"
+        redirection="/dashboard"
+        modal_type="success"
         variant="filled"
-        button_type="secondary"
-        modal_type="confirm"
-      >
-        Atendida
-      </ModalWrapper>
+        >
+        Aprobar
+      </AproveRequest
     </div>
   </div>
 </main>
