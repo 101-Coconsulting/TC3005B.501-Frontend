@@ -8,7 +8,7 @@ import RouteInputGroup from '@/components/RouteInputGroup';
 
 interface Props {
   data?: FormData;
-  isEditable?: boolean;
+  mode: 'create' | 'edit' | 'draft';
 }
 
 const emptyRoute: TravelRoute = {
@@ -33,7 +33,7 @@ const initialFormState: FormData = {
   routes: [{ ...emptyRoute, router_index: 0 }],
 };
 
-export default function TravelRequestForm({ data, isEditable }: Props) {
+export default function TravelRequestForm({ data, mode }: Props) {
   const [deptData, setDeptData] = useState<DepartmentData | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormState);
 
@@ -243,7 +243,7 @@ export default function TravelRequestForm({ data, isEditable }: Props) {
         <button type="button" onClick={handleResetForm} className="bg-red-500 text-white px-6 py-2 rounded-md shadow hover:bg-red-600 transition-colors">
           Limpiar Formulario
         </button>
-        {!isEditable && (
+        {mode == 'create' && (
           <div className='flex gap-3'>
             <button type="button" onClick={handleSaveDraft} className="bg-gray-500 text-white px-6 py-2 rounded-md shadow hover:bg-gray-600 transition-colors">
               Guardar Borrador
@@ -253,9 +253,14 @@ export default function TravelRequestForm({ data, isEditable }: Props) {
             </button>
           </div>
         )}
-        {isEditable && (
+        {mode == 'edit' && (
           <button type="button" onClick={handleUpdateRequest} className="bg-blue-600 text-white px-6 py-2 rounded-md shadow hover:bg-blue-700 transition-colors">
             Actualizar Solicitud
+          </button>
+        )}
+        {mode == 'draft' && (
+          <button type="button" onClick={handleUpdateRequest} className="bg-green-600 text-white px-6 py-2 rounded-md shadow hover:bg-green-700 transition-colors">
+            Terminar de Editar Borrador
           </button>
         )}
       </div>

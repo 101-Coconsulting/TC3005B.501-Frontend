@@ -28,7 +28,7 @@ console.log(requests)
           {requests.map((request: any) => {
             return (
               <div class="grid grid-cols-[1fr_auto] gap-6 items-center">
-                <a href={`/editar-solicitud/${request.request_id}`} class="block">
+                <a href={`/completar-draft/${request.request_id}`} class="block">
                   <div class="space-y-2 content-wrapper">
                     <p class="font-bold text-lg break-words">#{request.request_id}</p>
                     <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
