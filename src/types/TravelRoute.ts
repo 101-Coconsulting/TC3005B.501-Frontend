@@ -1,10 +1,5 @@
-import type { TravelRoute } from './TravelRoute';
-
-export interface FormData {
+export interface TravelRoute {
   router_index: number;
-  notes: string;
-  requested_fee: number | string;
-  imposed_fee: number | string;
   origin_country_name: string;
   origin_city_name: string;
   destination_country_name: string;
@@ -15,5 +10,4 @@ export interface FormData {
   ending_time: string;
   plane_needed: boolean;
   hotel_needed: boolean;
-  routes: TravelRoute[];
 }

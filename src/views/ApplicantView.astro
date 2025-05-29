@@ -55,7 +55,7 @@ var { userName } = Astro.props;
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isEditable = request.status === "Abierto" || request.status === "Draft";
+            const isEditable = request.status === "Borrador" || request.status === "Primera Revisión";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
                 <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">

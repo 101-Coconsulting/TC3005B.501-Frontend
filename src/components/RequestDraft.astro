@@ -9,9 +9,10 @@ import TextHeader from "@components/TextHeader.astro";
 import CancelRequestModal from "@components/CancelRequestModal.tsx";
 
 var { userName, requests } = Astro.props;
-const filteredRequests = requests.filter((request: { status: string; }) => request.status === "Abierto");
+const filteredRequests = requests.filter((request: { status: string; }) => request.status === "Borrador");
 requests= filteredRequests;
 
+console.log(requests)
 ---
 
 <div>
@@ -31,7 +32,7 @@ requests= filteredRequests;
                   <div class="space-y-2 content-wrapper">
                     <p class="font-bold text-lg break-words">#{request.request_id}</p>
                     <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
-                      <p><span class="font-semibold">Lugar:</span> {request.country_name}</p>
+                      <p><span class="font-semibold">Lugar:</span> {request.destination_country}</p>
                       <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
                       <p>
                         <span class="font-semibold">Estado:</span> 
