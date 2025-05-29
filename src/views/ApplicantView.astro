@@ -55,7 +55,7 @@ var { userName } = Astro.props;
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isEditable = request.status === "Abierto" || request.status === "Borrador";
+            const isEditable = request.status === "Borrador" || request.status === "Primera Revisión";
             const isComp = request.status === "Comprobación gastos del viaje";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">

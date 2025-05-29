@@ -42,8 +42,7 @@ const { request, title, subtitle } = Astro.props;
       <section>
         <h2 class="text-2xl font-bold text-gray-900 mb-5 border-b-2 border-black pb-2">Tarifas y Fechas</h2>
         <div class="grid grid-cols-1 gap-y-2">
-          <p><span class="font-medium text-gray-700">Cuota solicitada:</span> ${request.requested_fee}</p>
-          <p><span class="font-medium text-gray-700">Cuota impuesta:</span> ${request.imposed_fee}</p>
+          <p><span class="font-medium text-gray-700">Cuota solicitada:</span> ${request.requested_fee.toFixed(2)}</p>
           <p><span class="font-medium text-gray-700">Fecha de creación:</span> {request.creation_date}</p>
         </div>
       </section>
