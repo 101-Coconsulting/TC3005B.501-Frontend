@@ -1,0 +1,24 @@
+---
+/**
+ * Author: Placeholder
+ * 
+ * Description: Component to edit an existing request
+ */
+
+// Import necessary components
+import TravelRequestForm from "./TravelRequestForm";
+
+// Define the interface for the component props
+interface Props {
+  request: any;
+}
+
+// Get the request from props
+const { request } = Astro.props;
+---
+
+<div class="w-full">
+  <h1 class="text-2xl font-bold mb-6">Editar solicitud</h1>
+  
+  <TravelRequestForm client:load initialData={request} isEditing={true} />
+</div>

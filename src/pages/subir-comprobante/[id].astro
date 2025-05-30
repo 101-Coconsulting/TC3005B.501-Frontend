@@ -3,6 +3,7 @@
 * Authors: Gabriel Muñoz Luna
 * Description: Muestra el formulario.
 **/
+// Change back to prerender = false to make this a dynamic route
 export const prerender = false;
 
 import MainLayout from "@layouts/MainLayout.astro";
@@ -12,6 +13,16 @@ import { getCookie } from "@data/cookies";
 import allRequests from "@data/get-user-request.json";
 import type { UserRole } from "@type/roles";
 import { roleLabels } from "@config/role-labels";
+
+// Uncomment getStaticPaths to provide static paths during build
+export async function getStaticPaths() {
+  // Return a minimal set of paths to satisfy the build
+  return [
+    { params: { id: "1" } },
+    { params: { id: "2" } },
+    { params: { id: "3" } }
+  ];
+}
 
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");

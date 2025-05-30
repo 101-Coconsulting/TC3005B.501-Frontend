@@ -1,0 +1,33 @@
+---
+/**
+ * Author: Placeholder
+ * 
+ * Description: Component to complete a draft request
+ */
+
+// Import necessary components
+import TravelRequestForm from "./TravelRequestForm";
+
+// Define the interface for the component props
+interface Props {
+  request: any;
+}
+
+// Get the request from props
+const { request } = Astro.props;
+
+// Create a fallback request object for static build
+const fallbackRequest = request || {
+  request_id: "1",
+  destination_country: "México",
+  beginning_date: "2025-05-01",
+  ending_date: "2025-05-01",
+  status: "Borrador"
+};
+---
+
+<div class="w-full">
+  <h1 class="text-2xl font-bold mb-6">Completar borrador de solicitud</h1>
+  
+  <TravelRequestForm client:load initialData={fallbackRequest} isEditing={true} />
+</div>

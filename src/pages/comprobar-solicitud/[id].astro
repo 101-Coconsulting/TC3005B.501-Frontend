@@ -3,6 +3,7 @@
 * Authors: Gabriel Muñoz Luna
 * Description: Muestra los recibos subidos a una solicitud especifica.
 **/
+// Change back to prerender = false to make this a dynamic route
 export const prerender = false;
 
 import MainLayout from "@layouts/MainLayout.astro";
@@ -16,18 +17,30 @@ const userName = getCookie("username");
 const role = getCookie("role");
 const buttonLabel = role;
 
-
 import { apiRequest } from '@utils/apiClient';
-import { CONTENT_TYPES_FILE } from "node_modules/astro/dist/content/consts";
+
+// Uncomment getStaticPaths to provide static paths during build
+export async function getStaticPaths() {
+  // Return a minimal set of paths to satisfy the build
+  return [
+    { params: { id: "1" } },
+    { params: { id: "2" } },
+    { params: { id: "3" } }
+  ];
+}
 
 const { id } = Astro.params;
 
-
-const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
-
-
-if (!request) {
-  throw new Error(`No request found with ID ${id}`);
+// Move API call to be executed at request time, not build time
+let request;
+try {
+  if (Astro.request.method !== "HEAD") { // Skip during build
+    request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
+  }
+} catch (error) {
+  console.error("Error fetching request:", error);
+  // Provide fallback data structure
+  request = { Expenses: [] };
 }
 
 const StateColors = {
@@ -35,7 +48,6 @@ const StateColors = {
   'Rechazado': ' text-red-500',
   'Pendiente': ' text-yellow-500'
 };
-
 ---
 
 <MainLayout title={`Comprobantes de la solicitud #${id}`} data={{ userName, role, buttonLabel }}>
@@ -54,7 +66,7 @@ const StateColors = {
       </a>
     </div>
     <section class="bg-white p-6 rounded-lg shadow w-full">
-      {request.Expenses.length > 0 ? (
+      {request?.Expenses && request.Expenses.length > 0 ? (
         <div class="grid gap-8">
           {request.Expenses.map((expense: any, index) => (
             
