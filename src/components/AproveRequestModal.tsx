@@ -8,7 +8,7 @@ interface Props {
   message: string;
   redirection: string;
   modal_type: "success" | "warning";
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary"| "filled";
   children: React.ReactNode;
 }
 

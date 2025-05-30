@@ -7,7 +7,8 @@
  */
  
 import MainLayout from "@layouts/MainLayout.astro";
-import ExpensesValidation from "@components/ExpensesValidation.astro";
+import TextHeader from "@components/TextHeader.astro";
+import ReceiptActions from "@components/ReceiptActions";
 import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
@@ -18,30 +19,23 @@ const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
-// export async function getStaticPaths() {
-//   //Status corresponding to Accounts Payable COMPROBAR GASTOS
-//   const status = 6;
-//   const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
-//   return requests.map((req: any) => ({
-//     params: { id: req.request_id.toString() },
-//   }));
-// }
+const status_colors = {
+  'Pending': 'text-warning-400',
+  'Aproved': 'text-success-400',
+  'Declined': 'text-danger-400',
+};
 
-// const { id } = Astro.params;
-// const request = await apiRequest(`/user/get-travel-request/${id}`);
-
-// FETCH DUMMY DATA
-import expenses from "@data/get-expense-validations.json";
 export async function getStaticPaths() {
-  const requests = expenses
+  //Status corresponding to Accounts Payable COMPROBAR GASTOS
+  const status = 6;
+  const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
   return requests.map((req: any) => ({
     params: { id: req.request_id.toString() },
   }));
 }
 
 const { id } = Astro.params;
-const request = expenses[0]
-
+const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
 
 if (!request) {
   throw new Error(`No request found with ID ${id}`);
@@ -49,5 +43,68 @@ if (!request) {
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
-  <ExpensesValidation request={request} />
+
+<main class="flex flex-col items-center">
+  <div class="w-full flex flex-col rounded border border-gray-300 p-10">
+
+    <div class="flex justify-between items-center">
+      <TextHeader
+        title={`SOLICITUD #${request.request_id}`}
+        subtitle="Comprobantes de Gastos"
+      />
+      <h1 class={`text-m ${status_colors[request.status as keyof typeof status_colors]} font-semibold`}>{request.status}</h1>
+    </div>
+  <div>
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Comprobantes</h3>
+
+    {request.Expenses.length === 0 ? (
+      <p class="text-gray-500">No hay comprobantes pendientes de comprobar.</p>
+    ) : (
+      <div class="grid gap-4">     
+        {request.Expenses.map((request: any) => {
+
+          return (
+            <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
+              
+              <div class="col-span-2 space-y-2 content-wrapper">
+                <p class="font-bold text-lg break-words">#{request.receipt_id}</p>
+                <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
+                  
+                  <p><span class="font-semibold">Monto:</span> {request.amount}</p>
+                  <p><span class="font-semibold">Rubro:</span> {request.receipt_type_name}</p>
+                  
+                  <p class="flex items-center gap-2">
+                    <span class="font-semibold">Status:</span>
+                    <span class={`inline-block px-3 py-1 text-xs font-semibold rounded-full`}>
+                      PENDIENTE
+                    </span>
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex flex-col justify-center h-full gap-3">
+                <a>
+                  <button class="btn bg-blue-200 rounded w-full h-12 flex items-center justify-center hover:bg-blue-300 transition-colors">
+                    {/* This button should download the receipt */}                    
+                    Descargar Comprobante
+                  </button>
+                  {/* Here is pending the functionality of downloading the receipt */}
+                </a>
+
+                <ReceiptActions
+                  client:only="react"
+                  receipt_id={request.receipt_id}
+                  expense_status={request.expense_status}
+                />
+              </div>
+            </div>    
+          );
+        })}
+      </div>
+    )}
+  </div>
+  
+</div>
+</main>
+
 </MainLayout>

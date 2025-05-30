@@ -5,7 +5,8 @@
  */
 
 import MainLayout from "@layouts/MainLayout.astro";
-import RequestAttention from "@components/RequestAttention.astro";
+import RequestDetail from "@components/RequestDetail.astro";
+import AproveRequest from "@components/AproveRequestModal";
 import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
@@ -31,5 +32,22 @@ if (!request) {
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
-  <RequestAttention request={request} />
+  <RequestDetail
+    request={request}
+    title={`SOLICITUD #${request.request_id}`}
+    subtitle="Detalles de la Solicitud a Atender"
+  />
+  <div class="flex justify-end gap-4 mt-8">
+    <AproveRequest
+      client:only="react"
+      request_id={request.request_id}
+      title="Confirmar envío"
+      message="¿Está seguro de aprobar esta solicitud?"
+      redirection="/dashboard"
+      modal_type="success"
+      variant="filled"
+    >
+      Aprobar
+    </AproveRequest>
+  </div>
 </MainLayout>
