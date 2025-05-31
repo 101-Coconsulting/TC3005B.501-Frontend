@@ -27,7 +27,14 @@ const colorDesign: { [key: string]: string } = {
 };
 
 const user_id = getCookie("id");
-const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-user-requests/${user_id}`);
+  } catch (error) {
+    return [];
+  }
+})()
 
 var { userName } = Astro.props;
 ---
@@ -48,7 +55,8 @@ var { userName } = Astro.props;
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isEditable = request.status === "Abierto" || request.status === "Draft";
+            const isEditable = request.status === "Borrador" || request.status === "Primera Revisión";
+            const isComp = request.status === "Comprobación gastos del viaje";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
                 <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
@@ -75,7 +83,7 @@ var { userName } = Astro.props;
                       </Button>
                     </a>
                     <a href={`/comprobar-solicitud/${request.request_id}`}>
-                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                      <Button color="primary" disabled={!isComp} variant="filled" size="medium" customSizeClass="w-full">
                         COMPROBAR
                       </Button>
                     </a>
