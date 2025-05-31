@@ -5,10 +5,14 @@
 **/
 
 import MaterialIcon from "@/components/MaterialIcon.astro";
-import ModalWrapper from "@components/ModalWrapper.tsx";
 import TextHeader from "@components/TextHeader.astro";
+import CancelRequestModal from "@components/CancelRequestModal.tsx";
 
 var { userName, requests } = Astro.props;
+const filteredRequests = requests.filter((request: { status: string; }) => request.status === "Borrador");
+requests= filteredRequests;
+
+console.log(requests)
 ---
 
 <div>
@@ -17,23 +21,23 @@ var { userName, requests } = Astro.props;
       title={`DRAFT DE VIAJES DE ${userName.toUpperCase()}`}
       subtitle="Aquí puedes ver los draft de solicitudes por completar"
     />
-
+    
     <section class="bg-white p-6 rounded-lg shadow w-full">
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
             return (
               <div class="grid grid-cols-[1fr_auto] gap-6 items-center">
-                <a href={`/editar-solicitud/${request.request_id}`} class="block">
+                <a href={`/completar-draft/${request.request_id}`} class="block">
                   <div class="space-y-2 content-wrapper">
                     <p class="font-bold text-lg break-words">#{request.request_id}</p>
                     <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
-                      <p><span class="font-semibold">Lugar:</span> {request.country_name}</p>
+                      <p><span class="font-semibold">Lugar:</span> {request.destination_country}</p>
                       <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
                       <p>
                         <span class="font-semibold">Estado:</span> 
                         <span class={`ml-1 font-semibold text-gray-500`}>
-                          DRAFT
+                          {request.status}
                         </span>
                       </p>
                       <p><span class="font-semibold">Responsable:</span> Eduardo Porto Morales</p>
@@ -42,13 +46,10 @@ var { userName, requests } = Astro.props;
                 </a>
                 <div class="flex justify-end items-center h-full p-2">
                   <span class="flex items-center justify-center w-6 h-6">                        
-                    <ModalWrapper
-                      client:only="react"
-                      title="Borrar Solicitud"
-                      message="¿Estás seguro de que deseas borrar esta solicitud?"
-                      button_type="primary"
-                      variant="empty"
-                      modal_type="confirm"
+                    <CancelRequestModal
+                        client:only="react"
+                        id={request.request_id}
+                        disabled={false}
                       >
                         <div>
                           <MaterialIcon
@@ -57,7 +58,7 @@ var { userName, requests } = Astro.props;
                             style="cursor: pointer"
                           />
                         </div>
-                    </ModalWrapper>
+                      </CancelRequestModal>
                   </span>
                 </div>
               </div>

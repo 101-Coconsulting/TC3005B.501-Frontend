@@ -1,18 +1,56 @@
-{
-    "request_id": "A37452",
-    "status": "Pending",
+[
+    {
+  "request_id": 12,
+  "status": "Pending",
+  "expenses": [
+    {
+      "receipt_id": 1,
+      "amount": "$250.00",
+      "receipt_type_name": "Hospedaje",
+      "expense_status": "Pending"
+    },
+    {
+      "receipt_id": 2,
+      "amount": "$120.50",
+      "receipt_type_name": "Alimentación",
+      "expense_status": "Aproved"
+    },
+    {
+      "receipt_id": 3,
+      "amount": "$80.00",
+      "receipt_type_name": "Transporte",
+      "expense_status": "Declined"
+    }
+  ]
+},
+  {
+    "request_id": 1235,
+    "status": "Approved",
     "expenses": [
-        {
-            "receipt_id": "A37452",
-            "receipt_type_name": "Airfare",
-            "amount": 1245.50,
-            "expense_status": "Pending"
-        },
-        {
-            "receipt_id": "A37452",
-            "receipt_type_name": "Hotel",
-            "amount": 12.50,
-            "expense_status": "Pending"
-        }
+      {
+        "receipt_id": 4,
+        "amount": "$300.00",
+        "receipt_type_name": "Hospedaje",
+        "expense_status": "Aproved"
+      },
+      {
+        "receipt_id": 5,
+        "amount": "$150.00",
+        "receipt_type_name": "Alimentación",
+        "expense_status": "Aproved"
+      }
     ]
-}
+  },
+  {
+    "request_id": 1236,
+    "status": "Declined",
+    "expenses": [
+      {
+        "receipt_id": 6,
+        "amount": "$200.00",
+        "receipt_type_name": "Transporte",
+        "expense_status": "Declined"
+      }
+    ]
+  }
+]

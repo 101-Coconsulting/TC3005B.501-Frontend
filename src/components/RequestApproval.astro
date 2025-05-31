@@ -6,87 +6,46 @@
  * It includes sections for travel details and buttons for authorization and rejection.
  */
 
-import Button from '@components/Button.astro';
-import TextHeader from '@components/TextHeader.astro';
 import ModalWrapper from '@components/ModalWrapper.tsx';
+import RequestDetail from '@components/RequestDetail.astro';
+import TravelRequestActionWrapper from '@components/TravelRequestActionWrapper.tsx';
 
 const { request } = Astro.props;
+const id = request.request_id;
 ---
-<main class="flex flex-col items-center">
-  <div class="w-full flex flex-col rounded border border-gray-300 p-10">
-
-    <div class="flex justify-between items-center">
-      <TextHeader
-        title={`SOLICITUD #${request.request_id}`}
-        subtitle="Detalles de la Solicitud a Autorizar"
-      />
-    </div>
-
-    <div class="flex flex-col gap-10">
-      <section>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Información del Usuario</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-base text-gray-700">
-          <p><span class="font-medium text-gray-900">Nombre:</span> {request.user.user_name}</p>
-          <p><span class="font-medium text-gray-900">Correo:</span> {request.user.user_email}</p>
-          <p><span class="font-medium text-gray-900">Teléfono:</span> {request.user.user_phone_number}</p>
-        </div>
-      </section>
-      <section>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Detalles del Viaje</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-base text-gray-700">
-          <p><span class="font-medium text-gray-900">Fecha de salida:</span> {request.routes.beginning_date}</p>
-          <p><span class="font-medium text-gray-900">Hora de salida:</span> {request.routes.beginning_time}</p>
-          <p><span class="font-medium text-gray-900">Fecha de regreso:</span> {request.routes.ending_date}</p>
-          <p><span class="font-medium text-gray-900">Hora de regreso:</span> {request.routes.ending_time}</p>
-          <p><span class="font-medium text-gray-900">¿Hotel necesario?:</span> {request.routes.hotel_needed ? "Sí" : "No"}</p>
-          <p><span class="font-medium text-gray-900">¿Avión necesario?:</span> {request.routes.plane_needed ? "Sí" : "No"}</p>
-        </div>
-      </section>
-      <section>
-        <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Tarifas y Observaciones</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 text-base text-gray-700">
-          <p><span class="font-medium text-gray-900">Cuota solicitada:</span> ${request.requested_fee.toFixed(2)}</p>
-          <p><span class="font-medium text-gray-900">Notas:</span> {request.notes}</p>
-          <p><span class="font-medium text-gray-900">Fecha de solicitud:</span> {request.request_date}</p>
-          <p><span class="font-medium text-gray-900">Hora de solicitud:</span> {request.request_time}</p>
-        </div>
-      </section>
-      <div class="flex justify-end gap-4">
-        <!-- <Button
-          variant="filled"
-          color="success"
-          class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
+<main class="flex flex-col">
+  <div>
+    <RequestDetail
+      request={request}
+      title={`SOLICITUD #${request.request_id}`}
+      subtitle="Detalles de la solicitud"
+    />
+    <div class="flex justify-end gap-4 mt-8">
+      <TravelRequestActionWrapper
+        client:only="react"
+        request_id={id}
+        endpoint="/authorizer/authorize-travel-request"
+        role={4}
+        title="Confirmar autorización"
+        message="¿Está seguro de que desea autorizar esta solicitud?"
+        redirection="/dashboard"
+        modal_type="success"
         >
-          Autorizar
-        </Button>
-        <Button
-          variant="filled"
-          color="warning"
-          class="px-10 py-3 text-base font-medium rounded-xl shadow hover:scale-[1.03] transition-transform"
-        >
-          Rechazar
-        </Button> -->
+        Aceptar
+      </TravelRequestActionWrapper>
 
-        <ModalWrapper
-          client:only="react"
-          title="Confirmar autorización",
-          
-          message="¿Está seguro de que desea autorizar esta solicitud?",
-          button_type="success",
-          modal_type="success",
-          onConfirm={() => console.log("Confirmado")}> 
-          Aceptar
-        </ModalWrapper>
-        <ModalWrapper
-          client:only="react"
-          title="Rechazar Autorización",
-          message="¿Está seguro de que desea rechazar esta solicitud?",
-          button_type="warning",
-          modal_type="warning",
+      <TravelRequestActionWrapper
+        client:only="react"
+        request_id={id}
+        endpoint="/authorizer/decline-travel-request"
+        role={4}
+        title="Rechazar autorización"
+        message="¿Está seguro de que desea rechazar esta solicitud?"
+        redirection="/dashboard"
+        modal_type="warning"
         >
         Rechazar
-        </ModalWrapper>
-      </div>
+      </TravelRequestActionWrapper>
     </div>
   </div>
 </main>

@@ -23,18 +23,16 @@ const columns: Column[] = [
   { key: 'destination', label: 'Destino' },
   { key: 'departure_date', label: 'Fecha Salida' },
   { key: 'arrival_date', label: 'Fecha Llegada' },
-  { key: 'reason', label: 'Motivo' },
   { key: 'action', label: 'Acciones' },
 ];
 
 function mapRequestToTableRow(request: Record<string, any>): Record<string, any> {
   return {
-    status: request.request_status_id,
+    status: request.request_status,
     request_id: request.request_id,
-    destination: request.routes?.id_destination_country,
-    arrival_date: request.routes?.ending_date,
-    departure_date: request.routes?.beginning_date,
-    reason: request.notes,
+    destination: request.destination_country,
+    arrival_date: request.ending_date,
+    departure_date: request.beginning_date
   };
 }
 

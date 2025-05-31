@@ -17,11 +17,17 @@ const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
 
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequest from '@data/get-user-request.json';
+import { apiRequest } from "@/utils/apiClient";
 
-const requests = duplicateJson(getuserrequest, 42);
+//Status corresponding to Authorizers
+const status = 2;
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/${status}`);
+  } catch (error) {
+    return [];
+  }
+})()
 ---
 
 <MainLayout title="Autorizaciones pendientes" data={{ userName, buttonLabel, role }}>
