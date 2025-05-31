@@ -3,6 +3,7 @@
  * Author: Michael Devlyn
  * 
  * Description: Admin users page - fetch from real backend API
+ * Strategy: Parallel requests to get users faster
  */
 
  import MainLayout from "@layouts/MainLayout.astro";
@@ -12,7 +13,7 @@ import TableFallback from "@components/Table/TableFallback.astro";
 import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
-import { apiRequest } from "@/utils/apiClient"; // Ajusta la ruta según tu estructura
+import { apiRequest } from "@utils/apiClient";
 
 // Define the User interface
 interface User {
@@ -21,6 +22,57 @@ interface User {
   email: string;
   role_name: string;
   department_name: string;
+  active?: boolean;
+}
+
+// Function to get all users with parallel requests (faster)
+async function getAllUsersParallel(): Promise<User[]> {
+  const users: User[] = [];
+  const maxUsers = 10000; // Reasonable upper limit
+  const batchSize = 10; // Process 10 users at a time
+  
+  for (let startId = 1; startId <= maxUsers; startId += batchSize) {
+    const endId = Math.min(startId + batchSize - 1, maxUsers);
+    const promises: Promise<User | null>[] = [];
+    
+    // Create batch of parallel requests
+    for (let id = startId; id <= endId; id++) {
+      promises.push(
+        apiRequest(`/user/get-user-data/${id}`)
+          .then((userData) => {
+            if (userData && userData.user_id && userData.active !== false) {
+              return {
+                user_id: userData.user_id,
+                user_name: userData.user_name,
+                email: userData.email,
+                role_name: userData.role_name,
+                department_name: userData.department_name,
+                active: userData.active
+              };
+            }
+            return null;
+          })
+          .catch(() => null)
+      );
+    }
+    
+    // Wait for batch to complete
+    const batchResults = await Promise.all(promises);
+    
+    // Add valid users to array
+    const validUsers = batchResults.filter((user): user is User => user !== null);
+    users.push(...validUsers);
+    
+    // If no users found in this batch, we might be done
+    if (validUsers.length === 0) {
+      break;
+    }
+  }
+  
+  // Sort users by ID for consistent display
+  users.sort((a, b) => a.user_id - b.user_id);
+  
+  return users;
 }
 
 // FETCH REAL DATA FROM BACKEND
@@ -28,14 +80,17 @@ let users: User[] = [];
 let errorMessage: string | null = null;
 
 try {
-  // Use the same apiRequest function used in other pages
-  const userData: User[] = await apiRequest('/admin/get-user-list');
-  users = userData;
+  // Get all users using parallel enumeration
+  users = await getAllUsersParallel();
+  
+  if (users.length === 0) {
+    throw new Error('No users found via ID enumeration');
+  }
   
 } catch (error) {
-  console.error('Error fetching users:', error);
-  errorMessage = 'Failed to load user data';
-  users = []; // Fallback to empty array
+  console.error('Error fetching users via enumeration:', error);
+  errorMessage = `Failed to load user data: ${error instanceof Error ? error.message : 'Unknown error'}`;
+  users = [];
 }
 
 const role: UserRole = getCookie("role") as UserRole;
@@ -47,23 +102,28 @@ const buttonLabel = roleLabels[role];
   <div>
     {errorMessage ? (
       <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        <strong>Error:</strong> {errorMessage}
+        <div class="flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 3a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 000 2v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+          <strong>Error:</strong> {errorMessage}
+        </div>
       </div>
     ) : null}
     
-    {users && users.length === 0 ? (
+    {users && users.length === 0 && !errorMessage ? (
       <TableFallback />
-    ) : (
+    ) : users.length > 0 ? (
       <>
         <TextHeader
-          title={"USUARIOS DEL SISTEMA - " + userName.toUpperCase()}
-          subtitle="Lista de todos los usuarios registrados"
+          title={"USUARIOS DEL SISTEMA - " + (userName?.toUpperCase() || "ADMIN")}
+          subtitle={`Lista de todos los usuarios registrados (${users.length} usuarios encontrados)`}
         />
         
         <section class="bg-white p-6 rounded-lg shadow w-full">
-          <h2 class="text-xl font-bold mb-4">
-            Lista de Usuarios ({users.length})
-          </h2>
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Lista de Usuarios ({users.length})</h2>
+          </div>
 
           <div class="overflow-x-auto">
             <table class="min-w-full bg-white">
@@ -111,8 +171,12 @@ const buttonLabel = roleLabels[role];
               </tbody>
             </table>
           </div>
+          
+          <div class="mt-4 text-sm text-gray-600">
+            <span>Total de usuarios: {users.length}</span>
+          </div>
         </section>
       </>
-    )}
+    ) : null}
   </div>
 </MainLayout>

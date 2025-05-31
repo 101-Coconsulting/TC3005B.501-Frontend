@@ -4,7 +4,7 @@ const mockCookies = {
     username: "John Doe",
     id: "1",
     department_id: "1",
-    role: "Applicant" as UserRole //'Applicant' | 'Authorizer' | 'Admin' | 'AccountsPayable' | 'TravelAgency';
+    role: "Admin" as UserRole //'Applicant' | 'Authorizer' | 'Admin' | 'AccountsPayable' | 'TravelAgency';
 };
 
 export const getCookie = (key: keyof typeof mockCookies): string | UserRole => {
