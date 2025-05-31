@@ -1,0 +1,118 @@
+---
+/**
+ * Author: Michael Devlyn
+ * 
+ * Description: Admin users page - fetch from real backend API
+ */
+
+ import MainLayout from "@layouts/MainLayout.astro";
+import TextHeader from "@components/TextHeader.astro";
+import TableFallback from "@components/Table/TableFallback.astro";
+
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+import { apiRequest } from "@/utils/apiClient"; // Ajusta la ruta según tu estructura
+
+// Define the User interface
+interface User {
+  user_id: number;
+  user_name: string;
+  email: string;
+  role_name: string;
+  department_name: string;
+}
+
+// FETCH REAL DATA FROM BACKEND
+let users: User[] = [];
+let errorMessage: string | null = null;
+
+try {
+  // Use the same apiRequest function used in other pages
+  const userData: User[] = await apiRequest('/admin/get-user-list');
+  users = userData;
+  
+} catch (error) {
+  console.error('Error fetching users:', error);
+  errorMessage = 'Failed to load user data';
+  users = []; // Fallback to empty array
+}
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+---
+
+<MainLayout title="Administrar Usuarios" data={{ userName, buttonLabel, role }}>
+  <div>
+    {errorMessage ? (
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <strong>Error:</strong> {errorMessage}
+      </div>
+    ) : null}
+    
+    {users && users.length === 0 ? (
+      <TableFallback />
+    ) : (
+      <>
+        <TextHeader
+          title={"USUARIOS DEL SISTEMA - " + userName.toUpperCase()}
+          subtitle="Lista de todos los usuarios registrados"
+        />
+        
+        <section class="bg-white p-6 rounded-lg shadow w-full">
+          <h2 class="text-xl font-bold mb-4">
+            Lista de Usuarios ({users.length})
+          </h2>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-white">
+              <thead class="bg-gray-200">
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Usuario</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rol</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Departamento</th>
+                  <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Seleccionar</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                {users.map((user: User, index: number) => (
+                  <tr class={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td class="px-4 py-4 text-sm text-gray-900">{user.user_id}</td>
+                    <td class="px-4 py-4">
+                      <div class="text-sm font-medium text-gray-900">{user.user_name}</div>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-gray-900">{user.email}</td>
+                    <td class="px-4 py-4">
+                      <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        user.role_name === 'Administrador' ? 'bg-purple-100 text-purple-800' :
+                        user.role_name === 'N1' ? 'bg-blue-100 text-blue-800' :
+                        user.role_name === 'N2' ? 'bg-green-100 text-green-800' :
+                        user.role_name === 'Solicitante' ? 'bg-gray-100 text-gray-800' :
+                        user.role_name === 'Agencia de viajes' ? 'bg-yellow-100 text-yellow-800' :
+                        user.role_name === 'Cuentas por pagar' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {user.role_name}
+                      </span>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-gray-900">{user.department_name}</td>
+                    <td class="px-4 py-4 text-center">
+                      <input 
+                        type="checkbox" 
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        onclick={`console.log('Usuario seleccionado:', ${user.user_id})`}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </>
+    )}
+  </div>
+</MainLayout>
