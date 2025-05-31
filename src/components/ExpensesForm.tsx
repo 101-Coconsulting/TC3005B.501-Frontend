@@ -22,6 +22,12 @@ export default function ExpensesFormClient({ requestId }: Props) {
     try {
       setSubmitting(true);
 
+      if (!concepto || !monto || isNaN(parseFloat(monto)) || !pdfFile || !isInternational) {
+        alert("Por favor, completa todos los campos correctamente.");
+        setSubmitting(false);
+        return;
+      }
+
       let finalXmlFile = xmlFile;
       if (isInternational && !xmlFile) {
         const response = await fetch("../assets/default.xml");
@@ -36,7 +42,7 @@ export default function ExpensesFormClient({ requestId }: Props) {
         monto: parseFloat(monto),
       });
 
-      console.log("Último receipt_id:", lastReceiptId);
+      
       setLastReceiptId(lastReceiptId);
 
     } catch (err) {
@@ -111,12 +117,12 @@ export default function ExpensesFormClient({ requestId }: Props) {
           pdfFile={pdfFile}
           xmlFile={xmlFile}
           onDone={() => {
-            console.log("Archivos subidos correctamente.");
             window.location.href = `/comprobar-solicitud/${requestId}`;
+            //alert("Subidos correctamente");
           }}
           onError={(err) => {
             console.error(err);
-            // alert("Error al subir los archivos");
+            //alert("Error al subir los archivos");
             setSubmitting(false);
           }}
         />

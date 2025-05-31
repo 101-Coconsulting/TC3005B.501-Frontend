@@ -29,8 +29,8 @@ export default function UploadReceiptFiles({
         body: formData,
       });
 
-      if (!response.ok) throw new Error("Error al subir los archivos");
 
+      if (!response.ok) throw new Error("Error al subir los archivos");
       onDone();
     } catch (err) {
       onError(err as Error);

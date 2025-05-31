@@ -52,7 +52,7 @@ export async function submitTravelExpense({
   expenses.sort((a, b) => b.receipt_id - a.receipt_id);
   const lastReceiptId = count > 0 ? expenses[0].receipt_id : null;
 
-  alert(`Comprobante enviado exitosamente.\nÚltimo receipt_id: ${lastReceiptId}`);
+  //alert(`Comprobante enviado exitosamente.`);
 
   return { count, lastReceiptId };
 }
