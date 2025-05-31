@@ -22,7 +22,7 @@ export default function ExpensesFormClient({ requestId }: Props) {
     try {
       setSubmitting(true);
 
-      if (!concepto || !monto || isNaN(parseFloat(monto)) || !pdfFile || !isInternational) {
+      if (!concepto || !monto || isNaN(parseFloat(monto)) || !pdfFile || (!isInternational && !xmlFile)) {
         alert("Por favor, completa todos los campos correctamente.");
         setSubmitting(false);
         return;
