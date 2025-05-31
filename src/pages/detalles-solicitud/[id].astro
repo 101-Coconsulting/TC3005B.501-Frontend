@@ -9,6 +9,7 @@ import MainLayout from "@layouts/MainLayout.astro";
 import RequestDetail from "@components/RequestDetail.astro";
 import type { UserRole } from "@type/roles";
 
+export const prerender = false;
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 

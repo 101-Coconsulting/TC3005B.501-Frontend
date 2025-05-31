@@ -4,7 +4,8 @@
  */
 
 import MainLayout from "@layouts/MainLayout.astro";
-import RequestBudgeting from "@components/RequestBudgeting.astro";
+import RequestDetail from "@components/RequestDetail.astro";
+import AttendRequest from "@components/AttendRequest";
 import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
@@ -33,5 +34,15 @@ if (!request) {
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
-  <RequestBudgeting request={request} />
+  <RequestDetail
+    request={request}
+    title={`SOLICITUD #${request.request_id}`}
+    subtitle="Detalles de la Solicitud a Cotizar"
+  />
+  <div class="flex mt-8">
+    <AttendRequest
+      client:only="react"
+      request_id = {request.request_id}
+    />
+  </div>
 </MainLayout>
