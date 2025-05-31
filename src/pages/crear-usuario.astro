@@ -72,9 +72,6 @@ const roles = ["N1", "N2", "Applicant", "Authorizer", "Admin", "AccountsPayable"
           </div>
         </div>
 
-        <!-- Hidden creation date -->
-        <input type="hidden" name="creation_date" id="creationDateField" />
-
         <!-- Buttons -->
         <div class="flex justify-end gap-4 pt-4">
           <ModalWrapper
@@ -134,9 +131,6 @@ const roles = ["N1", "N2", "Applicant", "Authorizer", "Admin", "AccountsPayable"
     });
     data.role_name = roles;
 
-    // Set creation date
-    data.creation_date = new Date().toISOString();
-
     console.log('User created:', data); // For testing
 
     alert('Usuario creado exitosamente (demo frontend)');
@@ -156,8 +150,5 @@ const roles = ["N1", "N2", "Applicant", "Authorizer", "Admin", "AccountsPayable"
     `;
     rolesList.appendChild(div);
   }
-
-  // Assign creation date on load
-  document.getElementById("creationDateField").value = new Date().toISOString();
 </script>
 
