@@ -1,0 +1,46 @@
+---
+/**
+* Authors: Eduardo Porto Morales
+* Description: This page allows the user to view and manage their draft requests.
+**/
+
+import MainLayout from "@layouts/MainLayout.astro";
+import CheckExpenses from "@components/CheckExpenses.astro";
+import type { UserRole } from "@type/roles";
+
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+import { apiRequest } from '@utils/apiClient';
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+const user_id = getCookie("id");
+
+// Obtener solicitudes
+const requestsRaw = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-user-requests/${user_id}`);
+  } catch (error) {
+    return [];
+  }
+})();
+
+// Agregar verificaciones a cada solicitud
+const requests = await Promise.all(
+  requestsRaw.map(async (request: any) => {
+    try {
+      const { Expenses } = await apiRequest(`/accounts-payable/get-expense-validations/${request.request_id}`);
+      return { ...request, verifications: Expenses ?? [] };
+    } catch (e) {
+      console.error(`Error al cargar verificaciones de ${request.request_id}`, e);
+      return { ...request, verifications: [] };
+    }
+  })
+);
+console.log("Requests with verifications:", requests);
+---
+
+<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
+  <CheckExpenses userName={userName} requests={requests} />
+</MainLayout>

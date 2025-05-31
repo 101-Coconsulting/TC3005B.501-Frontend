@@ -1,0 +1,38 @@
+---
+/**
+ * Author: Eduardo Porto Morales
+ * Description: Card component for displaying request information.
+ */
+
+import { getRequestPriority } from "@utils/getPriorityDates";
+
+const { request, urlBase, subtitle } = Astro.props;
+const { priority } = getRequestPriority(request.request_date);
+---
+
+<a href={`/${urlBase}/${request.request_id}`}>
+  <div class="content-wrapper">
+    <div class="mb-4">
+      <p class="text-lg font-semibold text-neutral-800">Viaje Rumbo a {request.destination_country}</p>
+      <p class="text-sm text-neutral-500">{subtitle}</p>
+    </div>
+
+    <div class="grid grid-cols-[2fr_1fr] text-sm text-neutral-700">
+      <div class="flex flex-col justify-between min-h-[64px]">
+        <div>
+          <span class="inline font-medium text-neutral-500">Del:</span> 
+          <p class="inline">{request.beginning_date}</p>
+          <span class="inline font-medium text-neutral-500 ml-2">al:</span> 
+          <p class="inline">{request.ending_date}</p>
+        </div>
+        <p class="text-xs text-neutral-500">Estado actual: {request.request_status}</p>
+      </div>
+      <div class="flex flex-col justify-end items-end text-right">
+        <p class="text-sm">
+          <span class="font-medium text-neutral-500">Solicitud:</span> 
+          <strong>#{request.request_id}</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</a>

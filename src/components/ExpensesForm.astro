@@ -1,0 +1,33 @@
+---
+import ExpensesFormClient from "@components/ExpensesForm.tsx"; // Ajusta la ruta si cambia
+import { getCookie } from "@data/cookies";
+import { apiRequest } from "@utils/apiClient";
+
+const { id } = Astro.params;
+const user_id = getCookie("id");
+
+const travelData = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-user-request/${id}`);
+  } catch (error) {
+    return {};
+  }
+})()
+---
+
+<section class="bg-white p-6 rounded-lg shadow-md space-y-6">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-bold text-primary-500">Generar Comprobación de Gastos del viaje</h2>
+    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-mono">
+      #{travelData.request_id}
+    </span>
+  </div>
+
+  <p class="text-sm text-gray-600">
+    <strong>Destino:</strong> {travelData.routes[0].destination_country} &nbsp;&nbsp;
+    <strong>Ciudad:</strong> {travelData.routes[0].destination_city} &nbsp;&nbsp;
+    <strong>Fechas:</strong> {travelData.routes[0].beginning_date} - {travelData.routes[0].ending_date}
+  </p>
+
+  <ExpensesFormClient client:only="react" requestId={travelData.request_id} />
+</section>

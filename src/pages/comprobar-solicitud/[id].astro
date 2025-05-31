@@ -1,0 +1,94 @@
+---
+/**
+* Authors: Gabriel Muñoz Luna
+* Description: Muestra los recibos subidos a una solicitud especifica.
+**/
+export const prerender = false;
+
+import MainLayout from "@layouts/MainLayout.astro";
+import TextHeader from "@components/TextHeader.astro";
+import AstroButton from "@components/Button.astro";
+import Button from "@components/Button.tsx";
+import { getCookie } from "@data/cookies";
+import ValidateReceiptStatus from "@components/ValidateReceiptStatus.tsx";
+
+const userName = getCookie("username");
+const role = getCookie("role");
+const buttonLabel = role;
+
+
+import { apiRequest } from '@utils/apiClient';
+import { CONTENT_TYPES_FILE } from "node_modules/astro/dist/content/consts";
+
+const { id } = Astro.params;
+
+
+const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
+
+
+if (!request) {
+  throw new Error(`No request found with ID ${id}`);
+}
+
+const StateColors = {
+  'Aprobado': ' text-green-500',
+  'Rechazado': ' text-red-500',
+  'Pendiente': ' text-yellow-500'
+};
+
+---
+
+<MainLayout title={`Comprobantes de la solicitud #${id}`} data={{ userName, role, buttonLabel }}>
+  <main>
+    
+    <div class="flex justify-between items-center mb-4">
+      <TextHeader
+        title={`Lista de comprobantes de la solicitud #${id}`}
+        subtitle="Aquí puedes ver o subir tus comprobantes de gasto"
+      />
+      
+      <a href={`/subir-comprobante/${id}`}>
+        <AstroButton variant="filled" color="primary">
+          Agregar 
+        </AstroButton>
+      </a>
+    </div>
+    <section class="bg-white p-6 rounded-lg shadow w-full">
+      {request.Expenses.length > 0 ? (
+        <div class="grid gap-8">
+          {request.Expenses.map((expense: any, index) => (
+            
+            <div class="border border-gray-200 rounded p-4 text-sm text-gray-700 space-y-2">
+              <p class="font-bold text-lg break-words">Comprobante #{index+1}</p>
+              <p><span class="font-semibold">Tipo de gasto:</span> {expense.receipt_type_name}</p>
+              <p><span class="font-semibold">Monto:</span> ${expense.amount}</p>
+              <p class=`text-right text-lg ${StateColors[expense.validation]} font-semibold`><span class="font-semibold text-black">Estado:</span > {expense.validation}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="p-6 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 font-semibold rounded">
+          Aún no has subido comprobantes para esta solicitud.
+        </div>
+      )}
+    </section>
+    
+
+    </main>
+
+  <div class="fixed bottom-6 right-6 z-50">
+    
+    <ValidateReceiptStatus
+        client:only="react"
+        request_id={id}
+        title="Confirmar envío"
+        message="¿Está seguro de que desea mandar estos comprobantes?"
+        redirection="/dashboard"
+        modal_type="success"
+        variant="filled"
+        >
+        Mandar a validar
+      </ValidateReceiptStatus>
+    
+  </div>
+</MainLayout>

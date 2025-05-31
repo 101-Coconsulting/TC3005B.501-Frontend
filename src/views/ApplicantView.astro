@@ -5,19 +5,38 @@
  * Description: This is the applicant view of the dashboard.
  **/
 
-import MaterialIcon from "@/components/MaterialIcon.astro";
+import MaterialIcon from "@components/MaterialIcon.astro";
 import Button from "@components/Button.astro";
 import TextHeader from "@components/TextHeader.astro";
-import ModalWrapper from "@components/ModalWrapper.tsx";
+import CancelRequestModal from "@components/CancelRequestModal.tsx";
 
-import requests from '@data/get-user-requests-2.json';
-var { userName } = Astro.props;
+import { getCookie } from "@data/cookies";
+import { apiRequest } from '@utils/apiClient';
 
-const statusColors: Record<string, string> = {
-  "En Proceso": "text-blue-500",
-  "Completado": "text-green-500",
-  "Cancelado": "text-red-500",
+const colorDesign: { [key: string]: string } = {
+  'Abierto': "text-green-500",
+  'Primera Revisión': "text-yellow-500",
+  'Segunda Revisión': "text-yellow-500",
+  'Cotización del Viaje': "text-yellow-500",
+  'Atención Agencia de Viajes': "text-yellow-500",
+  'Comprobación gastos del viaje': "text-yellow-500",
+  'Validación de comprobantes': "text-yellow-500",
+  'Finalizado': "text-yellow-500",
+  'Cancelado': "text-yellow-500",
+  'Rechazado': "text-yellow-500",
 };
+
+const user_id = getCookie("id");
+
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-user-requests/${user_id}`);
+  } catch (error) {
+    return [];
+  }
+})()
+
+var { userName } = Astro.props;
 ---
 
 <div>
@@ -36,18 +55,19 @@ const statusColors: Record<string, string> = {
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isEditable = request.status === "En Proceso";
+            const isEditable = request.status === "Borrador" || request.status === "Primera Revisión";
+            const isComp = request.status === "Comprobación gastos del viaje";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
                 <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
                   <div class="col-span-2 space-y-2 content-wrapper">
                     <p class="font-bold text-lg break-words">#{request.request_id}</p>
                     <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
-                      <p><span class="font-semibold">Lugar:</span> {request.country_name}</p>
+                      <p><span class="font-semibold">Lugar:</span> {request.destination_country}</p>
                       <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
                       <p>
                         <span class="font-semibold">Estado:</span> 
-                        <span class={`ml-1 font-semibold ${statusColors[request.status] || "text-gray-500"}`}>
+                        <span class={`ml-1 font-semibold text-sm rounded bg-yellow ${colorDesign[String(request.status)]}`}>
                           {(request.status ? request.status.toUpperCase() : '')}
                         </span>
                       </p>
@@ -63,29 +83,26 @@ const statusColors: Record<string, string> = {
                       </Button>
                     </a>
                     <a href={`/comprobar-solicitud/${request.request_id}`}>
-                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
+                      <Button color="primary" disabled={!isComp} variant="filled" size="medium" customSizeClass="w-full">
                         COMPROBAR
                       </Button>
                     </a>
                   </div>
                   <div class="flex justify-end items-center h-full">
                     <span class="flex items-center justify-center w-6 h-6">                        
-                      <ModalWrapper
+                      <CancelRequestModal
                         client:only="react"
-                        title="Borrar Solicitud"
-                        message="¿Estás seguro de que deseas borrar esta solicitud?"
-                        button_type="primary"
-                        variant="empty"
-                        modal_type="confirm"
-                        >
-                          <div>
-                            <MaterialIcon
-                              icon="delete"
-                              color="black"
-                              style="cursor: pointer"
-                            />
-                          </div>
-                      </ModalWrapper>
+                        id={request.request_id}
+                        disabled={!isEditable}
+                      >
+                        <div>
+                          <MaterialIcon
+                            icon="delete"
+                            color="black"
+                            style="cursor: pointer"
+                          />
+                        </div>
+                      </CancelRequestModal>
                     </span>
                   </div>
                 </div>

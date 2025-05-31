@@ -1,0 +1,40 @@
+[
+  {
+    "request_id": "A37452",
+    "country_name": "México",
+    "beginning_date": "2025-05-01",
+    "ending_date": "2025-05-05",
+    "verifications": [
+      { "status": "ACEPTADA" },
+      { "status": "ACEPTADA" },
+      { "status": "ACEPTADA" }
+    ]
+  },
+  {
+    "request_id": "B99221",
+    "country_name": "Colombia",
+    "beginning_date": "2025-04-20",
+    "ending_date": "2025-04-25",
+    "verifications": [
+      { "status": "ACEPTADA" },
+      { "status": "RECHAZADA" },
+      { "status": "PENDIENTE" }
+    ]
+  },
+  {
+    "request_id": "C78812",
+    "country_name": "Argentina",
+    "beginning_date": "2025-03-10",
+    "ending_date": "2025-03-15",
+    "verifications": [
+      { "status": "ACEPTADA" },
+      { "status": "RECHAZADA" },
+      { "status": "RECHAZADA" },
+      { "status": "RECHAZADA" },
+      { "status": "RECHAZADA" },
+      { "status": "RECHAZADA" },
+      { "status": "RECHAZADA" },
+      { "status": "PENDIENTE" }
+    ]
+  }
+]

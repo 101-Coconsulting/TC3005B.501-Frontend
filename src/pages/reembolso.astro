@@ -1,0 +1,349 @@
+---
+/**
+ * Author: Nicole Dávila Hernández
+ * Description: This script is used to create a page that shows the reimbursement panel for the user.
+ **/
+
+import InputField from '@components/InputField.astro';
+import Button from '@components/Button.astro';
+import TextHeader from '@components/TextHeader.astro';
+import MainLayout from "@layouts/MainLayout.astro";
+
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role") as UserRole;
+const userName = getCookie("username");
+const buttonLabel = roleLabels[role];
+
+// Dummy data for demonstration
+const currentBalance = 1250.75; // Positive means company owes applicant
+const reimbursementHistory = [
+  { id: 1, date: '2023-10-15', amount: 850.50, status: 'paid', requestId: 'TRV-2023-045' },
+  { id: 2, date: '2023-09-02', amount: 400.25, status: 'paid', requestId: 'TRV-2023-032' },
+  { id: 3, date: '2023-11-20', amount: 1200.00, status: 'approved', requestId: 'TRV-2023-058' },
+  { id: 4, date: '2023-12-05', amount: 750.00, status: 'pending', requestId: 'TRV-2023-067' }
+];
+
+const verifiedReceipts = [
+  { id: 1, date: '2023-11-15', amount: 350.00, description: 'Hotel accommodation' },
+  { id: 2, date: '2023-11-16', amount: 125.75, description: 'Meal expenses' },
+  { id: 3, date: '2023-11-17', amount: 85.00, description: 'Transportation' }
+];
+---
+
+<MainLayout title="Panel de Reembolsos" data={{ userName, buttonLabel, role }}>
+  <div>
+    <TextHeader
+      title="PANEL DE REEMBOLSOS"
+      subtitle="Gestione sus reembolsos y solicitudes de devolución"
+    />
+    <main class="bg-white rounded-lg shadow-md p-8 space-y-8">
+      <!-- Balance Section -->
+      <div class="border-b border-secondary-300 pb-4">
+        <h3 class="text-lg font-bold text-primary-400">1. Balance Actual</h3>
+      </div>
+      
+      <div class="p-6 rounded-lg mb-8" class:list={[
+        currentBalance >= 0 ? 'bg-success-50' : 'bg-warning-50',
+        'border',
+        currentBalance >= 0 ? 'border-success-200' : 'border-warning-200'
+      ]}>
+        <div class="flex justify-between items-center">
+          <div>
+            <h4 class="text-lg font-medium text-secondary-200">Saldo Actual</h4>
+            <p class="text-sm text-secondary-100">
+              {currentBalance >= 0 ? 'La empresa le debe' : 'Usted le debe a la empresa'}
+            </p>
+          </div>
+          <span class:list={[
+            'text-2xl font-bold',
+            currentBalance >= 0 ? 'text-success-400' : 'text-warning-400'
+          ]}>
+            {currentBalance >= 0 ? '+' : ''}{currentBalance.toFixed(2)} USD
+          </span>
+        </div>
+      </div>
+
+      <!-- Bank Information Section -->
+      <div class="border-b border-secondary-300 pb-4">
+        <h3 class="text-lg font-bold text-primary-400">2. Información Bancaria</h3>
+        <p class="text-sm text-secondary-100 mt-1">
+          Por favor proporcione sus datos bancarios para recibir los reembolsos
+        </p>
+      </div>
+      
+      <form id="bankForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <InputField
+          label="Nombre del Banco"
+          name="bankName"
+          type="text"
+          required={true}
+        />
+        
+        <InputField
+          label="Nombre del Titular"
+          name="accountHolder"
+          type="text"
+          required={true}
+        />
+        
+        <InputField
+          label="Número de Cuenta"
+          name="accountNumber"
+          type="text"
+          required={true}
+        />
+        
+        <InputField
+          label="Tipo de Cuenta"
+          name="accountType"
+          type="text"
+          required={true}
+        />
+        
+        <InputField
+          label="Código SWIFT/BIC"
+          name="swiftCode"
+          type="text"
+          required={true}
+        />
+        
+        <InputField
+          label="Código IBAN"
+          name="iban"
+          type="text"
+          required={true}
+        />
+        
+        <div class="md:col-span-2 flex justify-end pt-4">
+          <Button 
+            variant="filled" 
+            color="primary" 
+            type="submit"
+            class="px-6"
+          >
+            Guardar Información Bancaria
+          </Button>
+        </div>
+      </form>
+
+      <!-- Reimbursement Request Section -->
+      <div class="border-b border-secondary-300 pb-4">
+        <h3 class="text-lg font-bold text-primary-400">3. Solicitud de Reembolso</h3>
+        <p class="text-sm text-secondary-100 mt-1">
+          {currentBalance > 0 ? 'Puede solicitar un reembolso hasta por el monto de su saldo disponible' : 'Actualmente no tiene saldo disponible para reembolso'}
+        </p>
+      </div>
+      
+      {currentBalance > 0 && (
+        <form id="reimbursementForm" class="space-y-6 mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-2 text-secondary-200">
+                Monto a Solicitar (USD)
+              </label>
+              <input
+                type="number"
+                name="amount"
+                min="0.01"
+                max={currentBalance.toFixed(2)}
+                step="0.01"
+                required
+                class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm"
+              />
+              <p class="text-xs text-secondary-100 mt-1">
+                Máximo disponible: {currentBalance.toFixed(2)} USD
+              </p>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium mb-2 text-secondary-200">
+                Comprobantes Verificados
+              </label>
+              <select
+                name="receipts"
+                multiple
+                class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm h-[calc(2.5rem+2px)]"
+                required
+              >
+                {verifiedReceipts.map(receipt => (
+                  <option value={receipt.id}>
+                    {receipt.date} - {receipt.description} - ${receipt.amount.toFixed(2)}
+                  </option>
+                ))}
+              </select>
+              <p class="text-xs text-secondary-100 mt-1">
+                Mantenga presionado Ctrl para seleccionar múltiples comprobantes
+              </p>
+            </div>
+          </div>
+          
+          <div>
+            <label for="notes" class="block text-sm font-medium mb-2 text-secondary-200">
+              Notas Adicionales
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows={3}
+              class="block w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm"
+            ></textarea>
+          </div>
+          
+          <div class="flex justify-end pt-4">
+            <Button 
+              variant="filled" 
+              color="primary" 
+              type="submit"
+              class="px-6"
+            >
+              Solicitar Reembolso
+            </Button>
+          </div>
+        </form>
+      )}
+
+      <!-- Reimbursement History Section -->
+      <div class="border-b border-secondary-300 pb-4">
+        <h3 class="text-lg font-bold text-primary-400">4. Historial de Reembolsos</h3>
+      </div>
+      
+      <div class="overflow-x-auto mb-8">
+        <table class="min-w-full divide-y divide-secondary-200">
+          <thead class="bg-secondary-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-200 uppercase tracking-wider">
+                Fecha
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-200 uppercase tracking-wider">
+                Monto
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-200 uppercase tracking-wider">
+                Estado
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-secondary-200 uppercase tracking-wider">
+                Solicitud Relacionada
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-secondary-200">
+            {reimbursementHistory.map((item) => (
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-200">
+                  {item.date}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary-200">
+                  ${item.amount.toFixed(2)}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                  <span class:list={[
+                    'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
+                    item.status === 'paid' ? 'bg-success-100 text-success-800' : '',
+                    item.status === 'approved' ? 'bg-primary-100 text-primary-800' : '',
+                    item.status === 'pending' ? 'bg-warning-100 text-warning-800' : ''
+                  ]}>
+                    {item.status === 'paid' ? 'Pagado' : ''}
+                    {item.status === 'approved' ? 'Aprobado' : ''}
+                    {item.status === 'pending' ? 'Pendiente' : ''}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-400 underline">
+                  <a href={`/requests/${item.requestId}`}>{item.requestId}</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</MainLayout>
+
+<script is:inline>
+  // Bank form submission handler
+  document.getElementById('bankForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate required fields
+    const requiredFields = this.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+      if (!field.value.trim()) {
+        field.classList.add('border-warning-400');
+        isValid = false;
+      } else {
+        field.classList.remove('border-warning-400');
+      }
+    });
+
+    if (!isValid) {
+      alert('Por favor complete todos los campos requeridos');
+      return;
+    }
+
+    // Collect form data
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    console.log('Bank form data:', data); // For testing
+    
+    // Show success message
+    alert('Información bancaria guardada correctamente (demo frontend)');
+  });
+
+  // Reimbursement form submission handler
+  document.getElementById('reimbursementForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate amount
+    const amountInput = this.querySelector('[name="amount"]');
+    const amount = parseFloat(amountInput.value);
+    const maxAmount = parseFloat(amountInput.max);
+    
+    if (isNaN(amount) || amount <= 0) {
+      alert('Por favor ingrese un monto válido');
+      amountInput.classList.add('border-warning-400');
+      return;
+    }
+    
+    if (amount > maxAmount) {
+      alert('El monto solicitado no puede exceder su saldo disponible');
+      amountInput.classList.add('border-warning-400');
+      return;
+    }
+    
+    amountInput.classList.remove('border-warning-400');
+    
+    // Validate receipts
+    const receiptsSelect = this.querySelector('[name="receipts"]');
+    if (receiptsSelect.selectedOptions.length === 0) {
+      alert('Por favor seleccione al menos un comprobante verificado');
+      receiptsSelect.classList.add('border-warning-400');
+      return;
+    }
+    
+    receiptsSelect.classList.remove('border-warning-400');
+    
+    // Collect form data
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    // Get selected receipts details
+    const selectedReceipts = Array.from(receiptsSelect.selectedOptions).map(option => {
+      return {
+        id: option.value,
+        text: option.text
+      };
+    });
+    data.receiptsDetails = selectedReceipts;
+    
+    console.log('Reimbursement form data:', data); // For testing
+    
+    // Show success message and redirect
+    alert('Solicitud de reembolso enviada correctamente');
+    window.location.reload();
+  });
+</script>
