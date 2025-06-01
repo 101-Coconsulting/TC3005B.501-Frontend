@@ -2,45 +2,58 @@
 /**
  * Author: Julia Maria Stephanie Duenkelsbuehler Castillo Y Nicole Davila
  * 
- * Description: Page to edit a user's travel request.
+ * Description: Page to edit a travel request using mock data from get-user-request.json
  * 
  **/
-export const prerender = false;
 
+export const prerender = false;
+import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
-import TextHeader from "@components/TextHeader.astro";
-import RequestEdit from "@components/RequestEditList.astro";
+import TravelRequestForm from "@components/TravelRequestForm.tsx";
+
+import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
-import type { UserRole } from "@type/roles";
-import { apiRequest } from "@utils/apiClient";
-
-const { id } = Astro.params;
-
-if (!id) {
-  throw new Error("No se proporcionó ID de solicitud.");
-}
 
 const role: UserRole = getCookie("role") as UserRole;
-const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
-const user_id = getCookie("id");
-const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
-const request = requests.find((r: any) => String(r.request_id) === String(id));
+const userName = getCookie("username");
 
-if (!request) {
-  throw new Error(`No se encontró la solicitud con ID: ${id}`);
+import { apiRequest } from "@/utils/apiClient";
+
+export async function getStaticPaths() {
+  let requests = [];
+  try {
+    requests = await apiRequest(`/applicant/get-user-requests/${getCookie("id")}`);
+  } catch (error) {
+    requests = [];
+  }
+  return requests.map((req: any) => ({
+    params: { id: req.request_id.toString() },
+  }));
 }
 
-if (request.status !== "Abierto") {
-  throw new Error("Solo se pueden editar solicitudes con estado 'Abierto'.");
+const { id } = Astro.params;
+let request = null;
+try {
+  request = await apiRequest(`/user/get-travel-request/${id}`);
+} catch (error) {
+  request = null;
 }
-
 ---
-<MainLayout title={`Editar Solicitud #${id}`} data={{ userName, role, buttonLabel }}>
-  <TextHeader
-    title={`EDITAR SOLICITUD #${id}`}
-    subtitle="Modifica los datos necesarios y vuelve a enviar"
-  />
-  <RequestEdit request={request} />
+
+<MainLayout title="Editar Solicitud" data={{ userName, buttonLabel, role }}>
+  <div>
+    <TextHeader
+      title="EDITAR UNA SOLICITUD DE VIAJE EXISTENTE"
+      subtitle="Por favor termine de editar el siguiente formulario por completo"
+    />
+    <main class="bg-white rounded-lg shadow-md p-8">
+      <TravelRequestForm
+        client:only="react"
+        data={request}
+        mode='edit'
+      />
+    </main>
+  </div>
 </MainLayout>
