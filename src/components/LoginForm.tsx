@@ -6,6 +6,7 @@ import { apiRequest } from "@utils/apiClient";
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,15 +17,30 @@ export default function LoginForm() {
         data: { username, password },
       });
 
+      setErrorMessage(""); // limpiar errores anteriores
       alert("Inicio de sesión exitoso");
       window.location.href = "/dashboard";
     } catch (error: any) {
-      alert(error?.response?.data?.error || "Error al iniciar sesión");
+      const msg = error?.response?.data?.error || "Error al iniciar sesión";
+      setErrorMessage(msg); // mostrar error debajo del botón
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-cover bg-center" style={{ backgroundImage: "url('https://codingstella.com/wp-content/uploads/2024/01/download-7.jpeg')" }}>
+    <div
+      className="flex justify-center items-center min-h-screen w-full bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://wallpapercrafter.com/desktop1/504246-Aero-Vector-Art-Moon-Travel-Sunset-Aircraft-Minimalism.jpg')",
+      }}
+    >
+      <div>
+        <img
+          src="/Logo101Coconsulting.png"
+          alt="Logo"
+          className="w-40 h-40 absolute top-5 left-10"
+        />
+      </div>
       <div className="relative w-[407px] h-[455px] bg-white/10 border border-white/30 backdrop-blur-md rounded-lg shadow-lg flex justify-center items-center">
         <form onSubmit={handleSubmit} className="w-[310px] text-white">
           <h2 className="text-2xl text-center font-semibold mb-8">Login</h2>
@@ -69,9 +85,21 @@ export default function LoginForm() {
             </label>
           </div>
 
-          <Button type="submit" variant="filled" color="primary" size="medium" className="w-full rounded-full">
+          <Button
+            type="submit"
+            variant="filled"
+            color="primary"
+            size="medium"
+            className="w-full rounded-full"
+          >
             Login
           </Button>
+
+          {errorMessage && (
+            <p className="mt-4 text-center text-sm text-black-400">
+              {errorMessage}
+            </p>
+          )}
         </form>
       </div>
     </div>

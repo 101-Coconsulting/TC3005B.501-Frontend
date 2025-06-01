@@ -13,6 +13,7 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
+
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
@@ -42,6 +43,7 @@ const requests = await (async () => {
       <AuthRequestsList
         client:visible
         data={requests}
+        role={role}
       />
     )}
     </div>

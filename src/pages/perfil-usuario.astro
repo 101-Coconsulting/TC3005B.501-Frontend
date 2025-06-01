@@ -8,6 +8,7 @@
 import MainLayout from "@layouts/HeaderLayout.astro";
 import Typography from "@components/Typography.astro";
 import Button from "@components/Button.astro";
+import LogoutButton from "@components/Logout.tsx";
 
 import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
@@ -166,9 +167,7 @@ const userData = await apiRequest(`/user/get-user-data/${userId}`);
                 </div>
             </div>
         </div>
-        <a href="/login">
-            <Button variant="filled" color="warning" size="big">Salir</Button>
-        </a>
+        <LogoutButton client:only="react" />
     </div>
 </MainLayout>
 
