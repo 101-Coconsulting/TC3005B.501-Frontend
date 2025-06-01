@@ -12,8 +12,8 @@ import Button from "@components/Button.tsx";
 import { getCookie } from "@data/cookies";
 import ValidateReceiptStatus from "@components/ValidateReceiptStatus.tsx";
 
-const userName = getCookie("username");
-const role = getCookie("role");
+const userName = getCookie("username", Astro.cookies);
+const role = getCookie("role", Astro.cookies);
 const buttonLabel = role;
 
 

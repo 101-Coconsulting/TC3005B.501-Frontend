@@ -16,16 +16,8 @@ export default function LoginForm() {
         data: { username, password },
       });
 
-      // Guarda en localStorage
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("role", response.role);
-      localStorage.setItem("username", response.username);
-      document.cookie = `username=${response.username}; path=/`;
-      document.cookie = `role=${response.role}; path=/`;
-
-
       alert("Inicio de sesión exitoso");
-      window.location.href = "/dashboard"; // Redirige a donde necesites
+      window.location.href = "/dashboard";
     } catch (error: any) {
       alert(error?.response?.data?.error || "Error al iniciar sesión");
     }

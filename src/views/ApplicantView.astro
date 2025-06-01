@@ -26,7 +26,8 @@ const colorDesign: { [key: string]: string } = {
   'Rechazado': "text-yellow-500",
 };
 
-const user_id = getCookie("id");
+const user_id = getCookie("id", Astro.cookies);
+
 
 const requests = await (async () => {
   try {
