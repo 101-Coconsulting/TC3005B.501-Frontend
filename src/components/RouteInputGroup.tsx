@@ -35,35 +35,35 @@ const RouteInputGroup: React.FC<RouteInputGroupProps> = ({ route, onChange, inde
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">País de Origen</label>
-          <input name="origin_country_name" placeholder="País Origen" className={inputStyle} value={route.origin_country_name} onChange={handleInputChange} required />
+          <input name="origin_country_name" placeholder="País Origen" className={inputStyle} value={route.origin_country_name === "notSelected" ? '' : route.origin_country_name} onChange={handleInputChange} required />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Ciudad de Origen</label>
-          <input name="origin_city_name" placeholder="Ciudad Origen" className={inputStyle} value={route.origin_city_name} onChange={handleInputChange} required />
+          <input name="origin_city_name" placeholder="Ciudad Origen" className={inputStyle} value={route.origin_city_name === "notSelected" ? '' : route.origin_city_name} onChange={handleInputChange} required />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">País de Destino</label>
-          <input name="destination_country_name" placeholder="País Destino" className={inputStyle} value={route.destination_country_name} onChange={handleInputChange} required />
+          <input name="destination_country_name" placeholder="País Destino" className={inputStyle} value={route.destination_country_name === "notSelected" ? '' : route.destination_country_name} onChange={handleInputChange} required />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Ciudad de Destino</label>
-          <input name="destination_city_name" placeholder="Ciudad Destino" className={inputStyle} value={route.destination_city_name} onChange={handleInputChange} required />
+          <input name="destination_city_name" placeholder="Ciudad Destino" className={inputStyle} value={route.destination_city_name === "notSelected" ? '' : route.destination_city_name} onChange={handleInputChange} required />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Fecha de Inicio (MM/DD/YYYY)</label>
-          <input name="beginning_date" type="date" className={inputStyle} value={route.beginning_date} onChange={handleInputChange} required />
+          <input name="beginning_date" type="date" className={inputStyle} value={route.beginning_date === "1900-01-01" ? '' : route.beginning_date} onChange={handleInputChange} required />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Hora de Inicio (HH:MM AM/PM)</label>
-          <input name="beginning_time" type="time" className={inputStyle} value={route.beginning_time} onChange={handleInputChange} required />
+          <input name="beginning_time" type="time" className={inputStyle} value={route.beginning_time === "00:00:00" ? '' : route.beginning_time} onChange={handleInputChange} required />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Fecha de Fin (MM/DD/YYYY)</label>
-          <input name="ending_date" type="date" className={inputStyle} value={route.ending_date} onChange={handleInputChange} required />
+          <input name="ending_date" type="date" className={inputStyle} value={route.ending_date === "1900-01-01" ? '' : route.ending_date} onChange={handleInputChange} required />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Hora de Fin (HH:MM AM/PM)</label>
-          <input name="ending_time" type="time" className={inputStyle} value={route.ending_time} onChange={handleInputChange} required />
+          <input name="ending_time" type="time" className={inputStyle} value={route.ending_time === "00:00:00" ? '' : route.ending_time} onChange={handleInputChange} required />
         </div>
         <label className="flex items-center gap-2 my-2">
           <input type="checkbox" name="plane_needed" checked={route.plane_needed} onChange={handleInputChange} />
