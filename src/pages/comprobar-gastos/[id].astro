@@ -58,7 +58,9 @@ if (!request) {
     <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Comprobantes</h3>
 
     {request.Expenses.length === 0 ? (
-      <p class="text-gray-500">No hay comprobantes pendientes de comprobar.</p>
+      <div class="bg-gray-100 p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
+        NO HAY COMPROBANTES DE GASTOS PENDIENTES DE COMPROBAR
+      </div>
     ) : (
       <div class="grid gap-4">     
         {request.Expenses.map((request: any) => {
