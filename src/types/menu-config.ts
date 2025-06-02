@@ -16,6 +16,7 @@ export const SIDEBAR_CONFIG: Record<string, MenuItem[]> = {
   'N1': [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
     { label: 'AUTORIZACIONES', route: '/autorizaciones', icon: 'check_box' },
+    { label: 'SOLICITUDES', route: '/solicitudes-autorizadores', icon: 'check_box' },
     { label: 'CREAR SOLICITUD', route: '/crear-solicitud', icon: 'flight' },
     { label: 'DRAFT SOLICITUDES', route: '/solicitudes-draft', icon: 'draft' },
     { label: 'COMPROBAR GASTOS', route: '/comprobar-gastos', icon: 'payments' },
@@ -25,6 +26,7 @@ export const SIDEBAR_CONFIG: Record<string, MenuItem[]> = {
   'N2': [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
     { label: 'AUTORIZACIONES', route: '/autorizaciones', icon: 'check_box' },
+    { label: 'SOLICITUDES', route: '/solicitudes-autorizadores', icon: 'check_box' },
     { label: 'CREAR SOLICITUD', route: '/crear-solicitud', icon: 'flight' },
     { label: 'DRAFT SOLICITUDES', route: '/solicitudes-draft', icon: 'draft' },
     { label: 'COMPROBAR GASTOS', route: '/comprobar-gastos', icon: 'payments' },
