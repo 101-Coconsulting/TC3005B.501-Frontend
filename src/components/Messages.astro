@@ -1,14 +1,25 @@
 ---
-import getalerts from '@data/get-alerts.json';
-import { duplicateJson } from "@utils/duplicateJson";
+import { apiRequest } from "@/utils/apiClient";
+import { getCookie } from "@data/cookies";
 
-const alerts = duplicateJson(getalerts, 4);
+//Status corresponding to Accounts Payable
+const status = 2;
+const alerts = await (async () => {
+  try {
+    return await apiRequest(`/authorizer/get-alerts/${getCookie("department_id", Astro.cookies)}/${status}/10`);
+  } catch (error) {
+    return [];
+  }
+})()
 ---
 
 <div class="h-full">
   <h2 class="text-xl font-bold text-neutral-800 mb-6">NOTIFICACIONES DEL SISTEMA</h2>
   
   <ul class="space-y-4 pb-8">
+    {alerts.length === 0 && (
+      <li class="text-center text-neutral-500">No hay notificaciones disponibles.</li>
+    )}
     {alerts.map((alert) => (
       <li class="relative bg-gray-50 border border-neutral-200 rounded-xl p-4 shadow-sm hover:shadow-lg transition">
         <button 
