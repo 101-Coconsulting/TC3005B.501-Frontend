@@ -8,6 +8,7 @@ import basicSsl from '@vitejs/plugin-basic-ssl';
 // https://astro.build/config
 export default defineConfig({
   base: '/',
+  output: "server",
   server: {
     open: '/dashboard',
   },

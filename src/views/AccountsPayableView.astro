@@ -15,7 +15,7 @@ import { apiRequest } from '@utils/apiClient';
 import { duplicateJson } from "@utils/duplicateJson";
 import getuserrequests from '@data/get-user-requests.json';
 
-const deparment = getCookie("department_id");
+const deparment = getCookie("department_id", Astro.cookies);
 
 const requestsInCotizar = await (async () => {
   try {

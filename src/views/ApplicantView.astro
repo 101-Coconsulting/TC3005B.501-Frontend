@@ -22,7 +22,8 @@ const colorDesign: { [key: string]: string } = {
   'Validación de comprobantes': "text-blue-600",
 };
 
-const user_id = getCookie("id");
+const user_id = getCookie("id", Astro.cookies);
+
 
 const requests = await (async () => {
   try {

@@ -38,6 +38,7 @@ export async function apiRequest<T = any>(
 
   const config: RequestInit = {
     method,
+    credentials: "include",
     headers: {
       'Content-Type': 'application/json',
       ...headers,

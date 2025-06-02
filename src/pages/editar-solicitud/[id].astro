@@ -15,16 +15,16 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-const role: UserRole = getCookie("role") as UserRole;
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const buttonLabel = roleLabels[role];
-const userName = getCookie("username");
+const userName = getCookie("username", Astro.cookies);
 
 import { apiRequest } from "@/utils/apiClient";
 
 export async function getStaticPaths() {
   let requests = [];
   try {
-    requests = await apiRequest(`/applicant/get-user-requests/${getCookie("id")}`);
+    requests = await apiRequest(`/applicant/get-user-requests/${getCookie("id", Astro.cookies)}`);
   } catch (error) {
     requests = [];
   }
@@ -54,6 +54,7 @@ try {
         data={request}
         mode='edit'
         request_id={id}
+        user_id={getCookie("id", Astro.cookies)}
       />
     </main>
   </div>

@@ -11,6 +11,7 @@ interface Props {
   data?: FormData;
   mode: 'create' | 'edit' | 'draft';
   request_id?: string;
+  user_id: string;
 }
 
 const emptyRoute: TravelRoute = {
@@ -35,7 +36,7 @@ const initialFormState: FormData = {
   routes: [{ ...emptyRoute, router_index: 0 }],
 };
 
-export default function TravelRequestForm({ data, mode, request_id }: Props) {
+export default function TravelRequestForm({ data, mode, request_id, user_id }: Props) {
   const [deptData, setDeptData] = useState<DepartmentData | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [error, setError] = useState<string | null>(null);
@@ -63,7 +64,7 @@ export default function TravelRequestForm({ data, mode, request_id }: Props) {
   useEffect(() => {
     async function fetchDepartmentInfo() {
       try {
-        const response = await apiRequest(`/applicant/get-cc/${getCookie('id')}`);
+        const response = await apiRequest(`/applicant/get-cc/${user_id}`);
         setDeptData(response);
       } catch (err) {
         console.error('Error fetching department info:', err);
@@ -160,7 +161,7 @@ export default function TravelRequestForm({ data, mode, request_id }: Props) {
       })),
     };
     try {
-      await apiRequest(`/applicant/create-travel-request/${getCookie('id')}`, {
+      await apiRequest(`/applicant/create-travel-request/${user_id}`, {
         method: 'POST',
         data: dataToSend
       });
@@ -222,7 +223,7 @@ export default function TravelRequestForm({ data, mode, request_id }: Props) {
 
     try {
       console.log('Saving draft with data:', draftData);
-      await apiRequest(`/applicant/create-draft-travel-request/${getCookie('id')}`, { 
+      await apiRequest(`/applicant/create-draft-travel-request/${user_id}`, { 
         method: 'POST', 
         data: draftData
       });
@@ -344,7 +345,7 @@ export default function TravelRequestForm({ data, mode, request_id }: Props) {
     if (!editSuccess) return;
 
     try {
-      await apiRequest(`/applicant/confirm-draft-travel-request/${getCookie('id')}/${request_id}`, { 
+      await apiRequest(`/applicant/confirm-draft-travel-request/${user_id}/${request_id}`, { 
         method: 'PUT',
       });
       setSuccess(true);

@@ -8,7 +8,9 @@ import TableRow from '@components/Table/TableRow.tsx';
 
 import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
-const role: UserRole = getCookie("role") as UserRole;
+// For React components, we need to handle Astro.cookies differently
+// This will be handled by the cookies.ts module's resolveCookies function
+//const role: UserRole = getCookie("role") as UserRole;
 
 interface Column {
   key: string;
@@ -18,6 +20,7 @@ interface Column {
 interface Props {
   columns: Column[];
   rows: Record<string, any>[];
+  role: UserRole; 
   type?: string;
 }
 
@@ -40,7 +43,7 @@ function getRoleHref(role: UserRole, type: string): string {
 }
 
 
-export default function DataTable({ columns, rows, type }: Props) {
+export default function DataTable({ columns, rows, type, role }: Props) {
   const isLoading = rows.length === 0;
   const roleHref = getRoleHref(role, type ?? "");
 
