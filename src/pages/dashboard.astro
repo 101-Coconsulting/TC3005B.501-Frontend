@@ -19,8 +19,10 @@ const userName = getCookie("username", Astro.cookies);
 
 const buttonLabel = roleLabels[role];
 const ViewComponent = roleViews[role];
+
+const showMessages: boolean = role !== "Solicitante" && role !== "Administrador";
 ---
 
-<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Solicitante"}>
+<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={showMessages}>
   <ViewComponent userName={userName}/>
 </MainLayout>

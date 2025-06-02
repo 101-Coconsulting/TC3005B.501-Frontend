@@ -411,7 +411,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id }: P
           <input name="requested_fee" placeholder="Anticipo Esperado (MXN)" type="number" className={inputStyle} value={formData.requested_fee === 0 ? '' : formData.requested_fee} onChange={handleGeneralChange} required />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Motivo del Viaje<span className="text-red-500"> *</span></label>
+          <label className="block text-sm font-medium mb-1">Observaciones / Comentarios<span className="text-red-500"> *</span></label>
           <textarea name="notes" rows={4} className="w-full border p-2 rounded-md" value={formData.notes} onChange={handleGeneralChange} required></textarea>
         </div>
       </div>
