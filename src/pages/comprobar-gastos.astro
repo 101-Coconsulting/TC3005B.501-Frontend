@@ -15,7 +15,7 @@ import { apiRequest } from '@utils/apiClient';
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
-const user_id = getCookie("id");
+const user_id = getCookie("id", Astro.cookies);
 
 function getVerificationStats(request: any) {
   const verifications = Array.isArray(request.verifications) ? request.verifications : [];

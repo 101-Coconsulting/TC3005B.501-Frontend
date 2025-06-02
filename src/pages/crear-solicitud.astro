@@ -27,6 +27,7 @@ const userName = getCookie("username", Astro.cookies);
     />
     <main class="bg-white rounded-lg shadow-md p-8">
       <TravelRequestForm
+        user_id={getCookie("id", Astro.cookies)}
         client:only="react"
         mode="create"
       />
