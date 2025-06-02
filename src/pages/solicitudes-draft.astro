@@ -25,6 +25,6 @@ const requests = await (async () => {
 })()
 ---
 
-<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Solicitante"}>
+<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }}>
   <RequestDraft userName={userName} requests={requests} />
 </MainLayout>

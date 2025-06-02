@@ -14,10 +14,6 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-
-// const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
-// const userName = getCookie("username" );
-
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const userName = getCookie("username", Astro.cookies);
 
