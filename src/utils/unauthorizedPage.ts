@@ -19,7 +19,6 @@ export function unauthorizedPage(pathname: string, isAuthenticated: boolean): st
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        padding: 1.5rem;
         }
         .container {
         flex: 1;
