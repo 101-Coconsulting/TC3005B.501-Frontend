@@ -32,7 +32,7 @@ import type { UserRole } from "@type/roles";
 
 // Lista de roles válidos
 const validRoles: UserRole[] = [
-  "Applicant",
+  "Aplicante",
   "Authorizer",
   "Admin",
   "AccountsPayable",
@@ -94,9 +94,8 @@ export function getSession(cookies?: APIContext["cookies"]): Session {
   const username = realCookies.get("username")?.value || "";
   const id = realCookies.get("id")?.value || "";
   const department_id = realCookies.get("department_id")?.value || "";
-  const roleRaw = realCookies.get("role")?.value || "";
-  const role = mapRoleNameToUserRole(roleRaw);
-
+  const role = realCookies.get("role")?.value || "";
+  
   const session = { username, id, department_id, role };
 
   if (import.meta.env.DEV) {
