@@ -287,8 +287,7 @@ const verifiedReceipts = [
     // Collect form data
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
-    
-    console.log('Bank form data:', data); // For testing
+  
     
     // Show success message
     alert('Información bancaria guardada correctamente (demo frontend)');
@@ -339,8 +338,7 @@ const verifiedReceipts = [
       };
     });
     data.receiptsDetails = selectedReceipts;
-    
-    console.log('Reimbursement form data:', data); // For testing
+  
     
     // Show success message and redirect
     alert('Solicitud de reembolso enviada correctamente');

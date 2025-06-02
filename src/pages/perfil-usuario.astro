@@ -26,10 +26,8 @@ const userData = await apiRequest(`/user/get-user-data/${userId}`);
     <div>
         <div class="mb-8 flex items-center justify-between">
             <Typography variant="header">Información General</Typography>
-            <a href="/dashboard">
-                <Button variant="filled" color="secondary"
-                    >Regresar al Dashboard</Button
-                >
+            <a href="/dashboard" class="inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded-md shadow hover:bg-blue-700 transition-all duration-200">
+                ← Volver a Dashboard
             </a>
         </div>
 
@@ -38,7 +36,7 @@ const userData = await apiRequest(`/user/get-user-data/${userId}`);
             <div class="flex justify-between mb-4">
                 <Typography variant="subHeader">Información Personal</Typography
                 >
-                <Button variant="empty" color="primary">Editar</Button>
+                <!--<Button variant="empty" color="primary">Editar</Button>-->
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -128,17 +126,12 @@ const userData = await apiRequest(`/user/get-user-data/${userId}`);
         </div>
 
         <!-- Position Information Section -->
-        <div class="mb-6">
-            <Typography variant="header">Área dentro de la Empresa</Typography>
-        </div>
-
-        <!-- Position Information Section -->
         <div class="mb-8 bg-gray-100 rounded-lg p-6 shadow-sm">
             <div class="flex justify-between mb-4">
                 <Typography variant="subHeader"
                     >Información de Empleado</Typography
                 >
-                <Button variant="empty" color="primary">Editar</Button>
+                <!--<Button variant="empty" color="primary">Editar</Button>-->
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
