@@ -1,5 +1,6 @@
 import type { MiddlewareHandler } from 'astro';
 import { roleRoutes, allWhitelistedRoutes } from '@config/routeAccess';
+import { unauthorizedPage } from '@utils/unauthorizedPage';
 
 function matchPath(path: string, patterns: string[]) {
   return patterns.some(pattern => {
@@ -9,34 +10,40 @@ function matchPath(path: string, patterns: string[]) {
     return path === pattern;
   });
 }
-
-export const publicRoutes = [
-    '/login'
-  ];
+export const publicRoutes = [ '/login', '/404' ];
 
 export const onRequest: MiddlewareHandler = async (context, next) => {
-  const pathname = new URL(context.request.url).pathname;
-
-  // Obtenemos el rol desde cookies
+  const { request } = context;
+  const url = new URL(request.url);
+  const pathname = url.pathname;
+  
+  // 1. Permitir rutas públicas sin autenticación
   if (matchPath(pathname, publicRoutes)) {
     return next();
   }
-  const cookieHeader = context.request.headers.get('cookie') || '';
-  const match = cookieHeader.match(/role=([^;]+)/);
-  const role = decodeURIComponent(match?.[1] || '');
+  
+  // 2. Obtener el rol desde las cookies
+  const cookieHeader = request.headers.get('cookie') || '';
+  const roleMatch = cookieHeader.match(/(?:^|;\s*)role=([^;]+)/);
+  const role = roleMatch ? decodeURIComponent(roleMatch[1]) : '';
+  const tokenMatch = cookieHeader.match(/(?:^|;\s*)token=([^;]+)/);
+  const isAuthenticated = !!tokenMatch;
+  const html = unauthorizedPage(pathname, isAuthenticated);
 
-  // Primero: verificar si la ruta está registrada
+  // 3. Validar si la ruta está registrada en el sistema
   const isKnownRoute = matchPath(pathname, allWhitelistedRoutes);
   if (!isKnownRoute) {
-    return new Response(null, { status: 404 });
+    //return Response.redirect(new URL('/404', request.url), 302);
+    return new Response(html, { status: 404, headers: { 'Content-Type': 'text/html' } });
   }
 
-  // Segundo: verificar si el rol puede acceder a esa ruta
-  const allowedRoutes = roleRoutes[role as keyof typeof roleRoutes] || [];
+  // 4. Validar si el rol tiene acceso a la ruta
+  const allowedRoutes = roleRoutes[role as keyof typeof roleRoutes] ?? [];
   const isAuthorized = matchPath(pathname, allowedRoutes);
 
   if (!isAuthorized) {
-    return new Response(null, { status: 404 });
+    //return Response.redirect(new URL('/404', request.url), 302);
+    return new Response(html, { status: 404, headers: { 'Content-Type': 'text/html' } });
   }
 
   return next();
