@@ -12,7 +12,7 @@
  */
 
 const { userName, buttonLabel } = Astro.props;
-import Icon from "@assets/user.svg";
+import LogoutButton from "@components/Logout.tsx";
 import MaterialIcon from "@components/MaterialIcon.astro";
 
 const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
@@ -38,16 +38,12 @@ const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
     <div class="flex items-center gap-2">
       <button
         class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
-        aria-label="Sensor Door"
-      >
-        <MaterialIcon icon="settings" />
-      </button>
-      <button
-        class="bg-primary-300 rounded-lg p-2.5 h-10 w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
-        aria-label="Wind Power"
       >
         <MaterialIcon icon="dark_mode" />
       </button>
+      <LogoutButton client:visible>
+        <MaterialIcon icon="logout" />
+      </LogoutButton>
     </div>
 
     <!-- User Info -->
