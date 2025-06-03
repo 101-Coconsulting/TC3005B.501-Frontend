@@ -4,10 +4,7 @@
  * Description: Card component for displaying request information.
  */
 
-import { getRequestPriority } from "@utils/getPriorityDates";
-
 const { request, urlBase, subtitle } = Astro.props;
-const { priority } = getRequestPriority(request.request_date);
 ---
 
 <a href={`/${urlBase}/${request.request_id}`}>

@@ -10,7 +10,7 @@ export default defineConfig({
   base: '/',
   output: "server",
   server: {
-    open: '/dashboard',
+    open: '/login',
   },
   integrations: [react()],
   vite: {
