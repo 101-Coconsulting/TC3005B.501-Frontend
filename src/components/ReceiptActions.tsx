@@ -8,6 +8,8 @@
 import React, { useState } from "react";
 import Button from "./Button"
 import Modal from "@components/Modal";
+import AproveReceipStatus from "@components/AproveReceiptsModal";
+import RejectReceipStatus from "@components/RejectReceiptsModal";
 
 interface ReceiptProps {
   receipt_id: number;
@@ -52,13 +54,28 @@ export default function ReceiptActions({
 
   return (
     <div className="flex flex-row gap-2 items-center justify-center w-full">
-      <Button color="success" size="medium" customSizeClass="w-full" onClick={() => handleClick("approve")}>
-        Aprobar
-      </Button>
+      <AproveReceipStatus
+        receipt_id={receipt_id}
+        title="Aprobar comprobante"
+        message="¿Está seguro de que deseas aprobar este comprobante?"
+        redirection="/dashboard"
+        modal_type="success"
+        variant="filled"
+        >
+            Aprobar
+        </AproveReceipStatus>
 
-      <Button color="warning" size="medium" customSizeClass="w-full" onClick={() => handleClick("reject")}>
-        Rechazar
-      </Button>
+      <RejectReceipStatus
+        receipt_id={receipt_id}
+        title="Rechazar comprobante"
+        message="¿Está seguro de que deseas rechazar este comprobante?"
+        redirection="/dashboard"
+        modal_type="warning"
+        variant="filled"
+        >
+            Rechazar
+        </RejectReceipStatus>
+     
 
       {/* Confirmation  Modal*/}
       <Modal

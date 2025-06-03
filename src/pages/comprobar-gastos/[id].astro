@@ -25,6 +25,12 @@ const status_colors = {
   'Declined': 'text-danger-400',
 };
 
+const validationColors = {
+  "Aprobado": "text-green-500",
+  "Rechazado": "text-red-500",
+  "Pendiente": "text-yellow-500",
+};
+
 export async function getStaticPaths() {
   //Status corresponding to Accounts Payable COMPROBAR GASTOS
   const status = 6;
@@ -77,8 +83,8 @@ if (!request) {
                   
                   <p class="flex items-center gap-2">
                     <span class="font-semibold">Status:</span>
-                    <span class={`inline-block px-3 py-1 text-xs font-semibold rounded-full`}>
-                      PENDIENTE
+                    <span class={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${validationColors[request.validation]}`}>
+                      {request.validation}
                     </span>
                   </p>
                 </div>
