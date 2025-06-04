@@ -17,6 +17,12 @@
     });
 
 */
+import { getToken } from '@data/cookies';
+
+const token = getToken();
+console.log("Token:", token);
+
+console.log("Token:", token);
 
 type HTTP = 'GET' | 'POST' | 'PUT';
 
@@ -27,6 +33,8 @@ interface ApiOptions {
   cookies?: string;
 }
 
+
+
 export async function apiRequest<T = any>(
   path: string,
   options: ApiOptions = {}
@@ -34,7 +42,7 @@ export async function apiRequest<T = any>(
   const baseUrl = import.meta.env.PUBLIC_API_BASE_URL;
   const isDev = import.meta.env.PUBLIC_IS_DEV === 'true' || import.meta.env.PUBLIC_IS_DEV === true;
 
-  const { method = 'GET', data, headers = {}, cookies } = options;
+  const { method = 'GET', data, headers = {"Authorization": token}, cookies } = options;
 
   const config: RequestInit = {
     method,
