@@ -19,7 +19,7 @@ const buttonLabel = roleLabels[role];
 import { apiRequest } from "@/utils/apiClient";
 
 //Status corresponding to Accounts Payable
-const status = 6;
+const status = 7;
 const requests = await (async () => {
   try {
     return await apiRequest(`/user/get-travel-requests/${getCookie("department_id", Astro.cookies)}/${status}`);

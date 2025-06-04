@@ -14,17 +14,15 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-
-// const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
-// const userName = getCookie("username" );
-
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const userName = getCookie("username", Astro.cookies);
 
 const buttonLabel = roleLabels[role];
 const ViewComponent = roleViews[role];
+
+const showMessages: boolean = role !== "Solicitante" && role !== "Administrador";
 ---
 
-<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
+<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={showMessages}>
   <ViewComponent userName={userName}/>
 </MainLayout>

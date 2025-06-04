@@ -11,65 +11,21 @@
 //     return mockCookies[key];
 // };
 
-// /*
-// COOKIES WITH DATA:
-
-// 1. Authorizer:
-//     department_id:1
-
-// 2. Admin:
-//     department_id:
-
-// 3. AccountsPayable:
-//     department_id:
-
-// 4.TravelAgency:
-//     department_id:
-// */
-
 import type { APIContext } from "astro";
 import type { UserRole } from "@type/roles";
 
-// Lista de roles válidos
-const validRoles: UserRole[] = [
-  "Applicant",
-  "Authorizer",
-  "Admin",
-  "AccountsPayable",
-  "TravelAgency",
-];
-
-// Verifica si un string corresponde a un rol válido
-const isUserRole = (value: string | null): value is UserRole =>
-  !!value && validRoles.includes(value as UserRole);
-
-// Traducción de español a UserRole
-function mapRoleNameToUserRole(raw: string): UserRole {
-  switch (raw.trim().toLowerCase()) {
-    case "solicitante": return "Applicant";
-    case "n1":
-    case "n2": return "Authorizer";
-    case "administrador": return "Admin";
-    case "cuentas por pagar": return "AccountsPayable";
-    case "agencia de viajes": return "TravelAgency";
-    default: return "Applicant"; // fallback
-  }
-}
-
-// Estructura de sesión
 export type Session = {
   username: string;
   id: string;
-  department_id?: string;
   role: UserRole;
+  department_id?: string;
 };
 
-// Sesión de desarrollo por defecto
 const mockSession: Session = {
   username: "John Doe",
   id: "1",
   department_id: "1",
-  role: "Applicant",
+  role: "Solicitante" as UserRole, // 'Solicitante' | 'Agencia de viajes' | 'Cuentas por pagar' | 'N1' | 'N2' | 'Administrador'
 };
 
 // Resolver cookies si no se pasan explícitamente (ej. uso directo de getCookie)
@@ -94,19 +50,17 @@ export function getSession(cookies?: APIContext["cookies"]): Session {
   const username = realCookies.get("username")?.value || "";
   const id = realCookies.get("id")?.value || "";
   const department_id = realCookies.get("department_id")?.value || "";
-  const roleRaw = realCookies.get("role")?.value || "";
-  const role = mapRoleNameToUserRole(roleRaw);
+  const role = realCookies.get("role")?.value || "";
+  
+  const session: Session = { username, id, department_id, role: role as UserRole };
 
-  const session = { username, id, department_id, role };
-
-  if (import.meta.env.DEV) {
-    console.log("[DEBUG] getSession cookies:", session);
+  if (process.env.NODE_ENV === "development") {
+    //console.log("[DEBUG] getSession cookies:", session);
   }
 
   return session;
 }
 
-// Acceso directo tipo getCookie("role")
 type CookieKey = keyof Session;
 
 export function getCookie(key: CookieKey, cookies?: APIContext["cookies"]): string | UserRole {

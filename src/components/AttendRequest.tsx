@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { apiRequest } from "@utils/apiClient";
 import ModalWrapper from "@components/ModalWrapper";
+import Toast from '@components/Toast';
 
 interface Props {
   request_id: string;
@@ -9,6 +10,7 @@ interface Props {
 export default function AssignBudget({ request_id }: Props) {
   const [imposedFee, setImposedFee] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const handleConfirm = useCallback(async () => {
     const parsedFee = parseFloat(imposedFee);
@@ -28,7 +30,8 @@ export default function AssignBudget({ request_id }: Props) {
           imposed_fee: parsedFee,
         },
       });
-      alert("Presupuesto asignado exitosamente.");
+      setToast({ message: 'Presupuesto asignado exitosamente.', type: 'success' });
+      await new Promise(resolve => setTimeout(resolve, 2000));
       window.location.href = "/dashboard";
     } catch (error) {
       console.error("Error al asignar presupuesto:", error);
@@ -59,7 +62,9 @@ export default function AssignBudget({ request_id }: Props) {
           className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {errorMessage && (
-          <p className="text-red-600 text-sm mt-2">{errorMessage}</p>
+          <div className="bg-red-200 text-red-800 p-4 rounded-md mt-4">
+            <p className="text-sm">{errorMessage}</p>
+          </div>
         )}
       </div>
 
@@ -75,6 +80,7 @@ export default function AssignBudget({ request_id }: Props) {
           Asignar presupuesto
         </ModalWrapper>
       </div>
+      {toast && <Toast message={toast.message} type={toast.type} />}
     </div>
   );
 }

@@ -25,9 +25,10 @@ interface Props {
 }
 
 const roleDictionary = {
-  Authorizer: "autorizar-solicitud",
-  AccountsPayable: "cotizar-solicitud",
-  TravelAgency: "atender-solicitud",
+  'N1': "autorizar-solicitud",
+  'N2': "autorizar-solicitud",
+  'Cuentas por pagar': "cotizar-solicitud",
+  'Agencia de viajes': "atender-solicitud",
 } as const;
 
 type ValidRole = keyof typeof roleDictionary;

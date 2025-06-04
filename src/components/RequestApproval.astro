@@ -6,10 +6,17 @@
  * It includes sections for travel details and buttons for authorization and rejection.
  */
 
-import ModalWrapper from '@components/ModalWrapper.tsx';
+import { getCookie } from '@/data/cookies';
 import RequestDetail from '@components/RequestDetail.astro';
 import TravelRequestActionWrapper from '@components/TravelRequestActionWrapper.tsx';
 
+const role = getCookie('role', Astro.cookies);
+let role_number = 0;
+if (role === 'N1') {
+  role_number = 4;
+} else if (role === 'N2') {
+  role_number = 5;
+}
 const { request } = Astro.props;
 const id = request.request_id;
 ---
@@ -25,7 +32,7 @@ const id = request.request_id;
         client:only="react"
         request_id={id}
         endpoint="/authorizer/authorize-travel-request"
-        role={4}
+        role={role_number}
         title="Confirmar autorización"
         message="¿Está seguro de que desea autorizar esta solicitud?"
         redirection="/dashboard"
@@ -38,7 +45,7 @@ const id = request.request_id;
         client:only="react"
         request_id={id}
         endpoint="/authorizer/decline-travel-request"
-        role={4}
+        role={role_number}
         title="Rechazar autorización"
         message="¿Está seguro de que desea rechazar esta solicitud?"
         redirection="/dashboard"
