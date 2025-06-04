@@ -65,25 +65,7 @@ export default function ReceiptActions({
       setAction(null);
     }
   };
-
-  if (status !== "Pendiente") {
-    return <p className="text-sm text-gray-500 italic">Ya fue {status}</p>;
-  }
-
-  /*  ---  Legacy alert-based confirmation logic (replaced by modal) ----
-  const handleApprove = () => {
-    if (window.confirm("¿Estás seguro de aprobar este comprobante?")) {
-      onApprove(receipt_id);
-    }
-  };
-
-  const handleReject = () => {
-    if (window.confirm("¿Estás seguro de rechazar este comprobante?")) {
-      onReject(receipt_id);
-    }
-  };
-*/
-
+  
   return (
     <div className="flex flex-row gap-2 items-center justify-center w-full">
       <AproveReceipStatus

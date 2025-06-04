@@ -44,18 +44,21 @@ export async function getStaticPaths() {
 
 const { id } = Astro.params;
 const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
-
 if (!request) {
   throw new Error(`No request found with ID ${id}`);
 }
-*/
-const id = 4 ; // fix the params
+
 const numericId = Number(id);
 if (isNaN(numericId)) {
   throw new Error(`El ID debe ser numérico. Recibido: ${id}`);
 }
 
-const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
+const enrichedExpenses = await Promise.all(
+  request.Expenses.map(async (receipt: any) => {
+    const fileMap = await apiRequest(`/files/receipt-files/${receipt.receipt_id}`);
+    return { ...receipt, fileMap };
+  })
+);
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
@@ -73,46 +76,58 @@ const request = await apiRequest(`/accounts-payable/get-expense-validations/${id
   <div>
     <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Comprobantes</h3>
 
-    {request.Expenses.length === 0 ? (
+    {enrichedExpenses.length === 0 ? (
       <div class="bg-gray-100 p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
         NO HAY COMPROBANTES DE GASTOS PENDIENTES DE COMPROBAR
       </div>
     ) : (
       <div class="grid gap-4">     
-        {request.Expenses.map((request: any) => {
+        {enrichedExpenses.map((receipt: any) => {
+          const pdf = receipt.fileMap?.pdf;
+          const xml = receipt.fileMap?.xml;
 
           return (
             <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
               
               <div class="col-span-2 space-y-2 content-wrapper">
-                <p class="font-bold text-lg break-words">#{request.receipt_id}</p>
+                <p class="font-bold text-lg break-words">#{receipt.receipt_id}</p>
                 <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
                   
-                  <p><span class="font-semibold">Monto:</span> {request.amount}</p>
-                  <p><span class="font-semibold">Rubro:</span> {request.receipt_type_name}</p>
+                  <p><span class="font-semibold">Monto:</span> {receipt.amount}</p>
+                  <p><span class="font-semibold">Rubro:</span> {receipt.receipt_type_name}</p>
                   
                   <p class="flex items-center gap-2">
                     <span class="font-semibold">Status:</span>
-                    <span class={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${validationColors[request.validation]}`}>
-                      {request.validation}
+                    <span class={`inline-block px-3 py-1 text-xs font-semibold rounded-full`}>
+                      {receipt.validation}
                     </span>
                   </p>
                 </div>
               </div>
-              
+
               <div class="flex flex-col justify-center h-full gap-3">
-                <a>
-                  <button class="btn bg-blue-200 rounded w-full h-12 flex items-center justify-center hover:bg-blue-300 transition-colors">
-                    {/* This button should download the receipt */}                    
-                    Descargar Comprobante
-                  </button>
-                  {/* Here is pending the functionality of downloading the receipt */}
-                </a>
+                {pdf && (
+                      <a href={`https://localhost:3000/api/files/receipt-file/${pdf.fileId}`}>
+                        <button class="btn bg-blue-200 rounded w-full h-12 flex flex-col items-center justify-center hover:bg-blue-300 transition-colors gap-y-1">
+                          <span class="text-xs font-semibold">{pdf.fileName}</span>
+                          <span class="text-sm">Descargar PDF</span>
+                        </button>
+                      </a>
+                    )}
+
+                    {xml && (
+                      <a href={`https://localhost:3000/api/files/receipt-file/${xml.fileId}`}>
+                        <button class="btn bg-yellow-200 rounded w-full h-12 flex flex-col items-center justify-center hover:bg-yellow-300 transition-colors gap-y-1">
+                          <span class="text-xs font-semibold">{xml.fileName}</span>
+                          <span class="text-sm">Descargar XML</span>
+                        </button>
+                      </a>
+                    )}
 
                 <ReceiptActions
                   client:only="react"
-                  receipt_id={request.receipt_id}
-                  expense_status={request.expense_status}
+                  receipt_id={receipt.receipt_id}
+                  expense_status={receipt.expense_status}
                 />
               </div>
             </div>    
