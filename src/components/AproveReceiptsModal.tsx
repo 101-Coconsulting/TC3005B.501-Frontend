@@ -10,6 +10,7 @@ interface Props {
   modal_type: "success" | "warning";
   variant?: "primary" | "secondary"| "filled";
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
 export default function AproveReceipStatus({
@@ -20,6 +21,7 @@ export default function AproveReceipStatus({
   modal_type,
   variant,
   children,
+  disabled = false,
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {
@@ -28,7 +30,7 @@ export default function AproveReceipStatus({
       alert(`Aprobado correctamente`)
 
       if (redirection) {
-        window.location.href = redirection;
+        window.location.reload();
       } else {
         window.location.reload();
       }
@@ -45,6 +47,7 @@ export default function AproveReceipStatus({
       modal_type={modal_type}
       onConfirm={handleConfirm}
       variant={variant}
+      disabled={disabled}
     >
       {children}
     </ModalWrapper>

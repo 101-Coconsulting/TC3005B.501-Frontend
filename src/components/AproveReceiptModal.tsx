@@ -10,10 +10,9 @@ interface Props {
   modal_type: "success" | "warning";
   variant?: "primary" | "secondary"| "filled";
   children: React.ReactNode;
-  disabled?: boolean;
 }
 
-export default function RejectReceipStatus({
+export default function ValidateReceiptStatus({
   receipt_id,
   title,
   message,
@@ -21,16 +20,15 @@ export default function RejectReceipStatus({
   modal_type,
   variant,
   children,
-  disabled = false,
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {
-        const url = `/accounts-payable/validate-receipt/${receipt_id}`;
-      await apiRequest(url, { method: "PUT", data: {"approval": 0} });
-      alert(`Rechazado correctamente`)
+      const url = `/accounts-payable/validate-receipt/${receipt_id}`;
+      await apiRequest(url, { method: "PUT", data: {"approval": 1} });
+      alert(`Comprobante enviado exitosamente.`)
 
       if (redirection) {
-        window.location.reload();
+        window.location.href = redirection;
       } else {
         window.location.reload();
       }
@@ -47,7 +45,6 @@ export default function RejectReceipStatus({
       modal_type={modal_type}
       onConfirm={handleConfirm}
       variant={variant}
-      disabled={disabled}
     >
       {children}
     </ModalWrapper>
