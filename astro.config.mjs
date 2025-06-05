@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, envField } from 'astro/config';
+import node from '@astrojs/node';
 
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
@@ -9,6 +10,9 @@ import basicSsl from '@vitejs/plugin-basic-ssl';
 export default defineConfig({
   base: '/',
   output: "server",
+  adapter: node({
+    mode: 'standalone'
+  }),
   server: {
     open: '/login',
   },
