@@ -7,9 +7,10 @@ import TravelAgencyView from "@views/TravelAgencyView.astro";
 import type { UserRole } from "@type/roles";
 
 export const roleViews: Record<UserRole, any> = {
-    Applicant: ApplicantView,
-    Authorizer: AuthorizerView,
-    Admin: AdminView,
-    AccountsPayable: AccountsPayableView,
-    TravelAgency: TravelAgencyView,
+    'Solicitante': ApplicantView,
+    'N1': AuthorizerView,
+    'N2': AuthorizerView,
+    'Administrador': AdminView,
+    'Cuentas por pagar': AccountsPayableView,
+    'Agencia de viajes': TravelAgencyView,
 };

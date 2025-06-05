@@ -1,0 +1,24 @@
+---
+/**
+* Authors: Gabriel Muñoz Luna
+* Description: Muestra el formulario.
+**/
+export const prerender = false;
+
+import MainLayout from "@layouts/MainLayout.astro";
+import ExpensesForm from "@components/ExpensesForm.astro";
+
+import { getCookie } from "@data/cookies";
+import type { UserRole } from "@type/roles";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
+const buttonLabel = roleLabels[role];
+
+const { id } = Astro.params;
+---
+
+<MainLayout title="Crear Recibo" data={{ userName, buttonLabel, role }}>
+  <ExpensesForm />
+</MainLayout>

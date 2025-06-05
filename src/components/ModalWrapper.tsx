@@ -13,7 +13,7 @@
 
 import { useState } from "react";
 import Modal from "@components/Modal";
-import {getButtonClasses} from "@type/button";
+import { getButtonClasses } from "@type/button";
 
 interface ModalWrapperProps {
   title: string;
@@ -21,19 +21,13 @@ interface ModalWrapperProps {
   button_type: "success" | "warning" | "primary" | "secondary";
   modal_type: "confirm" | "warning" | "error" | "success";
   variant?: "filled" | "border" | "empty";
+  disabled?: boolean;
   show?: boolean;
   buttonClassName?: string;
   onConfirm?: () => void;
   onClose?: () => void;
-  renderButton?: (open: () => void) => React.ReactNode;
   children?: React.ReactNode;
 }
-const MODAL_BUTTONS = {
-  Accept: "success",
-  Cancel: "warning",
-  Delete: "delete",
-  Confirm: "confirm",
-};
 
 export default function ModalWrapper({
   title,
@@ -41,20 +35,13 @@ export default function ModalWrapper({
   button_type,
   modal_type,
   variant="filled",
+  disabled = false,
   show = false,
   buttonClassName = getButtonClasses({ variant: `${variant}`, color: `${button_type}`, size: "medium" }),
   onConfirm,
-  onClose,
-  renderButton,
   children,
 }: ModalWrapperProps) {
   const [isOpen, setIsOpen] = useState(show);
-
-  const open = () => setIsOpen(true);
-  const close = () => {
-    setIsOpen(false);
-    onClose?.();
-  };
 
   const confirm = () => {
     onConfirm?.();
@@ -63,20 +50,20 @@ export default function ModalWrapper({
 
   return (
     <>
-      {renderButton ? (
-        renderButton(open)
-      ) : (
-        <button onClick={open} className={buttonClassName}>
-          {children}
-        </button>
-      )}
+      <button
+        onClick={() => setIsOpen(true)}
+        className={buttonClassName + "pointer-events-auto hover:scale-115 transform transition-transform duration-200"}
+        style={disabled ? { opacity: 0.5, pointerEvents: "none" } : undefined}
+      >
+        {children}
+      </button>
 
       <Modal
         title={title}
         message={message}
         type={modal_type}
         show={isOpen}
-        onClose={close}
+        onClose={() => setIsOpen(false)}
         onConfirm={confirm}
       />
     </>

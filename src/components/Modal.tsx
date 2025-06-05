@@ -39,8 +39,7 @@ export default function Modal({
         {onConfirm && (
         <button
           onClick={() => {
-          onConfirm();
-          onClose();
+            onConfirm();
           }}
           className="px-4 py-2 bg-secondary-300 text-white rounded hover:bg-secondary-400"
         >

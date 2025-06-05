@@ -1,0 +1,43 @@
+---
+import Layout from "@layouts/Layout.astro";
+const token = Astro.cookies.get("token")?.value;
+const isAuthenticated = !!token;
+---
+
+<Layout title="Page Not Found">
+  <main
+    class="min-h-screen bg-[linear-gradient(135deg,#0f2027,#203a43,#2c5364)] text-white font-sans px-6 flex flex-col"
+  >
+    <div class="flex-grow flex flex-col justify-center items-center text-center max-w-lg mx-auto">
+      <img
+        src="/favicon.svg"
+        alt="Not found icon"
+        width="64"
+        height="64"
+        class="mb-6 drop-shadow-[0_0_30px_black]"
+      />
+      <h1 class="text-5xl font-extrabold flex gap-2 justify-center items-baseline">
+        <span class="text-red-400">404:</span>
+        <span class="font-normal">Not Found</span>
+      </h1>
+      <p class="mt-4 text-white/80 text-lg leading-relaxed">
+        ¡Ups! Parece que estás perdido o no tienes permiso para acceder a esta página.
+      </p>
+      <p
+        class="border border-gray-500 mt-6 px-6 text-sm font-mono text-gray-300 bg-[#203a43] p-3 rounded-md select-all max-w-full overflow-auto"
+      >
+        <code>Path: {Astro.url.pathname}</code>
+      </p>
+    </div>
+
+    <div class="flex justify-center mb-24">
+      <a
+        href={isAuthenticated ? "/dashboard" : "/login"}
+        class="bg-blue-600 text-white font-semibold px-8 py-3 rounded-md shadow hover:bg-blue-700 transition-colors duration-200"
+        aria-label="Navigate"
+      >
+        {isAuthenticated ? "Go to Dashboard" : "Go to Login"}
+      </a>
+    </div>
+  </main>
+</Layout>
