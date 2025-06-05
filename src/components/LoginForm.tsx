@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "@components/Button";
-import "../styles/global.css";
 import { apiRequest } from "@utils/apiClient";
 
 export default function LoginForm() {
