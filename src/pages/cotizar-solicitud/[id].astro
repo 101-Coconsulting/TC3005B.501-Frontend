@@ -3,6 +3,7 @@
  * Author: Eduardo Porto Morales
  */
 
+export const prerender = false;
 import MainLayout from "@layouts/MainLayout.astro";
 import RequestDetail from "@components/RequestDetail.astro";
 import AttendRequest from "@components/AttendRequest";
@@ -10,26 +11,21 @@ import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
-import { apiRequest } from '@utils/apiClient';
 
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
-export async function getStaticPaths() {
-  //Status corresponding to Accounts Payable COTIZAR SOLICITUD
-  const status = 4;
-  const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id", Astro.cookies)}/${status}`);
-  return requests.map((req: any) => ({
-    params: { id: req.request_id.toString() },
-  }));
-}
+import { apiRequest } from "@/utils/apiClient";
 
 const { id } = Astro.params;
-const request = await apiRequest(`/user/get-travel-request/${id}`);
-
-if (!request) {
+let request = null;
+try {
+  request = await apiRequest(`/user/get-travel-request/${id}`);
+} catch (error) {
+  request = null;
   throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
 }
 ---
 

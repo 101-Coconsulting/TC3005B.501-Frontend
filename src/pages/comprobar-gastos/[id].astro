@@ -1,17 +1,15 @@
 ---
-export const prerender = false;
 
 /**
  * Author: José Antonio González and Kenia Esmeralda Ramos Javier
  * Description: This is the page where we separate the content that is stablished for a certain user of Account Payable team.
  * 
  */
- 
+export const prerender = false;
 import MainLayout from "@layouts/MainLayout.astro";
 import TextHeader from "@components/TextHeader.astro";
 import ReceiptActions from "@components/ReceiptActions";
 import type { UserRole } from "@type/roles";
-import { apiRequest } from "@/utils/apiClient";
 import FinishRequestButton from "@components/FinisCheck.tsx";
 
 import { getCookie } from "@data/cookies";
@@ -35,19 +33,17 @@ const validationColors = {
   "Pendiente": "text-yellow-500",
 };
 
-export async function getStaticPaths() {
-  //Status corresponding to Accounts Payable COMPROBAR GASTOS
-  const status = 6;
-  const requests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id", Astro.cookies)}/${status}`);
-  return requests.map((req: any) => ({
-    params: { id: req.request_id.toString() },
-  }));
-}
+import { apiRequest } from "@/utils/apiClient";
 
 const { id } = Astro.params;
-const request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
-if (!request) {
+let request = null;
+try {
+  request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
+  console.log(request);
+} catch (error) {
+  request = null;
   throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
 }
 
 const numericId = Number(id);
@@ -85,7 +81,7 @@ const allReviewed = enrichedExpenses.every((receipt: any) => receipt.validation 
       <FinishRequestButton
         client:only="react"
         requestId={request.request_id}
-    />
+      />
     )}
   </div>
 </div>

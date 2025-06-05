@@ -41,7 +41,7 @@ const requests = await (async () => {
         subtitle="Aquí puedes ver las solicitudes pendientes de autorizar"
       />
       <AuthRequestsList
-        client:visible
+        client:only="react"
         data={requests}
         role={role}
       />

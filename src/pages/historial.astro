@@ -33,7 +33,7 @@ const requests = await (async () => {
     subtitle="Aquí puedes ver el historial de solicitudes realizadas"
   />
   <div class="items-center justify-center">
-    <History client:load data={requests} />
+    <History client:only="react" data={requests} />
   </div>
 </div>
 </MainLayout>

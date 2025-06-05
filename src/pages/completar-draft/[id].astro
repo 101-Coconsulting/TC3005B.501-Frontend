@@ -21,24 +21,14 @@ const userName = getCookie("username", Astro.cookies);
 
 import { apiRequest } from "@/utils/apiClient";
 
-export async function getStaticPaths() {
-  let requests = [];
-  try {
-    requests = await apiRequest(`/applicant/get-user-requests/${getCookie("id", Astro.cookies)}`);
-  } catch (error) {
-    requests = [];
-  }
-  return requests.map((req: any) => ({
-    params: { id: req.request_id.toString() },
-  }));
-}
-
 const { id } = Astro.params;
 let request = null;
 try {
   request = await apiRequest(`/user/get-travel-request/${id}`);
 } catch (error) {
   request = null;
+  throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
 }
 ---
 
