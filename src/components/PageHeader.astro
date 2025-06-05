@@ -41,7 +41,7 @@ const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
       >
         <MaterialIcon icon="dark_mode" />
       </button>
-      <LogoutButton client:visible>
+      <LogoutButton client:load>
         <MaterialIcon icon="logout" />
       </LogoutButton>
     </div>
