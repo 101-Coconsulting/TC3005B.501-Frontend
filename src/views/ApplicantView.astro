@@ -26,7 +26,8 @@ const user_id = getCookie("id", Astro.cookies);
 
 const requests = await (async () => {
   try {
-    return await apiRequest(`/applicant/get-user-requests/${user_id}`);
+    const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+    return allRequests.filter((request: any) => request.status !== "Borrador");
   } catch (error) {
     return [];
   }
@@ -50,7 +51,7 @@ const { userName } = Astro.props;
 
       {requests.length > 0 ? (
         <div class="grid gap-4">
-          {requests.filter((request: any) => request.status !== "Borrador").map((request: any) => {
+          {requests.map((request: any) => {
             const isEditable = request.status === "Primera Revisión";
             const isComp = request.status === "Comprobación gastos del viaje";
             return (

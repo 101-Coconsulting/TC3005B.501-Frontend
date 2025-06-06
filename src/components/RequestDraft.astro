@@ -12,7 +12,6 @@ var { userName, requests } = Astro.props;
 const filteredRequests = requests.filter((request: { status: string; }) => request.status === "Borrador");
 requests= filteredRequests;
 
-console.log(requests)
 ---
 
 <div>

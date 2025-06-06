@@ -3,6 +3,7 @@
  * Author: Eduardo Porto Morales
  * 
  */
+export const prerender = false;
 
 import MainLayout from "@layouts/MainLayout.astro";
 import RequestDetail from "@components/RequestDetail.astro";
@@ -11,24 +12,23 @@ import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
-import { apiRequest } from "@/utils/apiClient";
 
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
-export async function getStaticPaths() {
-  const allRequests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id", Astro.cookies)}/5`);
-  return allRequests.map((req: any) => ({
-    params: { id: req.request_id.toString() },
-  }));
-}
-const { id } = Astro.params;
-const request = await apiRequest(`/applicant/get-user-request/${id}`);
+import { apiRequest } from "@/utils/apiClient";
 
-if (!request) {
+const { id } = Astro.params;
+let request = null;
+try {
+  request = await apiRequest(`/applicant/get-user-request/${id}`);
+} catch (error) {
+  request = null;
   throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
 }
+
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >

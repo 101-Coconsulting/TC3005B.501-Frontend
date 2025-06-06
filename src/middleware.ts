@@ -30,6 +30,11 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   const isAuthenticated = !!tokenMatch;
   const html = unauthorizedPage(pathname, isAuthenticated);
 
+  // 2.1 Si no hay rol, redirigir a la página de inicio de sesión
+  if (!role) {
+    return Response.redirect(new URL('/login', request.url), 302);
+  }
+
   // 3. Validar si la ruta está registrada en el sistema
   const isKnownRoute = matchPath(pathname, allWhitelistedRoutes);
   if (!isKnownRoute) {

@@ -12,6 +12,7 @@ interface Props {
   mode: 'create' | 'edit' | 'draft';
   request_id?: string;
   user_id: string;
+  role?: string;
 }
 
 const emptyRoute: TravelRoute = {
@@ -36,7 +37,7 @@ const initialFormState: FormData = {
   routes: [{ ...emptyRoute, router_index: 0 }],
 };
 
-export default function TravelRequestForm({ data, mode, request_id, user_id }: Props) {
+export default function TravelRequestForm({ data, mode, request_id, user_id, role }: Props) {
   const [deptData, setDeptData] = useState<DepartmentData | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [error, setError] = useState<string | null>(null);
@@ -169,7 +170,11 @@ export default function TravelRequestForm({ data, mode, request_id, user_id }: P
       setError('Solicitud enviada con éxito.');
       setToast({ message: 'Solicitud enviada con éxito.', type: 'success' });
       await new Promise(resolve => setTimeout(resolve, 2000));
-      window.location.href = '/dashboard';
+      if (role === "Solicitante") {
+        window.location.href = '/dashboard';
+      } else {
+        window.location.href = '/solicitudes-autorizador';
+      }
     } catch (error) {
       console.error('Error al enviar la solicitud:', error);
       setError('Hubo un error al enviar la solicitud.');
@@ -222,7 +227,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id }: P
     }
 
     try {
-      console.log('Saving draft with data:', draftData);
+      //console.log('Saving draft with data:', draftData);
       await apiRequest(`/applicant/create-draft-travel-request/${user_id}`, { 
         method: 'POST', 
         data: draftData
@@ -231,7 +236,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id }: P
       setError('Borrador guardado exitosamente.');
       setToast({ message: 'Borrador guardado exitosamente.', type: 'success' });
       await new Promise(resolve => setTimeout(resolve, 2000));
-      window.location.href = '/dashboard';
+      window.location.href = '/solicitudes-draft';
     } catch (err) {
       console.error('Error al guardar borrador:', err);
       setError('Hubo un error al guardar el borrador.');

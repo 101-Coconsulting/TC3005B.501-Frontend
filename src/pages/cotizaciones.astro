@@ -39,7 +39,7 @@ const requests = await (async () => {
         subtitle="Aquí puedes ver las solicitudes pendientes de cotizar"
       />
       <AuthRequestsList
-        client:visible
+        client:only="react"
         data={requests}
         type="cotizar-solicitud"
       />
