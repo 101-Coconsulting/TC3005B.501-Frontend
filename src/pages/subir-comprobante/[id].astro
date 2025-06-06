@@ -9,7 +9,6 @@ import MainLayout from "@layouts/MainLayout.astro";
 import ExpensesForm from "@components/ExpensesForm.astro";
 
 import { getCookie } from "@data/cookies";
-import allRequests from "@data/get-user-request.json";
 import type { UserRole } from "@type/roles";
 import { roleLabels } from "@config/role-labels";
 
@@ -18,9 +17,8 @@ const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
 const { id } = Astro.params;
-const request = allRequests.request_id === id ? allRequests : null;
 ---
 
 <MainLayout title="Crear Recibo" data={{ userName, buttonLabel, role }}>
-  <ExpensesForm request={request} />
+  <ExpensesForm />
 </MainLayout>
