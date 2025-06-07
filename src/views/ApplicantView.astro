@@ -30,10 +30,8 @@ const requests = await (async () => {
     const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`, {
       cookies: Astro.cookies
     });
-    console.log("📦 Respuesta completa del backend:", allRequests); // ✅ AQUÍ SÍ PUEDES
     return allRequests.filter((request: any) => request.status !== "Borrador");
   } catch (error) {
-    console.error("❌ Error al obtener solicitudes:", error); // ✅ TAMBIÉN
     return [];
   }
 })();
@@ -125,8 +123,5 @@ const { userName } = Astro.props;
       </Button>
     </a>
 
-    <div>
-      el puto token {getCookie("token", Astro.cookies)}
-    </div>
   </main>
 </div>

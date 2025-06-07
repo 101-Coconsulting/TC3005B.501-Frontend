@@ -20,7 +20,6 @@ const requests = await (async () => {
   try {
     return await apiRequest(`/applicant/get-user-requests/${getCookie("id", Astro.cookies)}/`, { cookies: Astro.cookies });
   } catch (error) {
-    console.error("❌ Error al obtener solicitudes:", error);
     return [];
   }
 })()

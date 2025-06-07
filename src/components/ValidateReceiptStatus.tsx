@@ -21,7 +21,7 @@ export default function ValidateReceiptStatus({
   modal_type,
   variant,
   children,
-  token =,
+  token,
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {

@@ -30,7 +30,7 @@ const mockSession: Session = {
   token: "token",
 };
 
-// Resolver cookies si no se pasan explícitamente (ej. uso directo de getCookie)
+
 function resolveCookies(): APIContext["cookies"] | null {
   const astro = (globalThis as any).Astro;
   if (astro && astro.cookies && typeof astro.cookies.get === "function") {
@@ -40,7 +40,7 @@ function resolveCookies(): APIContext["cookies"] | null {
   return null;
 }
 
-// Obtener sesión desde cookies reales (o mock si no hay contexto SSR)
+
 export function getSession(cookies?: APIContext["cookies"]): Session {
   const realCookies = cookies || resolveCookies();
 
@@ -57,9 +57,9 @@ export function getSession(cookies?: APIContext["cookies"]): Session {
   
   const session: Session = { username, id, department_id, role: role as UserRole, token };
 
-  if (process.env.NODE_ENV === "development") {
-    console.log("[DEBUG] getSession cookies:", session);
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   console.log("[DEBUG] getSession cookies:", session);
+  // }
 
   return session;
 }

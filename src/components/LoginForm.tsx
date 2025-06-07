@@ -27,11 +27,11 @@ export default function LoginForm() {
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen w-full bg-cover bg-center"
-      style={{
-        backgroundImage:
-          "url('https://wallpapercrafter.com/desktop1/504246-Aero-Vector-Art-Moon-Travel-Sunset-Aircraft-Minimalism.jpg')",
-      }}
+      className="flex justify-center items-center min-h-screen w-full bg-cover bg-center bg-primary-500"
+      // style={{
+      //   backgroundImage:
+      //     "url('')",
+      // }}
     >
       <div>
         <img

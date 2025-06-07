@@ -17,6 +17,7 @@
     });
 
 */
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
 import { getSession } from "@data/cookies";
@@ -27,7 +28,7 @@ interface ApiOptions {
   method?: HTTP;
   data?: any;
   headers?: Record<string, string>;
-  cookies?: import("astro").APIContext["cookies"]; // opcional, para inyectar desde páginas .astro
+  cookies?: import("astro").APIContext["cookies"];
 }
 
 export async function apiRequest<T = any>(
@@ -37,10 +38,10 @@ export async function apiRequest<T = any>(
   const baseUrl = import.meta.env.PUBLIC_API_BASE_URL;
   const { method = 'GET', data, headers = {}, cookies } = options;
 
-  // Obtener token de las cookies
+
   let token = "";
   try {
-    const session = getSession(cookies); // cookies puede ser explícitas o se resuelve automáticamente
+    const session = getSession(cookies); 
     token = session.token;
   } catch (e) {
     console.warn("[WARN] No se pudo obtener sesión en apiRequest", e);

@@ -25,7 +25,6 @@ try {
   request = await apiRequest(`/applicant/get-user-request/${id}`, { cookies: Astro.cookies });
 } catch (error) {
   request = null;
-  console.error("❌ Error al obtener solicitudes:", error); // ✅ TAMBIÉN
   throw new Error(`No request found with ID ${id}`);
   return Astro.redirect('/404');
 }
