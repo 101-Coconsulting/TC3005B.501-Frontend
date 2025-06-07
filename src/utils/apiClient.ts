@@ -17,12 +17,9 @@
     });
 
 */
-import { getToken } from '@data/cookies';
 
-const token = getToken();
-console.log("Token:", token);
 
-console.log("Token:", token);
+import { getSession } from "@data/cookies";
 
 type HTTP = 'GET' | 'POST' | 'PUT';
 
@@ -30,51 +27,52 @@ interface ApiOptions {
   method?: HTTP;
   data?: any;
   headers?: Record<string, string>;
-  cookies?: string;
+  cookies?: import("astro").APIContext["cookies"]; // opcional, para inyectar desde páginas .astro
 }
-
-
 
 export async function apiRequest<T = any>(
   path: string,
   options: ApiOptions = {}
 ): Promise<T> {
   const baseUrl = import.meta.env.PUBLIC_API_BASE_URL;
-  const isDev = import.meta.env.PUBLIC_IS_DEV === 'true' || import.meta.env.PUBLIC_IS_DEV === true;
+  const { method = 'GET', data, headers = {}, cookies } = options;
 
-  const { method = 'GET', data, headers = {"Authorization": token}, cookies } = options;
+  // Obtener token de las cookies
+  let token = "";
+  try {
+    const session = getSession(cookies); // cookies puede ser explícitas o se resuelve automáticamente
+    token = session.token;
+  } catch (e) {
+    console.warn("[WARN] No se pudo obtener sesión en apiRequest", e);
+  }
 
   const config: RequestInit = {
     method,
     credentials: "include",
     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
+    ...(data && { body: JSON.stringify(data) }),
   };
-
-  if (data) {
-    config.body = JSON.stringify(data);
-  }
-
-  if (cookies) {
-    (config.headers as any).Cookie = cookies;
-  }
-
-  if (isDev && typeof process !== 'undefined') {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-  }
 
   try {
     const res = await fetch(`${baseUrl}${path}`, config);
 
     if (!res.ok) {
-      const errorBody = await res.text();
-      throw new Error(`API error (${res.status}): ${errorBody}`);
+      const errorJson = await res.json().catch(() => null);
+      throw {
+        status: res.status,
+        response: errorJson || await res.text()
+      };
     }
 
     return await res.json();
   } catch (error) {
-    throw new Error(`Network or fetch error: ${error}`);
+    throw {
+      message: 'Network or fetch error',
+      detail: error
+    };
   }
 }

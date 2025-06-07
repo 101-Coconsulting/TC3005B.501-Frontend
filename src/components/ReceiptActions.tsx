@@ -8,6 +8,7 @@ interface ReceiptProps {
   disabled: boolean; // ✅ lo recibes desde el .astro
   onApprove: (id: number) => void;
   onReject: (id: number) => void;
+  token: string;
 }
 
 export default function ReceiptActions({
@@ -15,6 +16,7 @@ export default function ReceiptActions({
   disabled,
   onApprove,
   onReject,
+  token,
 }: ReceiptProps) {
   const [showModal, setShowModal] = useState(false);
   const [action, setAction] = useState<"approve" | "reject" | null>(null);
@@ -34,7 +36,10 @@ export default function ReceiptActions({
         `${import.meta.env.PUBLIC_API_BASE_URL}/accounts-payable/validate-receipt/${receipt_id}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
           body: JSON.stringify({ approval }),
         }
       );
@@ -65,6 +70,7 @@ export default function ReceiptActions({
         modal_type="success"
         variant="filled"
         disabled={disabled} // ✅ viene directo
+        token={token}
       >
         Aprobar
       </AproveReceipStatus>
@@ -77,6 +83,7 @@ export default function ReceiptActions({
         modal_type="warning"
         variant="filled"
         disabled={disabled} // ✅ viene directo
+        token={token}
       >
         Rechazar
       </RejectReceipStatus>

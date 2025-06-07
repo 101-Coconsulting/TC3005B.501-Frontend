@@ -5,15 +5,17 @@ import { apiRequest } from "@utils/apiClient";
 interface Props {
   requestId: number;
   redirectTo?: string;
+  token: string;
 }
 
-export default function FinishRequestButton({ requestId, redirectTo = "/dashboard" }: Props) {
+export default function FinishRequestButton({ requestId, redirectTo = "/dashboard", token}: Props) {
   const handleClick = async () => {
     try {
       // Puedes cambiar el método y la lógica según lo que quieras hacer
-      await apiRequest(`/accounts-payable/validate-receipts/${requestId}`, {
-        method: "PUT",
-      });
+      await apiRequest(`/accounts-payable/validate-receipts/${requestId}`, { 
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}` } 
+    });
 
       alert("Solicitud finalizada correctamente");
       window.location.href = redirectTo;

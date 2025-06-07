@@ -11,6 +11,7 @@ interface Props {
   variant?: "primary" | "secondary"| "filled";
   children: React.ReactNode;
   disabled?: boolean;
+  token: string;
 }
 
 export default function AproveReceipStatus({
@@ -22,11 +23,16 @@ export default function AproveReceipStatus({
   variant,
   children,
   disabled = false,
+  token
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {
         const url = `/accounts-payable/validate-receipt/${receipt_id}`;
-      await apiRequest(url, { method: "PUT", data: {"approval": 1} });
+      await apiRequest(url, { 
+        method: "PUT", 
+        data: {"approval": 1},
+        headers: { Authorization: `Bearer ${token}` }
+      });
       alert(`Aprobado correctamente`)
 
       if (redirection) {

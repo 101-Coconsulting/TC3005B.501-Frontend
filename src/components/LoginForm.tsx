@@ -16,12 +16,12 @@ export default function LoginForm() {
         data: { username, password },
       });
 
-      setErrorMessage(""); // limpiar errores anteriores
+      setErrorMessage(""); 
       alert("Inicio de sesión exitoso");
       window.location.href = "/dashboard";
     } catch (error: any) {
       const msg = error?.response?.data?.error || "Error al iniciar sesión";
-      setErrorMessage(msg); // mostrar error debajo del botón
+      setErrorMessage(msg);
     }
   };
 

@@ -24,15 +24,19 @@ const colorDesign: { [key: string]: string } = {
 
 const user_id = getCookie("id", Astro.cookies);
 
+
 const requests = await (async () => {
   try {
-    const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+    const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`, {
+      cookies: Astro.cookies
+    });
+    console.log("📦 Respuesta completa del backend:", allRequests); // ✅ AQUÍ SÍ PUEDES
     return allRequests.filter((request: any) => request.status !== "Borrador");
   } catch (error) {
+    console.error("❌ Error al obtener solicitudes:", error); // ✅ TAMBIÉN
     return [];
   }
-})()
-
+})();
 const { userName } = Astro.props;
 ---
 
@@ -91,6 +95,7 @@ const { userName } = Astro.props;
                         client:only="react"
                         id={request.request_id}
                         disabled={!isEditable}
+                        token={getCookie("token", Astro.cookies)}
                       >
                         <div>
                           <MaterialIcon

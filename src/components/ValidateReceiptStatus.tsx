@@ -10,6 +10,7 @@ interface Props {
   modal_type: "success" | "warning";
   variant?: "primary" | "secondary";
   children: React.ReactNode;
+  token: string;
 }
 
 export default function ValidateReceiptStatus({
@@ -20,11 +21,15 @@ export default function ValidateReceiptStatus({
   modal_type,
   variant,
   children,
+  token =,
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {
       const url = `/applicant/send-expense-validation/${request_id}`;
-      await apiRequest(url, { method: "PUT" });
+      await apiRequest(url, { 
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` }
+      });
       alert(`Comprobante enviado exitosamente.`)
 
       if (redirection) {

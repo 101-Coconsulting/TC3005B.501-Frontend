@@ -8,7 +8,7 @@ const user_id = getCookie("id", Astro.cookies);
 
 const travelData = await (async () => {
   try {
-    return await apiRequest(`/applicant/get-user-request/${id}`);
+    return await apiRequest(`/applicant/get-user-request/${id}`, { cookies: Astro.cookies });
   } catch (error) {
     return {};
   }

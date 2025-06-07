@@ -11,6 +11,7 @@ interface Props {
   modal_type: "success" | "warning";
   variant?: "primary" | "secondary"| "filled";
   children: React.ReactNode;
+  token: string;
 }
 
 export default function ValidateReceiptStatus({
@@ -21,12 +22,16 @@ export default function ValidateReceiptStatus({
   modal_type,
   variant,
   children,
+  token,
 }: Props) {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const handleConfirm = useCallback(async () => {
     try {
       const url = `/travel-agent/attend-travel-request/${request_id}`;
-      await apiRequest(url, { method: "PUT" });
+      await apiRequest(url, { 
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setToast({ message: 'Comprobante enviado exitosamente.', type: 'success' });
       await new Promise(resolve => setTimeout(resolve, 2000));
 

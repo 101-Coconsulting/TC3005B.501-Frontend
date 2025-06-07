@@ -5,9 +5,10 @@ import Toast from '@components/Toast';
 
 interface Props {
   request_id: string;
+  token: string;
 }
 
-export default function AssignBudget({ request_id }: Props) {
+export default function AssignBudget({ request_id, token }: Props) {
   const [imposedFee, setImposedFee] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -29,6 +30,7 @@ export default function AssignBudget({ request_id }: Props) {
         data: {
           imposed_fee: parsedFee,
         },
+        headers: { Authorization: `Bearer ${token}` }
       });
       setToast({ message: 'Presupuesto asignado exitosamente.', type: 'success' });
       await new Promise(resolve => setTimeout(resolve, 2000));

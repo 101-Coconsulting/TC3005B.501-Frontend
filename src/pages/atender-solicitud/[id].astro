@@ -22,9 +22,10 @@ import { apiRequest } from "@/utils/apiClient";
 const { id } = Astro.params;
 let request = null;
 try {
-  request = await apiRequest(`/applicant/get-user-request/${id}`);
+  request = await apiRequest(`/applicant/get-user-request/${id}`, { cookies: Astro.cookies });
 } catch (error) {
   request = null;
+  console.error("❌ Error al obtener solicitudes:", error); // ✅ TAMBIÉN
   throw new Error(`No request found with ID ${id}`);
   return Astro.redirect('/404');
 }
@@ -46,6 +47,7 @@ try {
       redirection="/dashboard"
       modal_type="success"
       variant="filled"
+      token={getCookie("token", Astro.cookies)}
     >
       Aprobar
     </AproveRequest>
