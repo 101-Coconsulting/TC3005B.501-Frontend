@@ -2,8 +2,19 @@
 import { apiRequest } from "@/utils/apiClient";
 import { getCookie } from "@data/cookies";
 
-//Status corresponding to Accounts Payable
-const status = 2;
+// Diccionario de status según el rol que accede
+const statusByRole = {
+  'Solicitante': 1,
+  'Agencia de viajes': 2,
+  'Cuentas por pagar': 3,
+  'N1': 4,
+  'N2': 5,
+  'Administrador': 6,
+};
+
+type UserRole = keyof typeof statusByRole;
+const userRole = getCookie("role", Astro.cookies) as UserRole;
+const status = statusByRole[userRole];
 const alerts = await (async () => {
   try {
     return await apiRequest(`/authorizer/get-alerts/${getCookie("department_id", Astro.cookies)}/${status}/10`);
@@ -25,13 +36,19 @@ const alerts = await (async () => {
       </li>
     )}
     {alerts.map((alert:any) => (
-      <li class="relative bg-gray-50 border border-neutral-200 rounded-xl p-4 shadow-sm hover:shadow-lg transition">
+      <li class="relative bg-gray-50 border border-neutral-200 rounded-xl p-4 shadow-sm">
         <div class="mb-4">
-          <p class="text-xs text-neutral-500 mb-2">{alert.request_date} - {alert.request_time}</p>
-          <p class="text-xs text-neutral-500 mb-2">ID de Usuario: <span class="font-semibold">{alert.user_id}</span></p>
+          <p class="text-xs text-neutral-500 mb-2">
+            {
+              new Date(alert.alert_date.replace(/:([0-9]{3})Z$/, '.$1Z'))
+              .toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })
+            } - {alert.alert_time}
+          </p>
+          <p class="text-xs text-neutral-500 mb-2">Usuario: <span class="font-semibold">{alert.user_name}</span></p>
+          <p class="text-xs text-neutral-500 mb-2">ID de Solicitud: <span class="font-semibold">{alert.request_id}</span></p>
         </div>
         <div>
-          <p class="text-sm text-gray-800">{alert.alert_text}</p>
+          <p class="text-sm text-gray-800">{alert.message_text}</p>
         </div>
       </li>
     ))}

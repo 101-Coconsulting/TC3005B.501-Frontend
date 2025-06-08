@@ -15,6 +15,7 @@
       "@data/*": ["./src/data/*"],
       "@views/*": ["./src/views/*"],
       "@config/*": ["./src/config/*"],
+      "@styles/*": ["./src/styles/*"],
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"
