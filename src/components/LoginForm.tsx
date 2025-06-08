@@ -9,6 +9,10 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+      await fetch("https://localhost:3000/api/user/logout", {
+      method: "GET",
+      credentials: "include",
+    });
 
     await apiRequest("/user/logout", {
       method: "GET",
@@ -16,6 +20,7 @@ export default function LoginForm() {
 
 
     try {
+
       const response = await apiRequest("/user/login", {
         method: "POST",
         data: { username, password },
