@@ -9,8 +9,12 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+      await apiRequest("/api/user/logout", {
+        method: "GET",
+      });
 
     try {
+
       const response = await apiRequest("/user/login", {
         method: "POST",
         data: { username, password },
