@@ -16,12 +16,21 @@ export default function LoginForm() {
         data: { username, password },
       });
 
-      setErrorMessage(""); // limpiar errores anteriores
+      setErrorMessage("");
+      
+      if (response && response.token) {
+        localStorage.setItem("auth_token", response.token);
+        document.cookie = `token=${response.token}; path=/`;
+        document.cookie = `role=${response.role || "Solicitante"}; path=/`;
+        document.cookie = `username=${username}; path=/`;
+      }
+
       alert("Inicio de sesión exitoso");
-      window.location.href = "/dashboard";
+      
+      window.location.replace("/dashboard");
     } catch (error: any) {
       const msg = error?.response?.data?.error || "Error al iniciar sesión";
-      setErrorMessage(msg); // mostrar error debajo del botón
+      setErrorMessage(msg);
     }
   };
 
