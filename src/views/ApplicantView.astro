@@ -27,11 +27,19 @@ const user_id = getCookie("id", Astro.cookies);
 
 const requests = await (async () => {
   try {
-    const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`, {
-      cookies: Astro.cookies
-    });
-    return allRequests.filter((request: any) => request.status !== "Borrador");
+    // Try to fetch requests with error handling
+    try {
+      const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`, {
+        cookies: Astro.cookies
+      });
+      return allRequests.filter((request: any) => request.status !== "Borrador");
+    } catch (apiError) {
+      // If there's an SSL error, show empty requests instead of breaking the page
+      // console.error("Error fetching requests:", apiError);
+      return [];
+    }
   } catch (error) {
+    console.error("Error in request handling:", error);
     return [];
   }
 })();

@@ -17,8 +17,10 @@
     });
 
 */
-//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
+// In development, allow self-signed certificates
+if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 import { getSession } from "@data/cookies";
 
@@ -37,7 +39,7 @@ export async function apiRequest<T = any>(
 ): Promise<T> {
   const baseUrl = import.meta.env.PUBLIC_API_BASE_URL;
   const { method = 'GET', data, headers = {}, cookies } = options;
-
+  const isDev = import.meta.env.DEV || import.meta.env.MODE === 'development';
 
   let token = "";
   try {
@@ -58,8 +60,16 @@ export async function apiRequest<T = any>(
     ...(data && { body: JSON.stringify(data) }),
   };
 
+  // For browser environment, we need to handle self-signed certificates differently
+  // The fetch API in browsers doesn't have a direct way to ignore certificate errors
+
   try {
-    const res = await fetch(`${baseUrl}${path}`, config);
+    // Add a rejectUnauthorized option for development environments
+    const fetchOptions = isDev 
+      ? { ...config, rejectUnauthorized: false } 
+      : config;
+      
+    const res = await fetch(`${baseUrl}${path}`, fetchOptions);
 
     if (!res.ok) {
       const errorJson = await res.json().catch(() => null);
@@ -71,6 +81,7 @@ export async function apiRequest<T = any>(
 
     return await res.json();
   } catch (error) {
+    console.error("API request failed:", error);
     throw {
       message: 'Network or fetch error',
       detail: error
