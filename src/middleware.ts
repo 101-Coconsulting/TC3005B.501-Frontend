@@ -27,7 +27,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   const roleMatch = cookieHeader.match(/(?:^|;\s*)role=([^;]+)/);
   const role = roleMatch ? decodeURIComponent(roleMatch[1]) : '';
   const tokenMatch = cookieHeader.match(/(?:^|;\s*)token=([^;]+)/);
-  const isAuthenticated = !!tokenMatch;
+  const isAuthenticated = !!tokenMatch || !!role; // Consider authenticated if role exists
   const html = unauthorizedPage(pathname, isAuthenticated);
 
   // 2.1 Si no hay rol, redirigir a la página de inicio de sesión
