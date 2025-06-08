@@ -55,7 +55,7 @@ export function getSession(cookies?: APIContext["cookies"]): Session {
   const session: Session = { username, id, department_id, role: role as UserRole };
 
   if (process.env.NODE_ENV === "development") {
-    console.log("[DEBUG] getSession cookies:", session);
+    //console.log("[DEBUG] getSession cookies:", session);
   }
 
   return session;

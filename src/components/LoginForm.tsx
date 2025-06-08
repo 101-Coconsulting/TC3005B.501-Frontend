@@ -27,14 +27,7 @@ export default function LoginForm() {
       });
 
       setErrorMessage("");
-      
-      if (response && response.token) {
-        localStorage.setItem("auth_token", response.token);
-        document.cookie = `token=${response.token}; path=/`;
-        document.cookie = `role=${response.role || "Solicitante"}; path=/`;
-        document.cookie = `username=${username}; path=/`;
-      }
-
+    
       alert("Inicio de sesión exitoso");
 
       // Set cookies manually on client side to ensure they're available immediately

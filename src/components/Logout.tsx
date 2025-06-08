@@ -9,7 +9,7 @@ export default function LogoutButton({ children }: LogoutButtonProps) {
   const confirmRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
-    await fetch("http://localhost:3000/api/user/logout", {
+    await fetch("https://localhost:3000/api/user/logout", {
       method: "GET",
       credentials: "include",
     });
