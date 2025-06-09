@@ -9,6 +9,15 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+      await fetch("https://localhost:3000/api/user/logout", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    await apiRequest("/user/logout", {
+      method: "GET",
+    });
+
 
     await apiRequest("/user/logout", {
       method: "GET",
@@ -16,12 +25,14 @@ export default function LoginForm() {
 
 
     try {
+
       const response = await apiRequest("/user/login", {
         method: "POST",
         data: { username, password },
       });
 
-      setErrorMessage(""); // limpiar errores anteriores
+      setErrorMessage("");
+    
       alert("Inicio de sesión exitoso");
 
       // Set cookies manually on client side to ensure they're available immediately
@@ -34,7 +45,7 @@ export default function LoginForm() {
 
     } catch (error: any) {
       const msg = error?.response?.data?.error || "Error al iniciar sesión";
-      setErrorMessage(msg); // mostrar error debajo del botón
+      setErrorMessage(msg);
     }
   };
 
