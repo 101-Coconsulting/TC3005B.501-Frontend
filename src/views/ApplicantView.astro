@@ -35,7 +35,7 @@ const requests = await (async () => {
       return allRequests.filter((request: any) => request.status !== "Borrador");
     } catch (apiError) {
       // If there's an SSL error, show empty requests instead of breaking the page
-      // console.error("Error fetching requests:", apiError);
+      console.error("Error fetching requests:", apiError);
       return [];
     }
   } catch (error) {

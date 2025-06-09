@@ -41,7 +41,7 @@ export default function LoginForm() {
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen w-full bg-cover bg-center bg-primary-500"
+      className="flex justify-center items-center min-h-screen w-full bg-gradient-to-br from-purple-700 via-indigo-800 to-black bg-cover bg-center relative"
       // style={{
       //   backgroundImage:
       //     "url('')",
@@ -49,9 +49,8 @@ export default function LoginForm() {
     >
       <div>
         <img
-          src="/Logo101Coconsulting.png"
-          alt="Logo"
-          className="w-40 h-40 absolute top-5 left-10"
+          src="/Logo.svg"
+          className="w-40 h-40 absolute top-5 left-10 drop-shadow-lg"
         />
       </div>
       <div className="relative w-[407px] h-[455px] bg-white/10 border border-white/30 backdrop-blur-md rounded-lg shadow-lg flex justify-center items-center">

@@ -17,12 +17,18 @@
     });
 
 */
-// In development, allow self-signed certificates
-if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-}
 
 import { getSession } from "@data/cookies";
+
+// Handle SSL certificate validation for server-side (Node.js) environment
+// This is needed for Astro SSR to work with self-signed certificates
+const isServer = typeof window === 'undefined';
+const isDevelopment = import.meta.env.DEV || import.meta.env.MODE === 'development';
+
+// In development server environment, disable certificate validation
+if (isServer && isDevelopment && typeof process !== 'undefined') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 type HTTP = 'GET' | 'POST' | 'PUT';
 
@@ -39,7 +45,6 @@ export async function apiRequest<T = any>(
 ): Promise<T> {
   const baseUrl = import.meta.env.PUBLIC_API_BASE_URL;
   const { method = 'GET', data, headers = {}, cookies } = options;
-  const isDev = import.meta.env.DEV || import.meta.env.MODE === 'development';
 
   let token = "";
   try {
@@ -60,16 +65,10 @@ export async function apiRequest<T = any>(
     ...(data && { body: JSON.stringify(data) }),
   };
 
-  // For browser environment, we need to handle self-signed certificates differently
-  // The fetch API in browsers doesn't have a direct way to ignore certificate errors
-
   try {
-    // Add a rejectUnauthorized option for development environments
-    const fetchOptions = isDev 
-      ? { ...config, rejectUnauthorized: false } 
-      : config;
-      
-    const res = await fetch(`${baseUrl}${path}`, fetchOptions);
+    // For Node.js in development, the NODE_TLS_REJECT_UNAUTHORIZED env var handles this
+    // For browsers, we can't directly modify SSL validation behavior
+    const res = await fetch(`${baseUrl}${path}`, config);
 
     if (!res.ok) {
       const errorJson = await res.json().catch(() => null);
