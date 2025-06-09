@@ -1,0 +1,1 @@
+### Since Cypress requires this folder to run test all E2E tests must be stored here ###
