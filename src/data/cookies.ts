@@ -48,7 +48,7 @@ export function getSession(cookies?: APIContext["cookies"]): Session {
   }
 
   const username = realCookies.get("username")?.value || "";
-  const id = realCookies.get("id")?.value || "";
+  const id = realCookies.get("user_id")?.value || "";
   const department_id = realCookies.get("department_id")?.value || "";
   const role = realCookies.get("role")?.value || "";
   
