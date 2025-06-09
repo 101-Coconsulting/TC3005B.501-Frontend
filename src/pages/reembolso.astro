@@ -13,8 +13,8 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-const role: UserRole = getCookie("role") as UserRole;
-const userName = getCookie("username");
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
 // Dummy data for demonstration
@@ -287,8 +287,7 @@ const verifiedReceipts = [
     // Collect form data
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
-    
-    console.log('Bank form data:', data); // For testing
+  
     
     // Show success message
     alert('Información bancaria guardada correctamente (demo frontend)');
@@ -339,8 +338,7 @@ const verifiedReceipts = [
       };
     });
     data.receiptsDetails = selectedReceipts;
-    
-    console.log('Reimbursement form data:', data); // For testing
+  
     
     // Show success message and redirect
     alert('Solicitud de reembolso enviada correctamente');
