@@ -9,16 +9,35 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+      await fetch("https://localhost:3000/api/user/logout", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    await apiRequest("/user/logout", {
+      method: "GET",
+    });
+
 
     try {
+
       const response = await apiRequest("/user/login", {
         method: "POST",
         data: { username, password },
       });
 
-      setErrorMessage(""); 
+      setErrorMessage("");
+    
       alert("Inicio de sesión exitoso");
+
+      // Set cookies manually on client side to ensure they're available immediately
+      document.cookie = `token=${response.token}; path=/; secure; SameSite=Strict`;
+      document.cookie = `role=${response.role}; path=/`;
+      document.cookie = `username=${response.username}; path=/`;
+      document.cookie = `user_id=${response.user_id}; path=/`;
+      document.cookie = `department_id=${response.department_id}; path=/`;
       window.location.href = "/dashboard";
+
     } catch (error: any) {
       const msg = error?.response?.data?.error || "Error al iniciar sesión";
       setErrorMessage(msg);
