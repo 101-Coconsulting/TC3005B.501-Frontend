@@ -11,15 +11,20 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-const role: UserRole = getCookie("role") as UserRole;
-const userName = getCookie("username");
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
-//FETCH DEMO DATA
-import requests from '@data/get-user-requests-2.json';
-
+import { apiRequest } from '@utils/apiClient';
+const requests = await (async () => {
+  try {
+    return await apiRequest(`/applicant/get-user-requests/${getCookie("id", Astro.cookies)}/`);
+  } catch (error) {
+    return [];
+  }
+})()
 ---
 
-<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }} showMessages={role !== "Applicant"}>
+<MainLayout title="Dashboard" data={{ userName, buttonLabel, role }}>
   <RequestDraft userName={userName} requests={requests} />
 </MainLayout>

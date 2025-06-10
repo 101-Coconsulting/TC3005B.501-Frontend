@@ -6,14 +6,6 @@
  **/
 
 import TextHeader from "@components/TextHeader.astro";
-
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequests from '@data/get-user-requests.json';
-
-const requests = duplicateJson(getuserrequests, 4);
-
-
 const { userName } = Astro.props;
 ---
 

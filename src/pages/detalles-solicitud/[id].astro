@@ -5,6 +5,8 @@
 *Description: This script is used to create a page that shows the details of a request, based on the id passed in the URL.
 *
 **/
+export const prerender = false;
+
 import MainLayout from "@layouts/MainLayout.astro";
 import RequestDetail from "@components/RequestDetail.astro";
 import type { UserRole } from "@type/roles";
@@ -12,25 +14,22 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-const role: UserRole = getCookie("role") as UserRole;
-const userName = getCookie("username");
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
-// FETCH API DATA
-import { apiRequest } from "@utils/apiClient";
+import { apiRequest } from "@/utils/apiClient";
 
-export async function getStaticPaths() {
-  const allRequests = await apiRequest(`/applicant/get-user-requests/${getCookie("id")}`);
-  return allRequests.map((req: any) => ({
-    params: { id: req.request_id.toString() },
-  }));
-}
 const { id } = Astro.params;
-const request = await apiRequest(`/applicant/get-user-request/${id}`);
-
-if (!request) {
+let request = null;
+try {
+  request = await apiRequest(`/applicant/get-user-request/${id}`);
+} catch (error) {
+  request = null;
   throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
 }
+
 ---
 
 <MainLayout title={`Detalle #${request.request_id}`} data={{ userName, buttonLabel, role }} >

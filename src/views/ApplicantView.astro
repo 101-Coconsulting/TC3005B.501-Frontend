@@ -14,22 +14,26 @@ import { getCookie } from "@data/cookies";
 import { apiRequest } from '@utils/apiClient';
 
 const colorDesign: { [key: string]: string } = {
-  'Abierto': "text-green-500",
-  'Primera Revisión': "text-yellow-500",
-  'Segunda Revisión': "text-yellow-500",
-  'Cotización del Viaje': "text-yellow-500",
-  'Atención Agencia de Viajes': "text-yellow-500",
-  'Comprobación gastos del viaje': "text-yellow-500",
-  'Validación de comprobantes': "text-yellow-500",
-  'Finalizado': "text-yellow-500",
-  'Cancelado': "text-yellow-500",
-  'Rechazado': "text-yellow-500",
+  'Primera Revisión': "text-orange-400",
+  'Segunda Revisión': "text-orange-500",
+  'Cotización del Viaje': "text-orange-600",
+  'Atención Agencia de Viajes': "text-orange-700",
+  'Comprobación gastos del viaje': "text-blue-500",
+  'Validación de comprobantes': "text-blue-600",
 };
 
-const user_id = getCookie("id");
-const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+const user_id = getCookie("id", Astro.cookies);
 
-var { userName } = Astro.props;
+const requests = await (async () => {
+  try {
+    const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+    return allRequests.filter((request: any) => request.status !== "Borrador");
+  } catch (error) {
+    return [];
+  }
+})()
+
+const { userName } = Astro.props;
 ---
 
 <div>
@@ -48,21 +52,22 @@ var { userName } = Astro.props;
       {requests.length > 0 ? (
         <div class="grid gap-4">
           {requests.map((request: any) => {
-            const isEditable = request.status === "Abierto" || request.status === "Draft";
+            const isEditable = request.status === "Primera Revisión";
+            const isComp = request.status === "Comprobación gastos del viaje";
             return (
-              <div class="grid grid-cols-[2fr_2fr_1fr] gap-6">
+              <div class="grid grid-cols-[2fr_2fr_1fr] gap-8">
                 <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
                   <div class="col-span-2 space-y-2 content-wrapper">
                     <p class="font-bold text-lg break-words">#{request.request_id}</p>
-                    <div class="text-sm text-gray-700 grid grid-cols-[1fr_2fr] gap-y-1">
-                      <p><span class="font-semibold">Lugar:</span> {request.destination_country}</p>
-                      <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
+                    <div class="text-sm text-gray-700 grid grid-cols-[2fr_3fr] gap-y-1">
+                      <p><span class="font-semibold">País Destino:</span> {request.destination_country}</p>
                       <p>
                         <span class="font-semibold">Estado:</span> 
                         <span class={`ml-1 font-semibold text-sm rounded bg-yellow ${colorDesign[String(request.status)]}`}>
                           {(request.status ? request.status.toUpperCase() : '')}
                         </span>
                       </p>
+                      <p><span class="font-semibold">Fechas:</span> {request.beginning_date} - {request.ending_date}</p>
                       <p><span class="font-semibold">Responsable:</span> Eduardo Porto Morales</p>
                     </div>
                   </div>
@@ -75,8 +80,8 @@ var { userName } = Astro.props;
                       </Button>
                     </a>
                     <a href={`/comprobar-solicitud/${request.request_id}`}>
-                      <Button color="primary" disabled={isEditable} variant="filled" size="medium" customSizeClass="w-full">
-                        COMPROBAR
+                      <Button color="secondary" disabled={!isComp} variant="filled" size="medium" customSizeClass="w-full">
+                        COMPROBAR GASTOS
                       </Button>
                     </a>
                   </div>
