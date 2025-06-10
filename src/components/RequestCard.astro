@@ -7,15 +7,15 @@
 const { request, urlBase, subtitle } = Astro.props;
 ---
 
-<a href={`/${urlBase}/${request.request_id}`}>
-  <div class="content-wrapper">
-    <div class="mb-4">
-      <p class="text-lg font-semibold text-neutral-800">Viaje Rumbo a {request.destination_country}</p>
-      <p class="text-sm text-neutral-500">{subtitle}</p>
+<a href={`/${urlBase}/${request.request_id}`} class="block">
+  <div class="content-wrapper p-4 border rounded-lg hover:shadow-md transition-shadow">
+    <div class="mb-3 sm:mb-4">
+      <p class="text-base sm:text-lg font-semibold text-neutral-800 break-words">Viaje Rumbo a {request.destination_country}</p>
+      <p class="text-xs sm:text-sm text-neutral-500">{subtitle}</p>
     </div>
 
-    <div class="grid grid-cols-[2fr_1fr] text-sm text-neutral-700">
-      <div class="flex flex-col justify-between min-h-[64px]">
+    <div class="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-2 text-xs sm:text-sm text-neutral-700">
+      <div class="flex flex-col justify-between min-h-[50px] sm:min-h-[64px]">
         <div>
           <span class="inline font-medium text-neutral-500">Del:</span> 
           <p class="inline">{request.beginning_date}</p>
@@ -24,8 +24,8 @@ const { request, urlBase, subtitle } = Astro.props;
         </div>
         <p class="text-xs text-neutral-500">Estado actual: {request.request_status}</p>
       </div>
-      <div class="flex flex-col justify-end items-end text-right">
-        <p class="text-sm">
+      <div class="flex flex-col justify-end items-start sm:items-end text-left sm:text-right mt-2 sm:mt-0">
+        <p class="text-xs sm:text-sm">
           <span class="font-medium text-neutral-500">Solicitud:</span> 
           <strong>#{request.request_id}</strong>
         </p>
