@@ -6,10 +6,12 @@
 import { useState, useEffect } from 'react';
 import DataTable from '@components/Table/DataTable';
 import Pagination from '@components/Table/Pagination';
+import type { UserRole } from "@type/roles";
 
 interface Props {
   data: any[];
   type?: string;
+  role: UserRole;
 }
 
 interface Column {
@@ -36,7 +38,7 @@ function mapRequestToTableRow(request: Record<string, any>): Record<string, any>
   };
 }
 
-export default function AuthorizerRequestsList({ data, type }: Props) {
+export default function AuthorizerRequestsList({ data, type, role }: Props) {
   const requestsPerPage = 10;
   const [page, setPage] = useState(1);
   const [visibleRequests, setVisibleRequests] = useState<Record<string, any>[]>([]);
@@ -53,7 +55,7 @@ export default function AuthorizerRequestsList({ data, type }: Props) {
   return (
     <div>
       <div className="flex flex-col w-full gap-4 min-h-160">
-        <DataTable columns={columns} rows={visibleRequests} type={type} />
+        <DataTable columns={columns} rows={visibleRequests} type={type} role={role}/>
       </div>
       <Pagination
         totalPages={totalPages}

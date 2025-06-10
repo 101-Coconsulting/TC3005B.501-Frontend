@@ -118,7 +118,7 @@ export default function ExpensesFormClient({ requestId }: Props) {
           xmlFile={xmlFile}
           onDone={() => {
             window.location.href = `/comprobar-solicitud/${requestId}`;
-            //alert("Subidos correctamente");
+            alert("Subidos correctamente");
           }}
           onError={(err) => {
             console.error(err);

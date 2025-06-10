@@ -12,12 +12,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   customSizeClass?: string;
 }
 
+
 const getClasses = ({
-  variant = "filled",
-  size = "medium",
-  color = "primary",
+  variant,
+  size,
+  color,
   customSizeClass = "",
-}: ButtonProps) => {
+}: Required<Pick<ButtonProps, 'variant' | 'size' | 'color' | 'customSizeClass'>>) => {
   const base = "rounded font-medium";
   const sizeMap = {
     small: "px-2 py-1 text-sm",
@@ -31,12 +32,22 @@ const getClasses = ({
     warning: "bg-red-500 hover:bg-red-600 text-white",
     secondary: "bg-gray-500 hover:bg-gray-600 text-white",
   };
-  return `${base} ${sizeMap[size!]} ${colorMap[color!]}`;
+  return `${base} ${sizeMap[size]} ${colorMap[color]}`;
 };
 
-export default function Button({ children, ...props }: ButtonProps) {
+
+export default function Button({
+  children,
+  customSizeClass = "",
+  variant = "filled",
+  size = "medium",
+  color = "primary",
+  ...props
+}: ButtonProps) {
+  const className = getClasses({ variant, size, color, customSizeClass });
+
   return (
-    <button {...props} className={getClasses(props)}>
+    <button {...props} className={className}>
       {children}
     </button>
   );

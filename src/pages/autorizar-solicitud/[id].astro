@@ -5,6 +5,7 @@
  * Description: This Astro page renders an application approval screen.
  * It includes sections for travel details and buttons for authorization and rejection.
  */
+export const prerender = false;
 
 import MainLayout from "@layouts/MainLayout.astro";
 import RequestApproval from "@components/RequestApproval.astro";
@@ -13,24 +14,22 @@ import type { UserRole } from "@type/roles";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-const role: UserRole = getCookie("role") as UserRole;
-const userName = getCookie("username");
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
-import { apiRequest } from '@utils/apiClient';
+import { apiRequest } from "@/utils/apiClient";
 
-export async function getStaticPaths() {
-  const allRequests = await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/2`);
-  return allRequests.map((req: any) => ({
-    params: { id: req.request_id.toString() },
-  }));
-}
 const { id } = Astro.params;
-const request = await apiRequest(`/user/get-travel-request/${id}`);
-
-if (!request) {
+let request = null;
+try {
+  request = await apiRequest(`/user/get-travel-request/${id}`);
+} catch (error) {
+  request = null;
   throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
 }
+
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >

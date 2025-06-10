@@ -14,7 +14,7 @@ import RequestSection from "@components/RequestSection.astro";
 const { userName} = Astro.props;
 const requests = await (async () => {
   try {
-    return await apiRequest(`/user/get-travel-requests/${getCookie("department_id")}/5`);
+    return await apiRequest(`/user/get-travel-requests/${getCookie("department_id", Astro.cookies)}/5`);
   } catch (error) {
     return [];
   }
