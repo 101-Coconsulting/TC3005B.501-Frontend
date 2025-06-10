@@ -12,6 +12,7 @@ interface Props {
   redirection: string;
   modal_type: "success" | "warning";
   children: React.ReactNode;
+  token: string;
 }
 
 export default function TravelRequestActionWrapper({
@@ -23,12 +24,16 @@ export default function TravelRequestActionWrapper({
   redirection,
   modal_type,
   children,
+  token,
 }: Props) {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const handleConfirm = useCallback(async () => {
     try {
       const url = `${endpoint}/${request_id}/${role}`;
-      await apiRequest(url, { method: "PUT" });
+      await apiRequest(url, { 
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
       if (endpoint.includes("authorize-travel-request")) {
         setToast({ message: 'Solicitud autorizada exitosamente.', type: 'success' });
