@@ -36,15 +36,15 @@ const requests = await (async () => {
 const { userName } = Astro.props;
 ---
 
-<div>
+<div class="px-4 sm:px-6 md:px-8">
   <main>
     <TextHeader
       title={`BIENVENIDO, ${userName.toUpperCase()}`}
       subtitle="DITTA CONSULTING"
     />
 
-    <section class="bg-white p-6 rounded-lg shadow w-full">
-      <h2 class="flex text-xl font-bold mb-4">
+    <section class="bg-white p-4 sm:p-6 rounded-lg shadow w-full">
+      <h2 class="flex flex-wrap text-xl font-bold mb-4">
         VIAJES EN PROCESO
         <span class="px-2 align-middle text-primary-500">({requests.length})</span>
       </h2>
@@ -55,11 +55,11 @@ const { userName } = Astro.props;
             const isEditable = request.status === "Primera Revisión";
             const isComp = request.status === "Comprobación gastos del viaje";
             return (
-              <div class="grid grid-cols-[2fr_2fr_1fr] gap-8">
-                <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
-                  <div class="col-span-2 space-y-2 content-wrapper">
+              <div class="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr] gap-4 md:gap-8 border-b pb-4 mb-4 last:border-b-0 last:mb-0 last:pb-0">
+                <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-1 md:col-span-2">
+                  <div class="space-y-2 content-wrapper">
                     <p class="font-bold text-lg break-words">#{request.request_id}</p>
-                    <div class="text-sm text-gray-700 grid grid-cols-[2fr_3fr] gap-y-1">
+                    <div class="text-sm text-gray-700 grid grid-cols-1 sm:grid-cols-[2fr_3fr] gap-y-1">
                       <p><span class="font-semibold">País Destino:</span> {request.destination_country}</p>
                       <p>
                         <span class="font-semibold">Estado:</span> 
@@ -72,7 +72,7 @@ const { userName } = Astro.props;
                     </div>
                   </div>
                 </a>
-                <div class="grid grid-cols-[1fr_auto] gap-4 items-center">
+                <div class="grid grid-cols-[1fr_auto] gap-2 sm:gap-4 items-center mt-2 md:mt-0">
                   <div class="flex flex-col gap-2">
                     <a href={`/editar-solicitud/${request.request_id}`}>
                       <Button color="primary" disabled={!isEditable} variant="filled" size="medium" customSizeClass="w-full">
@@ -108,14 +108,14 @@ const { userName } = Astro.props;
           })}
         </div>
       ) : (
-        <div class="bg-gray-100 p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
+        <div class="bg-gray-100 p-4 sm:p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
           NO TIENES VIAJES AGENDADOS
         </div>
       )}
     </section>
 
-    <a href="/crear-solicitud" class="mt-8 flex justify-center">
-      <Button variant="filled" color="secondary" size="custom" customSizeClass="w-128 py-3 text-base font-bold">
+    <a href="/crear-solicitud" class="mt-6 sm:mt-8 flex justify-center">
+      <Button variant="filled" color="secondary" size="custom" customSizeClass="w-full sm:w-auto sm:px-8 md:w-128 py-3 text-base font-bold">
         SOLICITA UN NUEVO VIAJE
       </Button>
     </a>

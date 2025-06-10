@@ -23,7 +23,7 @@ const { title, data, showMessages = false } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -42,7 +42,7 @@ const { title, data, showMessages = false } = Astro.props;
       </aside>
 
       <section id="content">
-        <div class="p-12">
+        <div class="p-4 md:p-8 lg:p-12">
           <slot />
         </div>
       </section>
@@ -58,15 +58,24 @@ const { title, data, showMessages = false } = Astro.props;
       #app {
         display: grid;
         grid-template-areas:
-          "header header header"
-          "sidebar content messages";
-        grid-template-columns: auto 1fr 0;
+          "header"
+          "content";
+        grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
         height: 100vh;
       }
 
-      #app.list-messages {
-        grid-template-columns: auto 1fr 16rem;
+      @media (min-width: 768px) {
+        #app {
+          grid-template-areas:
+            "header header header"
+            "sidebar content messages";
+          grid-template-columns: auto 1fr 0;
+        }
+
+        #app.list-messages {
+          grid-template-columns: auto 1fr 16rem;
+        }
       }
 
       #page-header {
@@ -74,22 +83,44 @@ const { title, data, showMessages = false } = Astro.props;
       }
 
       #sidebar {
+        display: none;
         grid-area: sidebar;
+      }
+
+      @media (min-width: 768px) {
+        #sidebar {
+          display: block;
+        }
       }
 
       #content {
         grid-area: content;
         height: 100%;
         overflow-y: auto;
+        padding: 1rem;
+      }
+
+      @media (min-width: 768px) {
+        #content {
+          padding: 0;
+        }
       }
 
       #messages {
+        display: none;
         grid-area: messages;
         background: white;
         border-left: 1px solid #D6D8DE;
         box-shadow: -2px 0 4px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
+        padding: 1rem;
         overflow-y: auto;
+      }
+
+      @media (min-width: 768px) {
+        #messages {
+          display: block;
+          padding: 1.5rem;
+        }
       }
     </style>
   </body>

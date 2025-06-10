@@ -19,7 +19,7 @@ const currentPath = Astro.url.pathname;
 const items = SIDEBAR_CONFIG[role] ?? [];
 ---
 
-<aside class="w-64 h-full bg-primary-200 border-r border-neutral-100 shadow-md">
+<aside class="w-full md:w-64 h-full bg-primary-200 border-r border-neutral-100 shadow-md">
   <div class="h-full px-4 py-6 overflow-auto">
     <ul class="space-y-4 font-medium list-none p-0 m-0">
       {
