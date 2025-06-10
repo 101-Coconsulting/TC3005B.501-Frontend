@@ -6,7 +6,7 @@ export const roleRoutes: Record<UserRole, string[]> = {
   'Cuentas por pagar': ['/dashboard', '/perfil-usuario', '/cotizaciones', '/comprobaciones', '/cotizar-solicitud/*', '/comprobar-gastos/*'],
   'N1': ['/dashboard', '/perfil-usuario', '/solicitudes-autorizador', '/crear-solicitud','/historial','/reembolso','/solicitudes-draft','/comprobar-gastos','/completar-draft/*','/editar-solicitud/*','/comprobar-solicitud/*','/autorizaciones','/detalles-solicitud/*','/autorizar-solicitud/*','/subir-comprobante/*'],
   'N2': ['/dashboard', '/perfil-usuario', '/solicitudes-autorizador', '/crear-solicitud','/historial','/reembolso','/solicitudes-draft','/comprobar-gastos','/completar-draft/*','/editar-solicitud/*','/comprobar-solicitud/*','/autorizaciones','/detalles-solicitud/*','/autorizar-solicitud/*','/subir-comprobante/*'],
-  'Administrador': ['/dashboard', '/perfil-usuario','/admin-users'],
+  'Administrador': ['/dashboard', '/perfil-usuario','/crear-usuario'],
 };
 
 export const allWhitelistedRoutes: string[] = Object.values(roleRoutes).flat();

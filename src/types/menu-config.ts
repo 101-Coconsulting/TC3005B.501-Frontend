@@ -44,6 +44,6 @@ export const SIDEBAR_CONFIG: Record<string, MenuItem[]> = {
   ],
   'Administrador': [
     { label: 'DASHBOARD', route: '/dashboard', icon: 'home' },
-    { label: 'USUARIOS/ROLES', route: '/admin-users', icon: 'manage_accounts' }
+    { label: 'CREAR USUARIOS', route: '/crear-usuarios', icon: 'manage_accounts' }
   ]
 };
