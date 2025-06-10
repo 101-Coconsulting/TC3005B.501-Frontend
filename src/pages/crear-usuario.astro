@@ -7,7 +7,7 @@
 
 import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
-import CreateUsers from "@/components/CreateUsers";
+import AdminUserForm from "@/components/AdminUserForm";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 import type { UserRole } from "@type/roles";
@@ -23,12 +23,11 @@ const userName = getCookie("username", Astro.cookies);
       title="CREAR NUEVO USUARIO"
       subtitle="Por favor complete todos los campos obligatorios"
     />
-    <main class="bg-white rounded-lg shadow-md p-8">
-      <CreateUsers
+      <AdminUserForm
         mode="create"
         client:only="react"
+        redirectTo="/dashboard"
       />
-    </main>
   </div>
 </MainLayout>
 

@@ -5,10 +5,11 @@
  */
 import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
-import CreateUsers from "@/components/CreateUsers";
+import AdminUserForm from "@/components/AdminUserForm";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 import type { UserRole } from "@type/roles";
+import { apiRequest } from "@/utils/apiClient";
 
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const buttonLabel = roleLabels[role];
@@ -16,7 +17,14 @@ const userName = getCookie("username", Astro.cookies);
 const { id } = Astro.params;
 
 // TODO: Fetch user data for editing and pass as initialData
-const userData = {};
+let user_data = null;
+try {
+  user_data = await apiRequest(`/user/get-user-data/${id}`, { cookies: Astro.cookies });
+} catch (error) {
+  user_data = null;
+  throw new Error(`No user found with ID ${id}`);
+  return Astro.redirect('/404');
+}
 ---
 
 <MainLayout title="Editar Usuario" data={{ userName, buttonLabel, role }}>
@@ -25,13 +33,11 @@ const userData = {};
       title="EDITAR USUARIO"
       subtitle="Modifique los campos necesarios y guarde los cambios"
     />
-    <main class="bg-white rounded-lg shadow-md p-8">
-      <CreateUsers
+      <AdminUserForm
         mode="edit"
-        userId={id}
-        initialData={userData}
+        user_data={user_data}
+        redirectTo="/dashboard"
         client:only="react"
       />
-    </main>
   </div>
 </MainLayout>
