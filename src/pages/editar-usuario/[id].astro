@@ -16,7 +16,6 @@ const buttonLabel = roleLabels[role];
 const userName = getCookie("username", Astro.cookies);
 const { id } = Astro.params;
 
-// TODO: Fetch user data for editing and pass as initialData
 let user_data = null;
 try {
   user_data = await apiRequest(`/user/get-user-data/${id}`, { cookies: Astro.cookies });
@@ -31,13 +30,13 @@ try {
   <div>
     <TextHeader
       title="EDITAR USUARIO"
-      subtitle="Modifique los campos necesarios y guarde los cambios"
+      subtitle="Modifique los campos necesarios y guarde los cambios de usuario"
     />
-      <AdminUserForm
-        mode="edit"
-        user_data={user_data}
-        redirectTo="/dashboard"
-        client:only="react"
-      />
+    <AdminUserForm
+      client:only="react"
+      mode="edit"
+      user_data={user_data}
+      redirectTo="/dashboard"
+    />
   </div>
 </MainLayout>

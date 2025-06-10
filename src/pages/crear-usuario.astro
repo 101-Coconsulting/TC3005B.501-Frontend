@@ -21,13 +21,13 @@ const userName = getCookie("username", Astro.cookies);
   <div>
     <TextHeader
       title="CREAR NUEVO USUARIO"
-      subtitle="Por favor complete todos los campos obligatorios"
+      subtitle="Complete el formulario con los datos del nuevo usuario"
     />
-      <AdminUserForm
-        mode="create"
-        client:only="react"
-        redirectTo="/dashboard"
-      />
+    <AdminUserForm
+      mode="create"
+      client:only="react"
+      redirectTo="/dashboard"
+    />
   </div>
 </MainLayout>
 
