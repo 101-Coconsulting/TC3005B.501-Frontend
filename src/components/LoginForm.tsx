@@ -9,11 +9,6 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      await fetch("https://localhost:3000/api/user/logout", {
-      method: "GET",
-      credentials: "include",
-    });
-
     await apiRequest("/user/logout", {
       method: "GET",
     });
@@ -46,17 +41,16 @@ export default function LoginForm() {
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen w-full bg-cover bg-center"
-      style={{
-        backgroundImage:
-          "url('https://wallpapercrafter.com/desktop1/504246-Aero-Vector-Art-Moon-Travel-Sunset-Aircraft-Minimalism.jpg')",
-      }}
+      className="flex justify-center items-center min-h-screen w-full bg-gradient-to-br from-purple-700 via-indigo-800 to-black bg-cover bg-center relative"
+      // style={{
+      //   backgroundImage:
+      //     "url('')",
+      // }}
     >
       <div>
         <img
-          src="/Logo101Coconsulting.png"
-          alt="Logo"
-          className="w-40 h-40 absolute top-5 left-10"
+          src="/Logo.svg"
+          className="w-40 h-40 absolute top-5 left-10 drop-shadow-lg"
         />
       </div>
       <div className="relative w-[407px] h-[455px] bg-white/10 border border-white/30 backdrop-blur-md rounded-lg shadow-lg flex justify-center items-center">
