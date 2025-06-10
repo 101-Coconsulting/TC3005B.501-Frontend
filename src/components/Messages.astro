@@ -17,7 +17,7 @@ const userRole = getCookie("role", Astro.cookies) as UserRole;
 const status = statusByRole[userRole];
 const alerts = await (async () => {
   try {
-    return await apiRequest(`/authorizer/get-alerts/${getCookie("department_id", Astro.cookies)}/${status}/10`);
+    return await apiRequest(`/authorizer/get-alerts/${getCookie("department_id", Astro.cookies)}/${status}/10`, { cookies: Astro.cookies });
   } catch (error) {
     return [];
   }

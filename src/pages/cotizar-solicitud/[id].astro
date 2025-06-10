@@ -21,7 +21,7 @@ import { apiRequest } from "@/utils/apiClient";
 const { id } = Astro.params;
 let request = null;
 try {
-  request = await apiRequest(`/user/get-travel-request/${id}`);
+  request = await apiRequest(`/user/get-travel-request/${id}`, { cookies: Astro.cookies });
 } catch (error) {
   request = null;
   throw new Error(`No request found with ID ${id}`);
@@ -39,6 +39,7 @@ try {
     <AttendRequest
       client:only="react"
       request_id = {request.request_id}
+      token={getCookie("token", Astro.cookies)}
     />
   </div>
 </MainLayout>
