@@ -23,13 +23,11 @@ interface FormErrors {
   [key: string]: string;
 }
 
-
 interface CreateUserFormProps {
   mode: 'create' | 'edit';
-  user_data? ;  // Optional for create mode
-  redirectTo?: string; // Optional redirect URL after submission
+  user_data?: any; // User data for editing, if applicable
+  redirectTo?: string;
 }
-
 
 const roles = [
   { id: 1, name: 'Solicitante' },
@@ -83,22 +81,21 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
   const handleEdituser =async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-          console.log('Fetched user data:', data);
-          setFormData({
-            role_id: user_data.role_id,
-            department_id: user_data.department_id,
-            user_name: user_data.user_name,
-            password: '',
-            workstation: user_data.workstation,
-            email: user_data.email,
-            phone_number: user_data.phone_number || ''
-          });
-    }catch (error) {
-          console.error('Error al obtener datos del usuario:', error);
-          setToast({ message: 'Error al cargar datos del usuario', type: 'error' });
-        }
-      };
-
+      console.log('Fetched user data:', user_data);
+      setFormData({
+        role_id: user_data.role_id,
+        department_id: user_data.department_id,
+        user_name: user_data.user_name,
+        password: '',
+        workstation: user_data.workstation,
+        email: user_data.email,
+        phone_number: user_data.phone_number || ''
+      });
+    } catch (error) {
+        console.error('Error al obtener datos del usuario:', error);
+        setToast({ message: 'Error al cargar datos del usuario', type: 'error' });
+      }
+    };
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -174,6 +171,7 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
         ? `/admin/update-user/${user_data.user_id}`
         : '/admin/create-user';
 
+      console.log('Submitting form data:', payload);
       const response = await apiRequest(endpoint, {
         method: mode === 'edit' ? 'PUT' : 'POST',
         data: payload
@@ -185,7 +183,9 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
         setFormData(initialFormData);
       }
       await new Promise(resolve => setTimeout(resolve, 2000));
-      window.location.href = redirectTo;
+      if (redirectTo) {
+        window.location.href = redirectTo;
+      }
       
     } catch (error: any) {
       console.error(`${mode === 'edit' ? 'Update' : 'Create'} error:`, error);
@@ -212,12 +212,15 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
   };
 
   const handleReset = () => {
-    (mode === 'edit') ? 
-      window.location.href = redirectTo
-    :
-    setFormData(initialFormData);
-    setErrors({});
-    setToast(null);
+    if (mode === 'edit') {
+      if (redirectTo) {
+        window.location.href = redirectTo;
+      }
+    } else {
+      setFormData(initialFormData);
+      setErrors({});
+      setToast(null);
+    }
   };
 
   const inputClass = (fieldName: string) =>
@@ -227,14 +230,7 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
 
   return (
     <div className="bg-white rounded-lg shadow-md p-8">
-      <div className="mb-6">
-        <p className="text-black text-extrabold text-lg ">
-          {mode === 'edit'
-            ? 'Actualice los campos necesarios para modificar al usuario'
-            : 'Complete todos los campos para crear un nuevo usuario en el sistema'}
-        </p>
-      </div>
-      <div className="flex items-center bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-500 p-4 rounded shadow-sm mb-4">
+      <div className="flex items-center bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-500 p-4 mb-8 rounded shadow-sm">
         <svg className="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="white" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01" />
@@ -263,7 +259,7 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
               <p className="text-red-500 text-sm mt-1">{errors.user_name}</p>
             )}
           </div>
-
+          { mode === 'create' && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Contraseña <span className="text-red-500">*</span>
@@ -280,6 +276,7 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
             )}
           </div>
+          )}
         </div>
 
         {/* Email y Teléfono */}
