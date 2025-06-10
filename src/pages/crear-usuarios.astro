@@ -2,153 +2,200 @@
 /**
  * Author: Nicole Dávila Hernández
  * 
- * Description: This is the creation page for a new, single user.
+ * Description: This is the creation page for multiple users via a CVS file.
+ * Test file for this page can be found at src/data/users.csv
  */
 
-import InputField from '@components/InputField.astro';
-import Button from '@components/Button.astro';
 import TextHeader from '@components/TextHeader.astro';
-import MainLayout from "@layouts/MainLayout.astro";
+import MainLayout from '@layouts/MainLayout.astro';
 import ModalWrapper from '@components/ModalWrapper.tsx';
 
-import { getCookie } from "@data/cookies";
-import type { UserRole } from "@type/roles";
-import { roleLabels } from "@config/role-labels";
+import { getCookie } from '@data/cookies';
+import type { UserRole } from '@type/roles';
+import { roleLabels } from '@config/role-labels';
 
 const role: UserRole = getCookie("role") as UserRole;
 const userName = getCookie("username");
 const buttonLabel = roleLabels[role];
-
-const departments = ["Technology Department", "Finance", "HR", "", "Marketing", "Sales", "Operations", "Customer Service", "Legal"];
-const costCenters = ["TECH01", "FIN02", "HR03"];
-const roles = ["N1", "N2", "Applicant", "Authorizer", "Admin", "AccountsPayable", "TravelAgency"];
 ---
 
-<MainLayout title="Crear Usuario" data={{ userName, buttonLabel, role }}>
+<MainLayout title="Cargar Usuarios desde CSV" data={{ userName, buttonLabel, role }}>
   <div>
     <TextHeader
-      title="CREAR NUEVO USUARIO"
-      subtitle="Por favor complete todos los campos obligatorios"
+      title="CARGAR USUARIOS"
+      subtitle="Seleccione o arrastre un archivo CSV para importar múltiples usuarios"
     />
-    <main class="bg-white rounded-lg shadow-md p-8">
-      <form id="userForm" class="space-y-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <InputField label="Nombre Completo" name="user_name" type="text" required={true} />
-          <InputField label="Correo Electrónico" name="email" type="email" required={true} />
-          <InputField label="Teléfono" name="phone_number" type="tel" required={true} />
-          <InputField label="Workstation" name="workstation" type="text" required={true} />
 
-          <!-- Dropdown for Department -->
-          <div>
-            <label class="block text-sm font-medium mb-2 text-black">Departamento</label>
-            <select name="department_name" required class="w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">
-              <option value="" disabled selected>Seleccione un departamento</option>
-              {departments.map(dept => <option value={dept}>{dept}</option>)}
-            </select>
-          </div>
+    <main class="bg-white rounded-lg shadow-md p-8 space-y-6">
 
-          <!-- Dropdown for Cost Center -->
-          <div>
-            <label class="block text-sm font-medium mb-2 text-black">Centro de Costos</label>
-            <select name="costs_center" required class="w-full px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">
-              <option value="" disabled selected>Seleccione un CeCo</option>
-              {costCenters.map(cc => <option value={cc}>{cc}</option>)}
-            </select>
-          </div>
+      <!-- Drag and Drop Upload Area -->
+      <div
+        id="dropZone"
+        class="w-full h-64 flex flex-col items-center justify-center border-2 border-dashed border-primary-400 rounded-lg bg-primary-100/20 text-primary-400 hover:bg-primary-100 transition cursor-pointer text-center px-4"
+      >
+        <p class="text-lg font-semibold">Selecciona un archivo o arrástralo aquí</p>
+        <p id="fileName" class="text-sm text-secondary-500 mt-2">Ningún archivo seleccionado</p>
+        <input type="file" id="csvInput" accept=".csv" class="hidden" />
+      </div>
 
-          <!-- Dynamic Role Section -->
-          <div class="md:col-span-2">
-            <label class="block text-sm font-medium mb-2 text-black">Roles</label>
-            <div id="rolesList" class="space-y-2">
-              <div class="flex gap-2">
-                <select name="role_name" required class="flex-1 px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">
-                  <option value="" disabled selected>Seleccione un rol</option>
-                  {roles.map(r => <option value={r}>{r}</option>)}
-                </select>
-                <button type="button" class="text-warning-400 px-2" onclick="this.parentElement.remove()">✕</button>
-              </div>
-            </div>
-            <button type="button" onclick="addRole()" class="mt-2 text-sm text-primary-400 hover:underline">+ Agregar Rol</button>
-          </div>
-        </div>
+      <!-- Preview Table -->
+      <div id="previewContainer" class="hidden">
+        <h3 class="text-lg font-bold text-primary-400 mb-2">Usuarios a Crear</h3>
+        <table class="min-w-full border border-gray-300 text-sm">
+          <thead class="bg-gray-100 text-left">
+            <tr>
+              <th class="px-4 py-2">Nombre</th>
+              <th class="px-4 py-2">Correo</th>
+              <th class="px-4 py-2">Teléfono</th>
+              <th class="px-4 py-2">Rol</th>
+              <th class="px-4 py-2">Departamento</th>
+              <th class="px-4 py-2">CeCo</th>
+              <th class="px-4 py-2">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody"></tbody>
+        </table>
+      </div>
 
-        <!-- Buttons -->
-        <div class="flex justify-end gap-4 pt-4">
-          <ModalWrapper
-            client:only="react"
-            title="Limpiar formulario"
-            message="¿Está seguro de que desea limpiar el formulario?"
-            variant="border"
-            button_type="secondary"
-            modal_type="confirm"
-          >
-            Limpiar
-          </ModalWrapper>
-          <ModalWrapper
-            client:only="react"
-            title="Confirmar creación"
-            message="¿Está seguro de que desea crear este usuario?"
-            variant="filled"
-            button_type="primary"
-            modal_type="confirm"
-          >
-            Crear Usuario
-          </ModalWrapper>
-        </div>
-      </form>
+      <!-- Submit All -->
+      <div id="submitContainer" class="flex justify-end hidden">
+        <ModalWrapper
+          client:only="react"
+          title="Confirmar Carga"
+          message="¿Está seguro de que desea cargar estos usuarios?"
+          variant="filled"
+          button_type="primary"
+          modal_type="confirm"
+        >
+          Cargar Todos
+        </ModalWrapper>
+      </div>
     </main>
   </div>
 </MainLayout>
 
 <script is:inline>
-  document.getElementById('userForm').addEventListener('submit', function(e) {
+  let parsedUsers = [];
+
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('csvInput');
+  const fileNameSpan = document.getElementById('fileName');
+
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
+    dropZone.classList.add('bg-primary-100');
+  });
 
-    const requiredFields = this.querySelectorAll('[required]');
-    let isValid = true;
+  dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('bg-primary-100');
+  });
 
-    requiredFields.forEach(field => {
-      if (!field.value.trim()) {
-        field.classList.add('border-warning-400');
-        isValid = false;
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('bg-primary-100');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      fileInput.files = e.dataTransfer.files;
+      handleCSVFile(file);
+    }
+  });
+
+  fileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) handleCSVFile(file);
+  });
+
+  function handleCSVFile(file) {
+    fileNameSpan.textContent = file.name;
+
+    const reader = new FileReader();
+    reader.onload = function () {
+      const text = reader.result;
+      parsedUsers = parseCSV(text);
+      renderTable();
+    };
+    reader.readAsText(file);
+  }
+
+  function parseCSV(text) {
+    const rows = [];
+    const lines = text.trim().split('\n');
+
+    const headers = splitCSVLine(lines[0]);
+    for (let i = 1; i < lines.length; i++) {
+      const values = splitCSVLine(lines[i]);
+      if (values.length !== headers.length) continue;
+
+      const user = {};
+      headers.forEach((h, j) => {
+        user[h.trim()] = values[j].trim();
+      });
+      rows.push(user);
+    }
+    return rows;
+  }
+
+  function splitCSVLine(line) {
+    const result = [];
+    let value = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      const nextChar = line[i + 1];
+
+      if (char === '"' && inQuotes && nextChar === '"') {
+        value += '"';
+        i++;
+      } else if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(value);
+        value = '';
       } else {
-        field.classList.remove('border-warning-400');
+        value += char;
       }
-    });
+    }
+    result.push(value);
+    return result;
+  }
 
-    if (!isValid) {
-      alert('Por favor complete todos los campos requeridos');
+  function renderTable() {
+    const tableBody = document.getElementById('userTableBody');
+    const previewContainer = document.getElementById('previewContainer');
+    const submitContainer = document.getElementById('submitContainer');
+
+    tableBody.innerHTML = '';
+    if (parsedUsers.length === 0) {
+      previewContainer.classList.add('hidden');
+      submitContainer.classList.add('hidden');
       return;
     }
 
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
+    parsedUsers.forEach((user, index) => {
+      const row = document.createElement('tr');
+      row.classList.add('border-t');
 
-    // Handle multiple roles
-    const roles = [];
-    this.querySelectorAll('select[name="role_name"]').forEach(select => {
-      if (select.value) roles.push(select.value);
+      row.innerHTML = `
+        <td class="px-4 py-2">${user.user_name || ''}</td>
+        <td class="px-4 py-2">${user.email || ''}</td>
+        <td class="px-4 py-2">${user.phone_number || ''}</td>
+        <td class="px-4 py-2">${user.role_name || ''}</td>
+        <td class="px-4 py-2">${user.department_name || ''}</td>
+        <td class="px-4 py-2">${user.costs_center || ''}</td>
+        <td class="px-4 py-2 text-red-500 cursor-pointer hover:underline" onclick="removeUser(${index})">✕</td>
+      `;
+      tableBody.appendChild(row);
     });
-    data.role_name = roles;
 
-    console.log('User created:', data); // For testing
+    previewContainer.classList.remove('hidden');
+    submitContainer.classList.remove('hidden');
+  }
 
-    alert('Usuario creado exitosamente (demo frontend)');
-    window.location.href = '/dashboard';
-  });
-
-  function addRole() {
-    const rolesList = document.getElementById('rolesList');
-    const div = document.createElement('div');
-    div.className = 'flex gap-2';
-    div.innerHTML = `
-      <select name="role_name" required class="flex-1 px-3 py-2 border border-secondary-300 rounded-md shadow-sm text-sm">
-        <option value="" disabled selected>Seleccione un rol</option>
-        ${["N1", "N2", "Admin", "Manager"].map(r => `<option value="${r}">${r}</option>`).join("")}
-      </select>
-      <button type="button" class="text-warning-400 px-2" onclick="this.parentElement.remove()">✕</button>
-    `;
-    rolesList.appendChild(div);
+  function removeUser(index) {
+    parsedUsers.splice(index, 1);
+    renderTable();
   }
 </script>
-

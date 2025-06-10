@@ -1,0 +1,34 @@
+---
+/**
+ * Author: Nicole Dávila Hernández and Julia Maria Stephanie Duenkelsbuehler Castillo
+ * 
+ * Description: This is the creation page for a new, single user.
+ */
+
+import TextHeader from '@components/TextHeader.astro';
+import MainLayout from "@layouts/MainLayout.astro";
+import CreateUsers from "@/components/CreateUsers";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+import type { UserRole } from "@type/roles";
+
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const buttonLabel = roleLabels[role];
+const userName = getCookie("username", Astro.cookies);
+---
+
+<MainLayout title="Crear Usuario" data={{ userName, buttonLabel, role }}>
+  <div>
+    <TextHeader
+      title="CREAR NUEVO USUARIO"
+      subtitle="Por favor complete todos los campos obligatorios"
+    />
+    <main class="bg-white rounded-lg shadow-md p-8">
+      <CreateUsers
+        mode="create"
+        client:only="react"
+      />
+    </main>
+  </div>
+</MainLayout>
+
