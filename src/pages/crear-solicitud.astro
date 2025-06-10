@@ -31,6 +31,8 @@ const userName = getCookie("username", Astro.cookies);
         client:only="react"
         mode="create"
         role={role}
+        token={getCookie("token", Astro.cookies)}
+
       />
     </main>
   </div>
