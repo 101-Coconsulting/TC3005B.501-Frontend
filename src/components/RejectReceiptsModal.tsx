@@ -11,6 +11,7 @@ interface Props {
   variant?: "primary" | "secondary"| "filled";
   children: React.ReactNode;
   disabled?: boolean;
+  token: string;
 }
 
 export default function RejectReceipStatus({
@@ -22,11 +23,16 @@ export default function RejectReceipStatus({
   variant,
   children,
   disabled = false,
+  token,
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {
         const url = `/accounts-payable/validate-receipt/${receipt_id}`;
-      await apiRequest(url, { method: "PUT", data: {"approval": 0} });
+      await apiRequest(url, { 
+        method: "PUT", 
+        data: {"approval": 0},
+        headers: { Authorization: `Bearer ${token}` }
+      });
       alert(`Rechazado correctamente`)
 
       if (redirection) {

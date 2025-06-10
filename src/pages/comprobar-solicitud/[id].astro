@@ -22,7 +22,7 @@ import { apiRequest } from "@/utils/apiClient";
 const { id } = Astro.params;
 let request = null;
 try {
-  request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
+  request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`, { cookies: Astro.cookies });
 } catch (error) {
   request = null;
   throw new Error(`No request found with ID ${id}`);
@@ -85,6 +85,7 @@ const StateColors = {
         redirection="/dashboard"
         modal_type="success"
         variant="filled"
+        token={getCookie("token", Astro.cookies)}
         >
         Mandar a validar
       </ValidateReceiptStatus>

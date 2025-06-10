@@ -18,15 +18,21 @@ import MaterialIcon from "@components/MaterialIcon.astro";
 const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
 ---
 
-<header class="flex justify-between items-center p-4 bg-primary-300">
+<header class="flex justify-between items-center bg-primary-300 px-4">
   <!-- Left Section -->
-  <div class="flex items-center">
-    <button
-      class="bg-neutral-300 text-black font-bold py-2 px-8 ml-6 rounded text-base transition-colors duration-200 hover:bg-primary-50"
-      onclick="alert('Toggle sidebar here!')"
-    >
-      LOGO
-    </button>
+  <div class="flex items-center px-18">
+    <img
+          src="/Logo.svg"
+          alt="Logo"
+          class="w-20 h-20 rounded drop-shadow-lg  "
+          onclick="alert('Toggle sidebar here!')"
+        />
+      <!-- <button
+        class="bg-neutral-300 text-black font-bold py-2 px-8 ml-6 rounded text-base transition-colors duration-200 hover:bg-primary-50"
+        onclick="alert('Toggle sidebar here!')"
+        >
+       <img src="/Logo.svg" alt="Logo" class="h-6 w-auto" />
+      </button> -->
   </div>
 
   <!-- Right Section -->

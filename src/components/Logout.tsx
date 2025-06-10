@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { apiRequest } from "@utils/apiClient";
 
 interface LogoutButtonProps {
   children?: React.ReactNode;
@@ -9,9 +10,8 @@ export default function LogoutButton({ children }: LogoutButtonProps) {
   const confirmRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
-    await fetch("https://localhost:3000/api/user/logout", {
+    await apiRequest("/user/logout", {
       method: "GET",
-      credentials: "include",
     });
     window.location.href = "/login";
   };

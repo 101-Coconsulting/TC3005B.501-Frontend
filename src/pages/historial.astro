@@ -19,7 +19,7 @@ const buttonLabel = roleLabels[role];
 import { apiRequest } from "@/utils/apiClient";
 const requests = await (async () => {
   try {
-    return await apiRequest(`/applicant/get-completed-requests/${getCookie("id", Astro.cookies)}`);
+    return await apiRequest(`/applicant/get-completed-requests/${getCookie("id", Astro.cookies)}`, { cookies: Astro.cookies });
   } catch (error) {
     return [];
   }
