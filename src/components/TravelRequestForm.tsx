@@ -13,6 +13,7 @@ interface Props {
   request_id?: string;
   user_id: string;
   role?: string;
+  token: string;
 }
 
 const emptyRoute: TravelRoute = {
@@ -37,7 +38,7 @@ const initialFormState: FormData = {
   routes: [{ ...emptyRoute, router_index: 0 }],
 };
 
-export default function TravelRequestForm({ data, mode, request_id, user_id, role }: Props) {
+export default function TravelRequestForm({ data, mode, request_id, user_id, role, token }: Props) {
   const [deptData, setDeptData] = useState<DepartmentData | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [error, setError] = useState<string | null>(null);
@@ -65,7 +66,11 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
   useEffect(() => {
     async function fetchDepartmentInfo() {
       try {
-        const response = await apiRequest(`/applicant/get-cc/${user_id}`);
+        const response = await apiRequest(`/applicant/get-cc/${user_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setDeptData(response);
       } catch (err) {
         console.error('Error fetching department info:', err);
@@ -164,7 +169,10 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     try {
       await apiRequest(`/applicant/create-travel-request/${user_id}`, {
         method: 'POST',
-        data: dataToSend
+        data: dataToSend,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       setSuccess(true);
       setError('Solicitud enviada con éxito.');
@@ -227,10 +235,12 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     }
 
     try {
-      //console.log('Saving draft with data:', draftData);
-      await apiRequest(`/applicant/create-draft-travel-request/${user_id}`, { 
-        method: 'POST', 
-        data: draftData
+      await apiRequest(`/applicant/create-draft-travel-request/${user_id}`, {
+        method: 'POST',
+        data: draftData,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       setSuccess(true);
       setError('Borrador guardado exitosamente.');
@@ -326,6 +336,9 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
       await apiRequest(`/applicant/edit-travel-request/${request_id}`, {
         method: 'PUT',
         data: editedData,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       if (href_route) {
         setSuccess(true);
@@ -350,8 +363,11 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     if (!editSuccess) return;
 
     try {
-      await apiRequest(`/applicant/confirm-draft-travel-request/${user_id}/${request_id}`, { 
+      await apiRequest(`/applicant/confirm-draft-travel-request/${user_id}/${request_id}`, {
         method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       setSuccess(true);
       setError('Borrador completado exitosamente.');

@@ -7,6 +7,7 @@
 import MaterialIcon from "@/components/MaterialIcon.astro";
 import TextHeader from "@components/TextHeader.astro";
 import CancelRequestModal from "@components/CancelRequestModal.tsx";
+import { getCookie } from "@data/cookies";
 
 var { userName, requests } = Astro.props;
 const filteredRequests = requests.filter((request: { status: string; }) => request.status === "Borrador");
@@ -49,6 +50,7 @@ requests= filteredRequests;
                         client:only="react"
                         id={request.request_id}
                         disabled={false}
+                        token={getCookie("token", Astro.cookies)}
                       >
                         <div>
                           <MaterialIcon
