@@ -7,9 +7,10 @@ import UploadReceiptFiles from "@components/UploadReceiptFiles.tsx";
 
 interface Props {
   requestId: number;
+  token: string;
 }
 
-export default function ExpensesFormClient({ requestId }: Props) {
+export default function ExpensesFormClient({ requestId, token }: Props) {
   const [concepto, setConcepto] = useState("Transporte");
   const [monto, setMonto] = useState("");
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -40,6 +41,7 @@ export default function ExpensesFormClient({ requestId }: Props) {
         requestId,
         concepto,
         monto: parseFloat(monto),
+        token,
       });
 
       

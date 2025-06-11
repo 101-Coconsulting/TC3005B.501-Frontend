@@ -19,6 +19,7 @@ export type Session = {
   id: string;
   role: UserRole;
   department_id?: string;
+  token: string;
 };
 
 const mockSession: Session = {
@@ -26,9 +27,10 @@ const mockSession: Session = {
   id: "1",
   department_id: "1",
   role: "Solicitante" as UserRole, // 'Solicitante' | 'Agencia de viajes' | 'Cuentas por pagar' | 'N1' | 'N2' | 'Administrador'
+  token: "token",
 };
 
-// Resolver cookies si no se pasan explícitamente (ej. uso directo de getCookie)
+
 function resolveCookies(): APIContext["cookies"] | null {
   const astro = (globalThis as any).Astro;
   if (astro && astro.cookies && typeof astro.cookies.get === "function") {
@@ -38,7 +40,7 @@ function resolveCookies(): APIContext["cookies"] | null {
   return null;
 }
 
-// Obtener sesión desde cookies reales (o mock si no hay contexto SSR)
+
 export function getSession(cookies?: APIContext["cookies"]): Session {
   const realCookies = cookies || resolveCookies();
 
@@ -48,15 +50,16 @@ export function getSession(cookies?: APIContext["cookies"]): Session {
   }
 
   const username = realCookies.get("username")?.value || "";
-  const id = realCookies.get("id")?.value || "";
+  const id = realCookies.get("user_id")?.value || "";
   const department_id = realCookies.get("department_id")?.value || "";
   const role = realCookies.get("role")?.value || "";
+  const token = realCookies.get("token")?.value || ""; 
   
-  const session: Session = { username, id, department_id, role: role as UserRole };
+  const session: Session = { username, id, department_id, role: role as UserRole, token };
 
-  if (process.env.NODE_ENV === "development") {
-    //console.log("[DEBUG] getSession cookies:", session);
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   console.log("[DEBUG] getSession cookies:", session);
+  // }
 
   return session;
 }

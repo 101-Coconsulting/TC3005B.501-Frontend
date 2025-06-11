@@ -1,0 +1,26 @@
+---
+/**
+ * Author: Michael Devlyn - A01781041
+ * 
+ * Description: Admin page for creating new users in the system.
+ */
+
+ import MainLayout from "@layouts/MainLayout.astro";
+import CreateUserForm from "@components/CreateUserForm";
+import type { UserRole } from "@type/roles";
+
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
+const buttonLabel = roleLabels[role];
+
+if (role !== "Administrador") {
+  return Astro.redirect('/404');
+}
+---
+
+<MainLayout title="Crear Usuarios" data={{ userName, buttonLabel, role }}>
+
+</MainLayout>

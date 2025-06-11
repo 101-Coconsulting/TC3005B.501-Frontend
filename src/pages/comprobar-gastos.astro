@@ -29,7 +29,7 @@ function getVerificationStats(request: any) {
 // Obtener solicitudes
 const requestsRaw = await (async () => {
   try {
-    const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
+    const requests = await apiRequest(`/applicant/get-user-requests/${user_id}`, { cookies: Astro.cookies });
     return Array.isArray(requests)
       ? requests.filter((request: any) => request.status === 'Comprobación gastos del viaje')
       : [];
@@ -42,7 +42,7 @@ const requestsRaw = await (async () => {
 const requests = await Promise.all(
   requestsRaw.map(async (request: any) => {
     try {
-      const { Expenses } = await apiRequest(`/accounts-payable/get-expense-validations/${request.request_id}`);
+      const { Expenses } = await apiRequest(`/accounts-payable/get-expense-validations/${request.request_id}`, { cookies: Astro.cookies });
       return { ...request, verifications: Expenses ?? [] };
     } catch (e) {
       console.error(`Error al cargar verificaciones de ${request.request_id}`, e);
