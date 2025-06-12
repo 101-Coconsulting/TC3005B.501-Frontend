@@ -28,6 +28,18 @@ export default function ExpensesFormClient({ requestId, token }: Props) {
         setSubmitting(false);
         return;
       }
+      
+      if (pdfFile && !pdfFile.name.toLowerCase().endsWith('.pdf')) {
+        alert("El archivo debe ser un PDF válido.");
+        setSubmitting(false);
+        return;
+      }
+      
+      if (!isInternational && xmlFile && !xmlFile.name.toLowerCase().endsWith('.xml')) {
+        alert("El archivo debe ser un XML válido.");
+        setSubmitting(false);
+        return;
+      }
 
       let finalXmlFile = xmlFile;
       if (isInternational && !xmlFile) {
