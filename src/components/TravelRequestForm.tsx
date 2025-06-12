@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from '@utils/apiClient';
-import { getCookie } from '@/data/cookies';
 import type { TravelRoute } from '@/types/TravelRoute';
 import type { FormData } from '@/types/FormData';
 import type { DepartmentData } from '@/types/DepartmentData';
@@ -42,7 +41,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
   const [deptData, setDeptData] = useState<DepartmentData | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormState);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [disabledButton, setDisabledButton] = useState<boolean>(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const inputStyle = 'border border-gray-300 p-2 rounded w-full bg-white';
@@ -77,9 +76,10 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
       }
     }
     fetchDepartmentInfo();
-  }, []);
+  }, [user_id, token]);
 
   const handleRouteUpdate = (index: number, name: string, value: any) => {
+    setError(null)
     setFormData((prev) => {
       const updatedRoutes = prev.routes.map((route, i) => {
         if (i === index) {
@@ -95,6 +95,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
   };
 
   const handleGeneralChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setError(null)
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
     setFormData((prev) => ({
@@ -121,8 +122,81 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     });
   };
 
+  // --- Date and Time Validation Logic ---
+  const validateRoutes = (): string | null => {
+    const today = new Date();
+    // Set today to the start of the day (00:00:00) for accurate date-only comparison
+    today.setHours(0, 0, 0, 0); 
+
+    for (const [idx, route] of formData.routes.entries()) {
+      // Validate that date strings are not empty before creating Date objects
+      if (!route.beginning_date || !route.ending_date) {
+        return `Ruta #${idx + 1}: Las fechas de inicio y fin son obligatorias.`;
+      }
+
+      const beginningDate = new Date(route.beginning_date);
+      const endingDate = new Date(route.ending_date);
+
+      // Check if Date objects are valid (e.g., handles malformed date strings if not caught by input type="date")
+      if (isNaN(beginningDate.getTime()) || isNaN(endingDate.getTime())) {
+        return `Ruta #${idx + 1}: Formato de fecha inválido. Por favor, utiliza el formato MM/DD/YYYY.`;
+      }
+
+      // 1. Check if beginning_date is in the past
+      // Compare normalized dates to ignore time component
+      const beginningDateOnly = new Date(beginningDate.getFullYear(), beginningDate.getMonth(), beginningDate.getDate());
+      if (beginningDateOnly < today) {
+        return `Ruta #${idx + 1}: La fecha de inicio (${route.beginning_date}) no puede ser una fecha pasada.`;
+      }
+
+      // 2. Check if ending_date is before beginning_date
+      // Compare normalized dates for initial check
+      const endingDateOnly = new Date(endingDate.getFullYear(), endingDate.getMonth(), endingDate.getDate());
+      if (endingDateOnly < beginningDateOnly) {
+        return `Ruta #${idx + 1}: La fecha de fin (${route.ending_date}) debe ser igual o posterior a la fecha de inicio (${route.beginning_date}).`;
+      }
+      
+      // 3. If dates are the same, check times
+      if (endingDateOnly.getTime() === beginningDateOnly.getTime()) {
+        if (!route.beginning_time || !route.ending_time) {
+          return `Ruta #${idx + 1}: Las horas de inicio y fin son obligatorias cuando las fechas son las mismas.`;
+        }
+
+        // Parse hours and minutes
+        const [bh, bm] = route.beginning_time.split(':').map(Number);
+        const [eh, em] = route.ending_time.split(':').map(Number);
+        
+        const beginningMinutes = bh * 60 + bm;
+        const endingMinutes = eh * 60 + em;
+
+        if (endingMinutes <= beginningMinutes) { // Use <= to enforce "posterior" (strictly after)
+          return `Ruta #${idx + 1}: La hora de fin (${route.ending_time}) debe ser posterior a la hora de inicio (${route.beginning_time}) cuando las fechas son las mismas.`;
+        }
+      }
+    }
+    return null; // No errors found
+  };
+  // --- End Date and Time Validation Logic ---
+
+  const handleSetToast = (message: string, type: 'success' | 'error', duration: number = 2000) => {
+    setDisabledButton(true)
+    setToast({ message, type });
+    //setTimeout(() => setError(null), duration);
+    setTimeout(() => {
+      setToast(null);
+      setDisabledButton(false);
+    }, duration);
+  };
+
   const handleSubmitRequest = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const routeError = validateRoutes();
+    if (routeError) {
+      setError(routeError);
+      handleSetToast('Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.', 'error');
+      return;
+    }
 
     const firstRoute = formData.routes[0];
     if (
@@ -137,10 +211,8 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
       !formData.requested_fee ||
       !formData.notes
     ) {
-      setError('Por favor, completa todos los campos requeridos antes de enviar la solicitud.');
-      setToast({ message: 'Por favor, completa todos los campos requeridos antes de enviar la solicitud.', type: 'error' });
-      setTimeout(() => setError(null), 2000);
-      setTimeout(() => setToast(null), 2000);
+      setError('Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.');
+      handleSetToast('Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.', 'error');
       return;
     }
 
@@ -174,9 +246,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
           Authorization: `Bearer ${token}`
         }
       });
-      setSuccess(true);
-      setError('Solicitud enviada con éxito.');
-      setToast({ message: 'Solicitud enviada con éxito.', type: 'success' });
+      setToast({ message: 'Solicitud creada y enviada exitosamente.', type: 'success' });
       await new Promise(resolve => setTimeout(resolve, 2000));
       if (role === "Solicitante") {
         window.location.href = '/dashboard';
@@ -192,6 +262,11 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
 
   const handleSaveDraft = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const routeError = validateRoutes();
+    if (routeError) {
+      handleSetToast(routeError + " Los campos válidos se guardarán en el borrador.", 'error', 4000);
+    }
 
     const firstRoute = formData.routes[0] || {};
     const draftData: Record<string, any> = {};
@@ -232,6 +307,8 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
 
     if (additionalRoutes.length > 0) {
       draftData.additionalRoutes = additionalRoutes;
+    } else {
+      draftData.additionalRoutes = [];
     }
 
     try {
@@ -242,15 +319,13 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
           Authorization: `Bearer ${token}`
         }
       });
-      setSuccess(true);
-      setError('Borrador guardado exitosamente.');
-      setToast({ message: 'Borrador guardado exitosamente.', type: 'success' });
+      handleSetToast('Borrador guardado exitosamente.', 'success');
       await new Promise(resolve => setTimeout(resolve, 2000));
       window.location.href = '/solicitudes-draft';
     } catch (err) {
       console.error('Error al guardar borrador:', err);
       setError('Hubo un error al guardar el borrador.');
-      setToast({ message: 'Hubo un error al guardar el borrador.', type: 'error' });
+      handleSetToast('Hubo un error al guardar el borrador. Por favor, inténtalo de nuevo.', 'error');
     }
   };
 
@@ -261,9 +336,15 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
   ): Promise<boolean> => {
     e.preventDefault();
 
-    const firstRoute = formData.routes[0];
-
     if (completeForm) {
+      const routeError = validateRoutes();
+      if (routeError) {
+        setError(routeError);
+        handleSetToast("Hubo un error al editar la solicitud. Por favor, inténtalo de nuevo.", 'error');
+        return false;
+      }
+
+      const firstRoute = formData.routes[0];
       const missingFields = [
         firstRoute.origin_country_name,
         firstRoute.origin_city_name,
@@ -278,20 +359,26 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
       ].some(field => !field);
 
       if (missingFields) {
-        setError('Por favor, completa todos los campos requeridos antes de enviar la solicitud.');
-        setToast({ message: 'Por favor, completa todos los campos requeridos antes de enviar la solicitud.', type: 'error' });
-        setTimeout(() => setError(null), 2000);
-        setTimeout(() => setToast(null), 2000);
+        setError('Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.');
+        handleSetToast('Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.', 'error');
         return false;
+      }
+    } else {
+      const routeError = validateRoutes();
+      if (routeError) {
+        handleSetToast(routeError + " Los cambios se guardarán, pero los campos de fecha/hora inválidos deberán corregirse para enviar la solicitud.", 'error', 5000);
       }
     }
 
     setError(null);
 
     let editedData: Record<string, any> = {};
+    const firstRoute = formData.routes[0];
 
     const includeIfExists = (key: string, value: any) => {
-      if (value !== undefined && value !== '') editedData[key] = value;
+      if (value !== undefined && value !== '' && value !== null) { // Add null check for robustness
+        editedData[key] = value;
+      }
     };
 
     includeIfExists('router_index', firstRoute.router_index);
@@ -306,8 +393,8 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     includeIfExists('beginning_time', firstRoute.beginning_time);
     includeIfExists('ending_date', firstRoute.ending_date);
     includeIfExists('ending_time', firstRoute.ending_time);
-    includeIfExists('plane_needed', firstRoute.plane_needed);
-    includeIfExists('hotel_needed', firstRoute.hotel_needed);
+    editedData.plane_needed = firstRoute.plane_needed;
+    editedData.hotel_needed = firstRoute.hotel_needed;
 
     const additionalRoutes = formData.routes
       .slice(1)
@@ -330,6 +417,8 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
 
     if (additionalRoutes.length > 0) {
       editedData.additionalRoutes = additionalRoutes;
+    } else {
+      editedData.additionalRoutes = [];
     }
 
     try {
@@ -341,24 +430,47 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
         }
       });
       if (href_route) {
-        setSuccess(true);
-        setError('Cambios guardados exitosamente.');
         setToast({ message: 'Cambios guardados exitosamente.', type: 'success' });
         await new Promise(resolve => setTimeout(resolve, 2000));
         window.location.href = href_route;
       }
       return true;
     } catch (err) {
-      setError('Hubo un error al editar la solicitud.');
-      setToast({ message: 'Hubo un error al editar la solicitud.', type: 'error' });
+      console.error('Error al editar la solicitud:', err);
+      setError('Hubo un error al editar la solicitud. Por favor, inténtalo de nuevo.');
+      handleSetToast('Hubo un error al editar la solicitud. Por favor, inténtalo de nuevo.', 'error');
       return false;
     }
   };
 
-
-  const handleFinishDraft = async (e: React.FormEvent) => {
+    const handleFinishDraft = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    const routeError = validateRoutes();
+    if (routeError) {
+      setError(routeError);
+      handleSetToast("Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.", 'error');
+      return;
+    }
+
+    const firstRoute = formData.routes[0];
+    if (
+      !firstRoute.origin_country_name ||
+      !firstRoute.origin_city_name ||
+      !firstRoute.destination_country_name ||
+      !firstRoute.destination_city_name ||
+      !firstRoute.beginning_date ||
+      !firstRoute.beginning_time ||
+      !firstRoute.ending_date ||
+      !firstRoute.ending_time ||
+      !formData.requested_fee ||
+      !formData.notes
+    ) {
+      setError('Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.');
+      handleSetToast('Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.', 'error');
+      return;
+    }
+
     const editSuccess = await handleEditRequest(e, true);
     if (!editSuccess) return;
 
@@ -369,21 +481,20 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
           Authorization: `Bearer ${token}`
         }
       });
-      setSuccess(true);
-      setError('Borrador completado exitosamente.');
-      setToast({ message: 'Borrador completado exitosamente.', type: 'success' });
+      handleSetToast('Borrador completado exitosamente.', 'success');
       await new Promise(resolve => setTimeout(resolve, 2000));
       window.location.href = '/solicitudes-draft';
     } catch (err) {
       console.error('Error al completar el borrador:', err);
-      setError('Hubo un error al completar el borrador.');
-      setToast({ message: 'Hubo un error al completar el borrador.', type: 'error' });
+      setError('Hubo un error al completar el borrador. Por favor, inténtalo de nuevo.');
+      handleSetToast('Hubo un error al completar el borrador. Por favor, inténtalo de nuevo.', 'error');
     }
   };
 
-
   const handleResetForm = () => {
     setFormData(initialFormState);
+    setError(null);
+    setToast(null);
   };
 
   return (
@@ -462,13 +573,8 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
       )}
 
       {/* Mensaje de Error */}
-      {error && !success && (
+      { error && (
         <div className="bg-red-200 text-red-800 p-4 rounded-md">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-      {success && (
-        <div className="bg-green-200 text-green-800 p-4 rounded-md">
           <p className="text-sm">{error}</p>
         </div>
       )}
@@ -490,19 +596,19 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
 
       <div className="flex flex-col sm:flex-row justify-end gap-3">
         <button type="button" onClick={handleResetForm} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-red-500 text-white px-6 py-2 rounded-md shadow hover:bg-red-600 transition-colors"
-          disabled={!!error}
+          disabled={disabledButton}
         >
           Limpiar Formulario
         </button>
         {mode == 'create' && (
           <div className='flex gap-3'>
             <button type="button" onClick={handleSaveDraft} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-500 text-white px-6 py-2 rounded-md shadow hover:bg-gray-600 transition-colors"
-              disabled={!!error}
+              disabled={disabledButton}
             >
               Guardar Borrador
             </button>
             <button type="button" onClick={handleSubmitRequest} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-600 text-white px-6 py-2 rounded-md shadow hover:bg-green-700 transition-colors"
-              disabled={!!error}
+              disabled={disabledButton}
             >
               Enviar Solicitud
             </button>
@@ -514,7 +620,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
               await handleEditRequest(e as unknown as React.FormEvent, true, '/dashboard');
             }}
             className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-blue-600 text-white px-6 py-2 rounded-md shadow hover:bg-blue-700 transition-colors"
-            disabled={!!error}
+            disabled={disabledButton}
           >
             Actualizar Solicitud
           </button>
@@ -526,12 +632,12 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
                 await handleEditRequest(e as unknown as React.FormEvent, false, '/solicitudes-draft');
               }}
               className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-500 text-white px-6 py-2 rounded-md shadow hover:bg-gray-600 transition-colors"
-              disabled={!!error}
+              disabled={disabledButton}
             >
               Guardar Cambios
             </button>
             <button type="button" onClick={handleFinishDraft} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-600 text-white px-6 py-2 rounded-md shadow hover:bg-green-700 transition-colors"
-              disabled={!!error}
+              disabled={disabledButton}
             >
               Enviar Solicitud
             </button>
