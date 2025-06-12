@@ -4,8 +4,8 @@ describe('Document Validation', () => {
       // Navigate to the page where the file upload is located
       cy.visit('https://localhost:4321');
 
-    cy.get('input[placeholder="Usuario"]').type('Solicitante101');
-    cy.get('input[placeholder="Contraseña"').type('123{enter}');
+    cy.get('input[placeholder="Usuario"]').type('andres.gomez');
+    cy.get('input[placeholder="Contraseña"').type('andres123{enter}');
 
     cy.on('window:alert', (text) => {
       expect(text).to.contains('Inicio de sesión exitoso');
