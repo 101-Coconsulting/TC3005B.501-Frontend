@@ -27,6 +27,7 @@ interface CreateUserFormProps {
   mode: 'create' | 'edit';
   user_data?: any; // User data for editing, if applicable
   redirectTo?: string;
+  token: string; // Authorization token for API requests
 }
 
 const roles = [
@@ -56,7 +57,7 @@ const initialFormData: FormData = {
   phone_number: ''
 };
 
-export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUserFormProps) {
+export default function CreateUserForm({ mode, user_data, redirectTo,token }: CreateUserFormProps) {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -157,7 +158,10 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
       console.log('Submitting form data:', payload);
       const response = await apiRequest(endpoint, {
         method: mode === 'edit' ? 'PUT' : 'POST',
-        data: payload
+        data: payload,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       console.log(`${mode === 'edit' ? 'Edit' : 'Create'} response:`, response);
