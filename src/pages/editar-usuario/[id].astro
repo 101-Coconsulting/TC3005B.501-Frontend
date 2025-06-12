@@ -1,33 +1,42 @@
 ---
 /**
  * Author: Nicole Dávila Hernández and Julia Maria Stephanie Duenkelsbuehler Castillo
- * 
- * Description: This is the creation page for a new, single user.
+ * Description: This is the edit user page where an existing user's details can be modified.
  */
-
 import TextHeader from '@components/TextHeader.astro';
 import MainLayout from "@layouts/MainLayout.astro";
 import AdminUserForm from "@/components/AdminUserForm";
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 import type { UserRole } from "@type/roles";
+import { apiRequest } from "@/utils/apiClient";
 
 const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const buttonLabel = roleLabels[role];
 const userName = getCookie("username", Astro.cookies);
+const { id } = Astro.params;
+
+let user_data = null;
+try {
+  user_data = await apiRequest(`/user/get-user-data/${id}`, { cookies: Astro.cookies });
+} catch (error) {
+  user_data = null;
+  throw new Error(`No user found with ID ${id}`);
+  return Astro.redirect('/404');
+}
 ---
 
-<MainLayout title="Crear Usuario" data={{ userName, buttonLabel, role }}>
+<MainLayout title="Editar Usuario" data={{ userName, buttonLabel, role }}>
   <div>
     <TextHeader
-      title="CREAR NUEVO USUARIO"
-      subtitle="Complete el formulario con los datos del nuevo usuario"
+      title="EDITAR USUARIO"
+      subtitle="Modifique los campos necesarios y guarde los cambios de usuario"
     />
     <AdminUserForm
-      mode="create"
       client:only="react"
+      mode="edit"
+      user_data={user_data}
       redirectTo="/dashboard"
     />
   </div>
 </MainLayout>
-

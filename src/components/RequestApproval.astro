@@ -13,9 +13,9 @@ import TravelRequestActionWrapper from '@components/TravelRequestActionWrapper.t
 const role = getCookie('role', Astro.cookies);
 let role_number = 0;
 if (role === 'N1') {
-  role_number = 4;
-} else if (role === 'N2') {
   role_number = 5;
+} else if (role === 'N2') {
+  role_number = 4;
 }
 const { request } = Astro.props;
 const id = request.request_id;
