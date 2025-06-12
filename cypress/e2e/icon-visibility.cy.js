@@ -1,16 +1,24 @@
-// cypress/e2e/icon-visibility.cy.js
+// cypress/e2e/icon-visibility.cy.ts
 // Icon Visibility Tests - ID-102 #161
 
 describe('Icon Visibility Tests - ID-102', () => {
+    // Inline mock data (no fixtures folder)
+    const mockData = {
+      user: { id: '1', username: 'testuser', role: 'Solicitante', department_id: '1' },
+      requests: [
+        { request_id: 1, destination_country: 'España', beginning_date: '2024-01-15', ending_date: '2024-01-20', status: 'Primera Revisión' }
+      ]
+    };
+  
     beforeEach(() => {
-      // Intercept API calls to mock responses
-      cy.intercept('GET', '**/api/**', { fixture: 'mock-data.json' }).as('apiCall');
-      
+      // Mock API calls directly with inline data
+      cy.intercept('GET', '**/api/**', { body: mockData }).as('apiCall');
+  
       // Simulate authenticated user via cookies
       cy.setCookie('username', 'testuser');
       cy.setCookie('role', 'Authorizer');
   
-      // Directly visit the dashboard (skipping login)
+      // Directly visit the dashboard (skip login page entirely)
       cy.visit('/dashboard');
       cy.url().should('include', '/dashboard');
     });
@@ -20,9 +28,7 @@ describe('Icon Visibility Tests - ID-102', () => {
         cy.get('header').then($hdr => {
           const logo = $hdr.find('img[src="/Logo.svg"]');
           if (logo.length) {
-            cy.wrap(logo)
-              .should('be.visible')
-              .and('have.attr', 'alt');
+            cy.wrap(logo).should('be.visible').and('have.attr', 'alt');
           } else {
             cy.log('Logo icon not rendered for this role — skipping');
           }
@@ -65,15 +71,7 @@ describe('Icon Visibility Tests - ID-102', () => {
   
     describe('Sidebar Icons', () => {
       it('should display all sidebar menu icons', () => {
-        const expectedIcons = [
-          'home',       // Dashboard
-          'flight',     // Crear Solicitud
-          'draft',      // Draft Solicitudes
-          'payments',   // Comprobar Gastos
-          'paid',       // Reembolsos
-          'inventory'   // Historial
-        ];
-  
+        const expectedIcons = ['home', 'flight', 'draft', 'payments', 'paid', 'inventory'];
         cy.get('aside').then($aside => {
           expectedIcons.forEach(iconName => {
             if ($aside.find(`[class*="material-symbols"]:contains("${iconName}")`).length) {
@@ -89,8 +87,7 @@ describe('Icon Visibility Tests - ID-102', () => {
       });
   
       it('should highlight active sidebar icon', () => {
-        cy.get('aside a[href="/dashboard"]')
-          .should('have.class', 'bg-primary-500');
+        cy.get('aside a[href="/dashboard"]').should('have.class', 'bg-primary-500');
       });
     });
   
@@ -98,11 +95,9 @@ describe('Icon Visibility Tests - ID-102', () => {
       it('should display delete icons for travel requests', () => {
         cy.get('body').then($body => {
           if ($body.find('[class*="material-symbols"]:contains("delete")').length > 0) {
-            cy.get('[class*="material-symbols"]')
-              .contains('delete')
-              .should('be.visible');
+            cy.get('[class*="material-symbols"]').contains('delete').should('be.visible');
           } else {
-            cy.log('No delete icons found - this is expected if no requests exist');
+            cy.log('No delete icons found — skipping');
           }
         });
       });
@@ -110,32 +105,22 @@ describe('Icon Visibility Tests - ID-102', () => {
   
     describe('Responsive Icon Display', () => {
       it('should display icons on mobile viewport', () => {
-        cy.viewport(375, 667); // iPhone SE
-  
+        cy.viewport(375, 667);
         cy.get('header').then($hdr => {
-          // Logo may be hidden on mobile—assert only if present
           const logo = $hdr.find('img[src*="Logo"]');
           if (logo.length) {
             cy.wrap(logo).should('be.visible');
           } else {
             cy.log('Logo hidden at mobile viewport — OK');
           }
-  
-          // Ensure at least one icon font is rendered
-          cy.wrap($hdr)
-            .find('[class*="material-symbols"]')
-            .its('length')
-            .should('be.greaterThan', 0);
+          cy.wrap($hdr).find('[class*="material-symbols"]').its('length').should('be.greaterThan', 0);
         });
       });
   
       it('should display icons on tablet viewport', () => {
-        cy.viewport(768, 1024); // iPad
-  
-        cy.get('aside [class*="material-symbols"]')
-          .should('have.length.greaterThan', 0);
-        cy.get('header [class*="material-symbols"]')
-          .should('have.length.greaterThan', 0);
+        cy.viewport(768, 1024);
+        cy.get('aside [class*="material-symbols"]').should('have.length.greaterThan', 0);
+        cy.get('header [class*="material-symbols"]').should('have.length.greaterThan', 0);
       });
     });
   
@@ -144,25 +129,22 @@ describe('Icon Visibility Tests - ID-102', () => {
         cy.get('body').then($body => {
           const imgs = $body.find('img');
           if (imgs.length) {
-            Cypress.
-              _.
-              each(imgs, img => {
-                const $img = Cypress.$(img);
-                const src = $img.attr('src') || '';
-                if (src.includes('Logo') || /\.(svg|png|jpg)$/i.test(src)) {
-                  cy.wrap($img)
-                    .should('have.attr', 'alt')
-                    .and('not.be.empty');
-                } else {
-                  cy.log(`Skipping image "${src}" — not a logo or icon asset`);
-                }
-              });
+            Cypress._.each(imgs, img => {
+              const $img = Cypress.$(img);
+              const src = $img.attr('src') || '';
+              if (src.includes('Logo') || /\.(svg|png|jpg)$/i.test(src)) {
+                cy.wrap($img).should('have.attr', 'alt').and('not.be.empty');
+              } else {
+                cy.log(`Skipping image "${src}" — not a logo or icon asset`);
+              }
+            });
           } else {
-            cy.log('No images found in DOM — skipping alt attribute checks');
+            cy.log('No images found — skipping alt checks');
           }
         });
       });
     });
   });
+  
   
   
