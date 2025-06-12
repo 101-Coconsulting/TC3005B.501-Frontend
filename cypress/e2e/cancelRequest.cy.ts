@@ -1,19 +1,9 @@
 describe('Eliminar solicitud de viaje', () => {
   beforeEach(() => {
-    cy.visit('https://localhost:4321');
-
-    cy.get('input[placeholder*="Usuario"]').type('andres.gomez')
-    cy.get('input[placeholder*="Contraseña"').type('andres123{enter}')
-
-    cy.on('window:alert', (text) => {
-      expect(text).to.contains('Inicio de sesión exitoso');
-    });
-    cy.on('window.confirm', ()=> true);
-
-    cy.url().should('include', 'dashboard');
+    cy.login(Cypress.env('SOLICITANTE_USER'), Cypress.env('SOLICITANTE_PASSWORD'));
   });
 
-  it('Eliminar solicitud', () =>{
+  it('Eliminar solicitud la primera solicitud listada en estado PRIMERA REVISIÓN', () =>{
     cy.contains('PRIMERA REVISIÓN').first().parent().within(()=> {
       cy.get('span[class="material-symbols-outlined text-black cursor: pointer"]').should('exist').click({force: true});
     });
