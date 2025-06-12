@@ -4,8 +4,8 @@ describe('Document Validation', () => {
       cy.visit('/comprobar-gastos/1'); // Replace with the actual route
       cy.visit('https://localhost:4321');
 
-    cy.get('input[placeholder="Usuario"]').type('CPP101');
-    cy.get('input[placeholder="Contraseña"').type('789{enter}');
+    cy.get('input[placeholder="Usuario"]').type('carlos.ramos');
+    cy.get('input[placeholder="Contraseña"').type('carlos789{enter}');
 
     cy.on('window:alert', (text) => {
       expect(text).to.contains('Inicio de sesión exitoso');
