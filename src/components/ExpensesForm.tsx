@@ -31,7 +31,7 @@ export default function ExpensesFormClient({ requestId, token }: Props) {
 
       let finalXmlFile = xmlFile;
       if (isInternational && !xmlFile) {
-        const response = await fetch("../assets/default.xml");
+        const response = await fetch("/default.xml");
         const blob = await response.blob();
         finalXmlFile = new File([blob], "default.xml", { type: "application/xml" });
         setXmlFile(finalXmlFile);
@@ -115,6 +115,7 @@ export default function ExpensesFormClient({ requestId, token }: Props) {
 
       {lastReceiptId !== null && (
         <UploadReceiptFiles
+          token={token}
           receiptId={lastReceiptId}
           pdfFile={pdfFile}
           xmlFile={xmlFile}
