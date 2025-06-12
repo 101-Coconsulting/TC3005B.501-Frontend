@@ -2,8 +2,8 @@ describe('Actualizar solicitud', () =>{
   beforeEach(() => {
     cy.visit('https://localhost:4321');
 
-    cy.get('input[placeholder*="Usuario"]').type('test1');
-    cy.get('input[placeholder*="Contraseña"]').type('test{enter}');
+    cy.get('input[placeholder*="Usuario"]').type('andres.gomez');
+    cy.get('input[placeholder*="Contraseña"]').type('andres123{enter}');
 
     cy.on('window:alert', (text)=> {
       expect(text).to.contain('Inicio de sesión exitoso');
@@ -14,7 +14,7 @@ describe('Actualizar solicitud', () =>{
   });
 
   it('Entrar a la solicitud y actualizarla', () => {
-    cy.get('button:enabled').contains('EDITAR').click();
+    cy.get('button:enabled').contains('EDITAR').first().click();
 
     cy.get('input[placeholder*= "Ciudad Origen"]').clear().type('Monterrey');
     cy.get('input[placeholder*= "Ciudad Destino"]').clear().type('Chicago');
