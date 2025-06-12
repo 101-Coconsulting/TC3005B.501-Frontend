@@ -1,3 +1,6 @@
+//  Author: Julia Maria Stephanie Duenkelsbuehler Castillo y Jose Antonio González Martínez
+
+
 import 'cypress-file-upload';
 describe('Document Validation', () => {
     beforeEach(() => {
