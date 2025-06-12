@@ -72,7 +72,7 @@ const StateColors = {
                     <span class="text-black">Estado:</span> {expense.validation}
                   </p>
                   {expense.validation === 'Rechazado' && (
-                    <a href={`/subir-comprobante/${id}?edit=${expense.receipt_id}`} class="mt-1">
+                    <a href={`/resubir-comprobante/${id}?replace=${expense.receipt_id}`} class="mt-1">
                       <AstroButton variant="border" color="warning">
                         Volver a subir
                       </AstroButton>

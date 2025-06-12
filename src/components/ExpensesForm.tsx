@@ -8,9 +8,10 @@ import UploadReceiptFiles from "@components/UploadReceiptFiles.tsx";
 interface Props {
   requestId: number;
   token: string;
+  receiptToReplace?: string | null;
 }
 
-export default function ExpensesFormClient({ requestId, token }: Props) {
+export default function ExpensesFormClient({ requestId, token, receiptToReplace }: Props) {
   const [concepto, setConcepto] = useState("Transporte");
   const [monto, setMonto] = useState("");
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -131,16 +132,18 @@ export default function ExpensesFormClient({ requestId, token }: Props) {
           receiptId={lastReceiptId}
           pdfFile={pdfFile}
           xmlFile={xmlFile}
+          receiptToReplace={receiptToReplace} // <- pasa el ID aquí
           onDone={() => {
-            window.location.href = `/comprobar-solicitud/${requestId}`;
             alert("Subidos correctamente");
+            window.location.href = `/comprobar-solicitud/${requestId}`;
           }}
           onError={(err) => {
-            console.error(err);
-            //alert("Error al subir los archivos");
+            console.error("Error al subir archivos:", err);
             setSubmitting(false);
           }}
         />
+
+
       )}
     </div>
   );

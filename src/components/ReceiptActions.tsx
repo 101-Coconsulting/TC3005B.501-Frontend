@@ -5,7 +5,7 @@ import RejectReceipStatus from "@components/RejectReceiptsModal";
 
 interface ReceiptProps {
   receipt_id: number;
-  disabled: boolean; // ✅ lo recibes desde el .astro
+  disabled: boolean;
   onApprove: (id: number) => void;
   onReject: (id: number) => void;
   token: string;
@@ -69,7 +69,7 @@ export default function ReceiptActions({
         redirection="/dashboard"
         modal_type="success"
         variant="filled"
-        disabled={disabled} // ✅ viene directo
+        disabled={disabled} 
         token={token}
       >
         Aprobar
@@ -82,13 +82,12 @@ export default function ReceiptActions({
         redirection="/dashboard"
         modal_type="warning"
         variant="filled"
-        disabled={disabled} // ✅ viene directo
+        disabled={disabled} 
         token={token}
       >
         Rechazar
       </RejectReceipStatus>
 
-      {/* Este modal probablemente ya no se usa si solo usas ModalWrapper */}
       <Modal
         title="¿Estás seguro?"
         message={`¿Seguro que deseas ${action === "approve" ? "aprobar" : "rechazar"} este comprobante?`}
