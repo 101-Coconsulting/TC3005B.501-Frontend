@@ -1,4 +1,4 @@
-describe('El usuario no pueda elegir una fecha de regreso anterior a la de salida', () => {
+describe('Validación de las Fechas de Viaje (Comprobación/Ida-Regreso) en el proceso de crear solicitud', () => {
   const login = () => {
     cy.visit('https://localhost:4321');
 
@@ -45,20 +45,22 @@ describe('El usuario no pueda elegir una fecha de regreso anterior a la de salid
     login();
   });
 
-  it('Crear una nueva solicitud incorrectamente sin fechas y luego corregirlas', () => {
+  it('Crear una nueva solicitud incorrectamente sin fechas', () => {
     irACrearSolicitud();
     llenarFormularioSinFechas();
-
-    // Enviar sin fechas
     enviarFormulario();
     cy.contains('Ruta #1: Las fechas de inicio y fin son obligatorias.').should('be.visible');
-
-    // Ingresar fechas inválidas
+  });
+  it('Crear una nueva solicitud incorrectamente con fecha de regreso anterior a la de salida', () => {
+    irACrearSolicitud();
+    llenarFormularioSinFechas();
     ingresarFechas('2025-12-12', '09:00', '2025-11-11', '21:00');
     enviarFormulario();
     cy.contains('Ruta #1: La fecha de fin (2025-11-11) debe ser igual o posterior a la fecha de inicio (2025-12-12).').should('be.visible');
-
-    // Ingresar fechas válidas
+  });
+  it('Crear una nueva solicitud de forma correcta', () => {
+    irACrearSolicitud();
+    llenarFormularioSinFechas();
     ingresarFechas('2025-11-11', '09:00', '2025-12-12', '21:00');
     enviarFormulario();
     cy.contains('Solicitud creada y enviada exitosamente.').should('be.visible');
