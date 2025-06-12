@@ -2,8 +2,8 @@ describe('Crear Solicitud', () =>{
   beforeEach(() => {
     cy.visit('https://localhost:4321');
 
-    cy.get('input[placeholder*="Usuario"]').type('test1')
-    cy.get('input[placeholder*="Contraseña"').type('test{enter}')
+    cy.get('input[placeholder*="Usuario"]').type('andres.gomez')
+    cy.get('input[placeholder*="Contraseña"').type('andres123{enter}')
 
     cy.on('window:alert', (text) => {
       expect(text).to.contains('Inicio de sesión exitoso');
