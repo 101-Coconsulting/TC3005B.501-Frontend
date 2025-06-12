@@ -57,12 +57,33 @@ const StateColors = {
         <div class="grid gap-8">
           {request.Expenses.map((expense: any, index) => (
             
-            <div class="border border-gray-200 rounded p-4 text-sm text-gray-700 space-y-2">
-              <p class="font-bold text-lg break-words">Comprobante #{index+1}</p>
-              <p><span class="font-semibold">Tipo de gasto:</span> {expense.receipt_type_name}</p>
-              <p><span class="font-semibold">Monto:</span> ${expense.amount}</p>
-              <p class=`text-right text-lg ${StateColors[expense.validation]} font-semibold`><span class="font-semibold text-black">Estado:</span > {expense.validation}</p>
-            </div>
+            <div class="border border-gray-200 rounded p-4 text-sm text-gray-700">
+              <div class="flex justify-between items-start w-full">
+                
+                <div class="space-y-1">
+                  <p class="font-bold text-lg break-words">Comprobante #{index + 1}</p>
+                  <p><span class="font-semibold">Id:</span> {expense.receipt_id}</p>
+                  <p><span class="font-semibold">Tipo de gasto:</span> {expense.receipt_type_name}</p>
+                  <p><span class="font-semibold">Monto:</span> ${expense.amount}</p>
+                </div>
+
+                <div class="flex flex-col items-end gap-1">
+                  <p class={`text-lg ${StateColors[expense.validation]} font-semibold`}>
+                    <span class="text-black">Estado:</span> {expense.validation}
+                  </p>
+                  {expense.validation === 'Rechazado' && (
+                    <a href={`/subir-comprobante/${id}?edit=${expense.receipt_id}`} class="mt-1">
+                      <AstroButton variant="border" color="warning">
+                        Volver a subir
+                      </AstroButton>
+                    </a>
+                  )}
+                </div>
+
+
+              </div>
+          </div>
+
           ))}
         </div>
       ) : (
