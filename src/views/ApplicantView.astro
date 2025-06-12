@@ -63,7 +63,8 @@ const { userName } = Astro.props;
         <div class="grid gap-4">
           {requests.map((request: any) => {
             const isEditable = request.status === "Primera Revisión";
-            const isComp = request.status === "Comprobación gastos del viaje";
+            const isNotCancelable = request.status === "Comprobación gastos del viaje" || request.status === "Validación de comprobantes";
+            const mustBeChecked = request.status === "Comprobación gastos del viaje";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-8">
                 <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
@@ -90,7 +91,7 @@ const { userName } = Astro.props;
                       </Button>
                     </a>
                     <a href={`/comprobar-solicitud/${request.request_id}`}>
-                      <Button color="secondary" disabled={!isComp} variant="filled" size="medium" customSizeClass="w-full">
+                      <Button color="secondary" disabled={!mustBeChecked} variant="filled" size="medium" customSizeClass="w-full">
                         COMPROBAR GASTOS
                       </Button>
                     </a>
@@ -100,7 +101,7 @@ const { userName } = Astro.props;
                       <CancelRequestModal
                         client:only="react"
                         id={request.request_id}
-                        disabled={!isEditable}
+                        disabled={isNotCancelable}
                         token={getCookie("token", Astro.cookies)}
                       >
                         <div>

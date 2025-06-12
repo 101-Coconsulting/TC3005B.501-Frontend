@@ -4,7 +4,7 @@
  * Description: React component for creating new users in the admin panel.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@components/Button';
 import { apiRequest } from '@utils/apiClient';
 import Toast from '@components/Toast';
@@ -21,6 +21,12 @@ interface FormData {
 
 interface FormErrors {
   [key: string]: string;
+}
+
+interface CreateUserFormProps {
+  mode: 'create' | 'edit';
+  user_data?: any; // User data for editing, if applicable
+  redirectTo?: string;
 }
 
 const roles = [
@@ -50,11 +56,29 @@ const initialFormData: FormData = {
   phone_number: ''
 };
 
-export default function CreateUserForm() {
+export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUserFormProps) {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  useEffect(() => {
+    if (mode === 'edit' && user_data) {
+      setFormData({
+        role_id: roles.find(role => role.name === user_data.role_name)?.id,
+        department_id: departments.find(dep => dep.name === user_data.department_name)?.id,
+        user_name: user_data.user_name,
+        password: '', // Password should not be pre-filled
+        workstation: user_data.workstation,
+        email: user_data.email,
+        phone_number: user_data.phone_number || ''
+      });
+    } else {
+      setFormData(initialFormData);
+    }
+  }, [mode, user_data]);
+
+  
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -66,10 +90,12 @@ export default function CreateUserForm() {
       newErrors.user_name = 'El nombre de usuario no puede contener espacios';
     }
 
-    if (!formData.password.trim()) {
-      newErrors.password = 'La contraseña es requerida';
-    } else if (formData.password.includes(' ')) {
-      newErrors.password = 'La contraseña no puede contener espacios';
+    if (mode === 'create') {
+      if (!formData.password.trim()) {
+        newErrors.password = 'La contraseña es requerida';
+      } else if (formData.password.includes(' ')) {
+        newErrors.password = 'La contraseña no puede contener espacios';
+      }
     }
 
     if (!formData.email.trim()) {
@@ -117,34 +143,35 @@ export default function CreateUserForm() {
     }
 
     setIsSubmitting(true);
+    setToast(null);
     
     try {
-      const response = await apiRequest('/admin/create-user', {
-        method: 'POST',
-        data: formData
+      const payload = mode === 'edit'
+        ? { ...formData, ...(formData.password ? {} : { password: undefined }) }
+        : formData;
+
+      const endpoint = mode === 'edit'
+        ? `/admin/update-user/${user_data.user_id}`
+        : '/admin/create-user';
+
+      console.log('Submitting form data:', payload);
+      const response = await apiRequest(endpoint, {
+        method: mode === 'edit' ? 'PUT' : 'POST',
+        data: payload
       });
 
-      console.log('User creation response:', response);
-      
-      // Clear any previous toast
-      setToast(null);
-      
-      // Show success message
-      setTimeout(() => {
-        setToast({ message: 'Usuario creado exitosamente', type: 'success' });
-      }, 100);
-      
-      // Reset form
-      setFormData(initialFormData);
-      setErrors({});
+      console.log(`${mode === 'edit' ? 'Edit' : 'Create'} response:`, response);
+      setToast({ message: `Usuario ${mode === 'edit' ? 'actualizado' : 'creado'} exitosamente`, type: 'success' });
+      if (mode === 'create') {
+        setFormData(initialFormData);
+      }
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      if (redirectTo) {
+        window.location.href = redirectTo;
+      }
       
     } catch (error: any) {
-      console.error('Error creating user:', error);
-      
-      // Clear any previous toast
-      setToast(null);
-      
-      // Handle backend validation errors
+      console.error(`${mode === 'edit' ? 'Update' : 'Create'} error:`, error);
       if (error.message.includes('errors')) {
         try {
           const errorData = JSON.parse(error.message.split(': ')[1]);
@@ -156,18 +183,11 @@ export default function CreateUserForm() {
             setErrors(backendErrors);
             setToast({ message: 'Por favor corrige los errores marcados', type: 'error' });
           }
-        } catch (parseError) {
-          setToast({ message: 'Error al crear el usuario', type: 'error' });
+        } catch {
+          setToast({ message: 'Error al procesar la respuesta del servidor', type: 'error' });
         }
-      } else if (error.message.includes('Internal server error')) {
-        setToast({ message: 'Error interno del servidor', type: 'error' });
-      } else if (error.message.includes('User created succesfully')) {
-        // Handle case where backend sends success but frontend thinks it's an error
-        setToast({ message: 'Usuario creado exitosamente', type: 'success' });
-        setFormData(initialFormData);
-        setErrors({});
       } else {
-        setToast({ message: 'Error al crear el usuario', type: 'error' });
+        setToast({ message: 'Error al procesar la solicitud', type: 'error' });
       }
     } finally {
       setIsSubmitting(false);
@@ -175,21 +195,32 @@ export default function CreateUserForm() {
   };
 
   const handleReset = () => {
-    setFormData(initialFormData);
-    setErrors({});
-    setToast(null);
+    if (mode === 'edit') {
+      if (redirectTo) {
+        window.location.href = redirectTo;
+      }
+    } else {
+      setFormData(initialFormData);
+      setErrors({});
+      setToast(null);
+    }
   };
 
-  const inputClass = (fieldName: string) => 
+  const inputClass = (fieldName: string) =>
     `w-full border rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-500 ${
       errors[fieldName] ? 'border-red-500' : 'border-gray-300'
     }`;
 
   return (
     <div className="bg-white rounded-lg shadow-md p-8">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Crear Nuevo Usuario</h2>
-        <p className="text-gray-600">Complete todos los campos para crear un nuevo usuario en el sistema</p>
+      <div className="flex items-center bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-blue-500 p-4 mb-8 rounded shadow-sm">
+        <svg className="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="white" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01" />
+        </svg>
+        <p className="text-sm text-blue-900 font-medium">
+          Los campos obligatorios están marcados con un asterisco.
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -211,7 +242,7 @@ export default function CreateUserForm() {
               <p className="text-red-500 text-sm mt-1">{errors.user_name}</p>
             )}
           </div>
-
+          { mode === 'create' && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Contraseña <span className="text-red-500">*</span>
@@ -228,6 +259,7 @@ export default function CreateUserForm() {
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
             )}
           </div>
+          )}
         </div>
 
         {/* Email y Teléfono */}
@@ -332,7 +364,7 @@ export default function CreateUserForm() {
           </div>
         </div>
 
-        {/* Buttons */}
+        {/* Botones */}
         <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
           <Button
             type="button"
@@ -341,24 +373,26 @@ export default function CreateUserForm() {
             color="secondary"
             disabled={isSubmitting}
           >
-            Limpiar Formulario
+            {mode === 'edit' ? 'Cancelar' : 'Limpiar Formulario'}
           </Button>
-          
+
           <Button
             type="submit"
             variant="filled"
             color="primary"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Creando Usuario...' : 'Crear Usuario'}
+            {isSubmitting
+              ? (mode === 'edit' ? 'Actualizando...' : 'Creando Usuario...')
+              : (mode === 'edit' ? 'Actualizar Usuario' : 'Crear Usuario')}
           </Button>
         </div>
       </form>
 
       {toast && (
         <div className="fixed top-4 right-4 z-50">
-          <Toast 
-            message={toast.message} 
+          <Toast
+            message={toast.message}
             type={toast.type}
             duration={toast.type === 'success' ? 4000 : 6000}
           />

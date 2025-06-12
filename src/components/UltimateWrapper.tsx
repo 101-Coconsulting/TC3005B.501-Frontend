@@ -11,6 +11,7 @@ interface Props {
   modal_type: "success" | "warning";
   children: React.ReactNode;
   token: string;
+  redirectTo?: string;
 }
 
 export default function UltimateWrapper({ 
@@ -21,6 +22,7 @@ export default function UltimateWrapper({
 	modal_type,
 	children,
 	token,
+	redirectTo = "/dashboard"
 }: Props) {
 	const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 	const handleConfirm = useCallback(async () => {
@@ -32,6 +34,7 @@ export default function UltimateWrapper({
 			});
 			setToast({ message: 'Usuario desactivado exitosamente.', type: 'success' });
 			await new Promise(resolve => setTimeout(resolve, 2000));
+			window.location.href=redirectTo;
 		} catch (error) {
 			console.error("Error en la solicitud:", error);
 		}

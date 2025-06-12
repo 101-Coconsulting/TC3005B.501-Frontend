@@ -7,7 +7,7 @@
  --POST
     await apiRequest('/applicant/create-request', {
         method: 'POST',
-        data: { payload}
+        data: { payload }
     });
 
  --PUT
