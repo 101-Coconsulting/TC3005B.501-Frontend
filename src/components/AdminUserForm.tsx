@@ -78,24 +78,7 @@ export default function CreateUserForm({ mode, user_data, redirectTo }: CreateUs
     }
   }, [mode, user_data]);
 
-  const handleEdituser =async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      console.log('Fetched user data:', user_data);
-      setFormData({
-        role_id: user_data.role_id,
-        department_id: user_data.department_id,
-        user_name: user_data.user_name,
-        password: '',
-        workstation: user_data.workstation,
-        email: user_data.email,
-        phone_number: user_data.phone_number || ''
-      });
-    } catch (error) {
-        console.error('Error al obtener datos del usuario:', error);
-        setToast({ message: 'Error al cargar datos del usuario', type: 'error' });
-      }
-    };
+  
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
