@@ -16,8 +16,8 @@ describe('Actualizar solicitud', () =>{
   it('Entrar a la solicitud y actualizarla', () => {
     cy.get('button:enabled').contains('EDITAR').first().click();
 
-    cy.get('input[placeholder*= "Ciudad Origen"]').clear().type('Monterrey');
-    cy.get('input[placeholder*= "Ciudad Destino"]').clear().type('Chicago');
+    cy.get('input[placeholder*= "Ciudad Origen"]').first().clear().type('Monterrey');
+    cy.get('input[placeholder*= "Ciudad Destino"]').first().clear().type('Chicago');
 
     cy.get('textarea[name=notes').clear().type('Esta solicitud fue modificada por una prueba de Cypress :D');
 
