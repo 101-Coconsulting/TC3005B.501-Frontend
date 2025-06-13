@@ -18,6 +18,8 @@ const RouteInputGroup: React.FC<RouteInputGroupProps> = ({ route, onChange, inde
     onChange(index, name, type === 'checkbox' ? checked : value);
   };
 
+  const today = new Date();
+  const todayISO = today.toISOString().split('T')[0];
   return (
     <div className="bg-white p-4 rounded shadow border border-gray-200">
       <div className="flex justify-between items-center mb-4">
@@ -51,7 +53,15 @@ const RouteInputGroup: React.FC<RouteInputGroupProps> = ({ route, onChange, inde
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Fecha de Inicio (MM/DD/YYYY)<span className="text-red-500"> *</span></label>
-          <input name="beginning_date" type="date" className={inputStyle} value={route.beginning_date === "1900-01-01" ? '' : route.beginning_date} onChange={handleInputChange} required />
+          <input
+            name="beginning_date"
+            type="date"
+            min={todayISO}
+            className={inputStyle}
+            value={route.beginning_date === "1900-01-01" ? '' : route.beginning_date}
+            onChange={handleInputChange}
+            required
+          />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Hora de Inicio (HH:MM AM/PM)<span className="text-red-500"> *</span></label>
@@ -59,7 +69,15 @@ const RouteInputGroup: React.FC<RouteInputGroupProps> = ({ route, onChange, inde
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Fecha de Fin (MM/DD/YYYY)<span className="text-red-500"> *</span></label>
-          <input name="ending_date" type="date" className={inputStyle} value={route.ending_date === "1900-01-01" ? '' : route.ending_date} onChange={handleInputChange} required />
+          <input
+            name="ending_date"
+            type="date"
+            min={route.beginning_date && route.beginning_date !== "1900-01-01" ? route.beginning_date : todayISO}
+            className={inputStyle}
+            value={route.ending_date === "1900-01-01" ? '' : route.ending_date}
+            onChange={handleInputChange}
+            required
+          />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Hora de Fin (HH:MM AM/PM)<span className="text-red-500"> *</span></label>
