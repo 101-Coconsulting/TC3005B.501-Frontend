@@ -37,6 +37,7 @@ try {
       mode="edit"
       user_data={user_data}
       redirectTo="/dashboard"
+      token={getCookie("token", Astro.cookies)}
     />
   </div>
 </MainLayout>

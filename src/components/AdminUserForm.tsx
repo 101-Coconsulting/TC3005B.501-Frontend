@@ -45,6 +45,7 @@ const departments = [
   { id: 3, name: 'IT' },
   { id: 4, name: 'Marketing' },
   { id: 5, name: 'Operaciones' }
+  { id: 6, name: 'Administración' }
 ];
 
 const initialFormData: FormData = {
