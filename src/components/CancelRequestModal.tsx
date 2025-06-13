@@ -6,14 +6,15 @@ interface Props {
   id: number;
   disabled: boolean;
   children: React.ReactNode;
+  token: string;
 }
 
-export default function CancelRequestModal({ id, disabled = false, children }: Props) {
+export default function CancelRequestModal({ id, disabled = false, children, token }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const cancelRequest = async () => {
     try {
-      await apiRequest(`/applicant/cancel-travel-request/${id}`, { method: "PUT" });
+      await apiRequest(`/applicant/cancel-travel-request/${id}`, { method: "PUT" , headers: { Authorization: `Bearer ${token}` } });
       window.location.reload();
     } catch (err) {
       console.error("Error inesperado:", err);

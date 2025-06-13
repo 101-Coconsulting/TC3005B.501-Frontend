@@ -13,9 +13,9 @@ import TravelRequestActionWrapper from '@components/TravelRequestActionWrapper.t
 const role = getCookie('role', Astro.cookies);
 let role_number = 0;
 if (role === 'N1') {
-  role_number = 4;
-} else if (role === 'N2') {
   role_number = 5;
+} else if (role === 'N2') {
+  role_number = 4;
 }
 const { request } = Astro.props;
 const id = request.request_id;
@@ -37,6 +37,7 @@ const id = request.request_id;
         message="¿Está seguro de que desea autorizar esta solicitud?"
         redirection="/dashboard"
         modal_type="success"
+        token={getCookie("token", Astro.cookies)}
         >
         Aceptar
       </TravelRequestActionWrapper>
@@ -50,6 +51,7 @@ const id = request.request_id;
         message="¿Está seguro de que desea rechazar esta solicitud?"
         redirection="/dashboard"
         modal_type="warning"
+        token={getCookie("token", Astro.cookies)}
         >
         Rechazar
       </TravelRequestActionWrapper>

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { apiRequest } from "@utils/apiClient";
 
 interface LogoutButtonProps {
   children?: React.ReactNode;
@@ -9,9 +10,8 @@ export default function LogoutButton({ children }: LogoutButtonProps) {
   const confirmRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
-    await fetch("https://localhost:3000/api/user/logout", {
+    await apiRequest("/user/logout", {
       method: "GET",
-      credentials: "include",
     });
     window.location.href = "/login";
   };
@@ -37,7 +37,7 @@ export default function LogoutButton({ children }: LogoutButtonProps) {
       </button>
 
       {showConfirm && (
-        <div className="absolute top-full right-0 mt-2 w-56 bg-white shadow-xl rounded-lg p-4 z-20 border border-gray-200">
+        <div className="absolute top-full right-0 mt-2 w-56 bg-white shadow-xl rounded-lg p-4 z-100 border border-gray-200">
           <p className="text-gray-800 mb-4 text-sm">¿Estás seguro de que deseas cerrar sesión?</p>
           <div className="flex gap-2">
             <button

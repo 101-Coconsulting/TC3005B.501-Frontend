@@ -24,15 +24,25 @@ const colorDesign: { [key: string]: string } = {
 
 const user_id = getCookie("id", Astro.cookies);
 
+
 const requests = await (async () => {
   try {
-    const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`);
-    return allRequests.filter((request: any) => request.status !== "Borrador");
+    // Try to fetch requests with error handling
+    try {
+      const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`, {
+        cookies: Astro.cookies
+      });
+      return allRequests.filter((request: any) => request.status !== "Borrador");
+    } catch (apiError) {
+      // If there's an SSL error, show empty requests instead of breaking the page
+      console.error("Error fetching requests:", apiError);
+      return [];
+    }
   } catch (error) {
+    console.error("Error in request handling:", error);
     return [];
   }
-})()
-
+})();
 const { userName } = Astro.props;
 ---
 
@@ -53,7 +63,8 @@ const { userName } = Astro.props;
         <div class="grid gap-4">
           {requests.map((request: any) => {
             const isEditable = request.status === "Primera Revisión";
-            const isComp = request.status === "Comprobación gastos del viaje";
+            const isNotCancelable = request.status === "Comprobación gastos del viaje" || request.status === "Validación de comprobantes";
+            const mustBeChecked = request.status === "Comprobación gastos del viaje";
             return (
               <div class="grid grid-cols-[2fr_2fr_1fr] gap-8">
                 <a href={`/detalles-solicitud/${request.request_id}`} class="col-span-2">
@@ -80,7 +91,7 @@ const { userName } = Astro.props;
                       </Button>
                     </a>
                     <a href={`/comprobar-solicitud/${request.request_id}`}>
-                      <Button color="secondary" disabled={!isComp} variant="filled" size="medium" customSizeClass="w-full">
+                      <Button color="secondary" disabled={!mustBeChecked} variant="filled" size="medium" customSizeClass="w-full">
                         COMPROBAR GASTOS
                       </Button>
                     </a>
@@ -90,7 +101,8 @@ const { userName } = Astro.props;
                       <CancelRequestModal
                         client:only="react"
                         id={request.request_id}
-                        disabled={!isEditable}
+                        disabled={isNotCancelable}
+                        token={getCookie("token", Astro.cookies)}
                       >
                         <div>
                           <MaterialIcon
@@ -119,5 +131,6 @@ const { userName } = Astro.props;
         SOLICITA UN NUEVO VIAJE
       </Button>
     </a>
+
   </main>
 </div>

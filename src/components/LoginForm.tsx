@@ -9,35 +9,48 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await apiRequest("/user/logout", {
+      method: "GET",
+    });
+
 
     try {
+
       const response = await apiRequest("/user/login", {
         method: "POST",
         data: { username, password },
       });
 
-      setErrorMessage(""); // limpiar errores anteriores
+      setErrorMessage("");
+    
       alert("Inicio de sesión exitoso");
+
+      // Set cookies manually on client side to ensure they're available immediately
+      document.cookie = `token=${response.token}; path=/; secure; SameSite=Strict`;
+      document.cookie = `role=${response.role}; path=/`;
+      document.cookie = `username=${response.username}; path=/`;
+      document.cookie = `user_id=${response.user_id}; path=/`;
+      document.cookie = `department_id=${response.department_id}; path=/`;
       window.location.href = "/dashboard";
+
     } catch (error: any) {
       const msg = error?.response?.data?.error || "Error al iniciar sesión";
-      setErrorMessage(msg); // mostrar error debajo del botón
+      setErrorMessage(msg);
     }
   };
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen w-full bg-cover bg-center"
-      style={{
-        backgroundImage:
-          "url('https://wallpapercrafter.com/desktop1/504246-Aero-Vector-Art-Moon-Travel-Sunset-Aircraft-Minimalism.jpg')",
-      }}
+      className="flex justify-center items-center min-h-screen w-full bg-gradient-to-br from-purple-700 via-indigo-800 to-black bg-cover bg-center relative"
+      // style={{
+      //   backgroundImage:
+      //     "url('')",
+      // }}
     >
       <div>
         <img
-          src="/Logo101Coconsulting.png"
-          alt="Logo"
-          className="w-40 h-40 absolute top-5 left-10"
+          src="/Logo.svg"
+          className="w-40 h-40 absolute top-5 left-10 drop-shadow-lg"
         />
       </div>
       <div className="relative w-[407px] h-[455px] bg-white/10 border border-white/30 backdrop-blur-md rounded-lg shadow-lg flex justify-center items-center">

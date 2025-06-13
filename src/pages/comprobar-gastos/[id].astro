@@ -38,7 +38,7 @@ import { apiRequest } from "@/utils/apiClient";
 const { id } = Astro.params;
 let request = null;
 try {
-  request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`);
+  request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`, { cookies: Astro.cookies });
   console.log(request);
 } catch (error) {
   request = null;
@@ -53,7 +53,7 @@ if (isNaN(numericId)) {
 
 const enrichedExpenses = await Promise.all(
   request.Expenses.map(async (receipt: any) => {
-    const fileMap = await apiRequest(`/files/receipt-files/${receipt.receipt_id}`);
+    const fileMap = await apiRequest(`/files/receipt-files/${receipt.receipt_id}`, { cookies: Astro.cookies });
     return { ...receipt, fileMap };
   })
 );
@@ -81,6 +81,7 @@ const allReviewed = enrichedExpenses.every((receipt: any) => receipt.validation 
       <FinishRequestButton
         client:only="react"
         requestId={request.request_id}
+        token={getCookie("token", Astro.cookies)}
       />
     )}
   </div>
@@ -144,6 +145,7 @@ const allReviewed = enrichedExpenses.every((receipt: any) => receipt.validation 
                   disabled={receipt.validation !== "Pendiente"}
                   onApprove={() => { /* No se usa*/ }}
                   onReject={() => { /* No se usa */ }}
+                  token={getCookie("token", Astro.cookies)}
                 />
               </div>
             </div>    
