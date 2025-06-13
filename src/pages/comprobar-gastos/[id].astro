@@ -20,7 +20,6 @@ const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
 
-
 const status_colors = {
   'Pending': 'text-warning-400',
   'Aproved': 'text-success-400',
@@ -57,7 +56,6 @@ const enrichedExpenses = await Promise.all(
     return { ...receipt, fileMap };
   })
 );
-
 const allReviewed = enrichedExpenses.every((receipt: any) => receipt.validation !== "Pendiente");
 ---
 
@@ -121,7 +119,7 @@ const allReviewed = enrichedExpenses.every((receipt: any) => receipt.validation 
 
               <div class="flex flex-col justify-center h-full gap-3">
                 {pdf && (
-                      <a href={`https://localhost:3000/api/files/receipt-file/${pdf.fileId}`}>
+                      <a href={`${import.meta.env.PUBLIC_API_BASE_URL}/files/receipt-file/${pdf.fileId}`}>
                         <button class="btn bg-primary-300 rounded w-full h-12 flex flex-col items-center justify-center hover:bg-blue-300 transition-colors gap-y-1">
                           <span class="text-xs font-semibold">Nombre de archivo: {pdf.fileName}</span>
                           <span class="text-sm">Descargar PDF</span>
@@ -130,7 +128,7 @@ const allReviewed = enrichedExpenses.every((receipt: any) => receipt.validation 
                     )}
 
                     {xml && (
-                      <a href={`https://localhost:3000/api/files/receipt-file/${xml.fileId}`}>
+                      <a href={`${import.meta.env.PUBLIC_API_BASE_URL}/files/receipt-file/${xml.fileId}`}>
                         <button class="btn bg-primary-300 rounded w-full h-12 flex flex-col items-center justify-center hover:bg-blue-300 transition-colors gap-y-1">
                           <span class="text-xs font-semibold">Nombre de archivo: {xml.fileName}</span>
                           <span class="text-sm">Descargar XML</span>
@@ -143,8 +141,6 @@ const allReviewed = enrichedExpenses.every((receipt: any) => receipt.validation 
                   receipt_id={receipt.receipt_id}
                   expense_status={receipt.expense_status}
                   disabled={receipt.validation !== "Pendiente"}
-                  onApprove={() => { /* No se usa*/ }}
-                  onReject={() => { /* No se usa */ }}
                   token={getCookie("token", Astro.cookies)}
                 />
               </div>
