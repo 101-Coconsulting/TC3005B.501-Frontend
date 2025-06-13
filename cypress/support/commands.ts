@@ -27,6 +27,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 });
 
 Cypress.Commands.add('logout', () => {
+  cy.wait(1000);
   cy.get('span.material-symbols-outlined').contains('logout').click();
   cy.contains('button', 'Cerrar Sesión').should('be.visible').click();
   cy.url().should('include', '/login');

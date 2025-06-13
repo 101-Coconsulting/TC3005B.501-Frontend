@@ -6,6 +6,7 @@ export default defineConfig({
     supportFile: 'cypress/support/e2e.ts',
     baseUrl: 'https://localhost:4321',
     chromeWebSecurity: false,
+    screenshotsFolder: false,
     env: {
       SOLICITANTE_USER: process.env.CYPRESS_SOLICITANTE_USER,
       SOLICITANTE_PASSWORD: process.env.CYPRESS_SOLICITANTE_PASSWORD,

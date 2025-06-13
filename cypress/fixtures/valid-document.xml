@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <documento>
-  <nombre>Documento Válido</nombre>
-  <descripcion>Este XML es válido y se usa en pruebas</descripcion>
+  <nombre>
+    Documento Totalmente Válido
+  </nombre>
+  <descripcion>
+    Este XML es válido y se usa en Pruebas
+  </descripcion>
 </documento>
