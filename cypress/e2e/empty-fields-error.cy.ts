@@ -1,18 +1,10 @@
-// cypress/e2e/mensajeError_camposVacios.cy.js
-
-describe('[Sub-Task]: Mensaje de error al dejar campos de información vacíos (ID-124)', () => {
+describe('Mensaje de error al dejar campos obligatorios vacíos', () => {
   beforeEach(() => {
-    cy.visit('https://localhost:4321/login');
-    cy.get('form').should('be.visible');
-    cy.get('#username').type('jose.perez');
-    cy.get('#password').type('jose123');
-    cy.get('button[type="submit"]').click();
-    cy.url().should('not.include', '/login');
-    cy.url().should('include', '/dashboard');
-    cy.visit('https://localhost:4321/crear-solicitud');
+    cy.login(Cypress.env('SOLICITANTE_USER'), Cypress.env('SOLICITANTE_PASSWORD'));
+    cy.contains('SOLICITA UN NUEVO VIAJE').should('exist').click();
   });
 
-  it('Debe mostrar una advertencia al dejar UN campo obligatorio vacío (Notas)', () => {
+  it('debe mostrar una advertencia cuando se deja un campo obligatorio vacío', () => {
     cy.get('form').should('be.visible');
 
     cy.get('input[name="origin_country_name"]').eq(0).type('México');
@@ -24,13 +16,13 @@ describe('[Sub-Task]: Mensaje de error al dejar campos de información vacíos (
     cy.get('input[name="ending_date"]').eq(0).type('2025-07-05');
     cy.get('input[name="ending_time"]').eq(0).type('17:00');
     cy.get('input[name="requested_fee"]').type('1500');
-    // Campo 'notes' se deja vacío intencionadamente
+    // El campo 'notas' se deja vacío intencionadamente
 
     cy.get('form').contains('button', 'Enviar Solicitud').click();
 
     cy.get('div.bg-red-200.text-red-800')
       .should('be.visible')
-      .and('contain', 'Por favor, completa todos los campos requeridos antes de enviar la solicitud.');
+      .and('contain', 'Por favor, completa todos los campos requeridos de forma correcta antes de enviar la solicitud.');
 
     cy.url().should('include', '/crear-solicitud');
   });

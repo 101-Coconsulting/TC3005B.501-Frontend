@@ -1,4 +1,4 @@
-describe('Modificar el estado de una solicitud de Primera Revisión a Segunda Revisión', () => {
+describe('Proceso de autorización de una solicitud desde PRIMERA REVISIÓN hasta SEGUNDA REVISIÓN', () => {
   function buscarSolicitud(id: string) {
     cy.document().then((doc) => {
       const links = [...doc.querySelectorAll('a[href^="/autorizar-solicitud/"]')];
@@ -44,7 +44,11 @@ describe('Modificar el estado de una solicitud de Primera Revisión a Segunda Re
       });
   }
 
-  it('Comprobar que la primera solicitud que esté en PRIMERA REVISIÓN', () => {
+  afterEach(() => {
+    cy.logout();
+  });
+
+  it('debe obtener el ID de la primera solicitud en estado PRIMERA REVISIÓN desde el perfil del solicitante', () => {
     cy.login(Cypress.env('SOLICITANTE_USER'), Cypress.env('SOLICITANTE_PASSWORD'));
 
     cy.contains('a[href^="/detalles-solicitud/"]', 'PRIMERA REVISIÓN')
@@ -56,20 +60,16 @@ describe('Modificar el estado de una solicitud de Primera Revisión a Segunda Re
           Cypress.env('request_id', idText);
         });
       });
-
-    cy.logout();
   });
 
-  it('Autorizar la solicitud previamente revisada', () => {
+  it('debe autorizar la solicitud identificada y cambia su estado a SEGUNDA REVISIÓN', () => {
     cy.login(Cypress.env('N2_USER'), Cypress.env('N2_PASSWORD'));
 
     cy.get('li').contains('AUTORIZACIONES').click();
     buscarSolicitud(Cypress.env('request_id'));
-
-    cy.logout();
   });
 
-  it('Comprobar que la misma solicitud se encuentre en SEGUNDA REVISIÓN', () => {
+  it('debe mostrar que la solicitud haya cambiado a estado SEGUNDA REVISIÓN desde el perfil del solicitante', () => {
     cy.login(Cypress.env('SOLICITANTE_USER'), Cypress.env('SOLICITANTE_PASSWORD'));
 
     cy.contains(Cypress.env('request_id'))

@@ -1,24 +1,6 @@
-
-// Author: Julia Maria Stephanie Duenkelsbuehler Castillo y Jose Antonio González Martínez
-
-
 describe('Edit Travel Request', () => {
   beforeEach(() => {
-    // Navigate to the login page
-    cy.visit('https://localhost:4321');
-
-    // Log in with valid credentials
-    cy.get('input[placeholder="Usuario"]').type('andres.gomez');
-    cy.get('input[placeholder="Contraseña"]').type('andres123{enter}');
-
-    // Verify successful login
-    cy.on('window:alert', (text) => {
-      expect(text).to.contains('Inicio de sesión exitoso');
-    });
-    cy.on('window.confirm', () => true);
-
-    // Ensure redirection to the dashboard
-    cy.url().should('include', 'dashboard');
+    cy.login(Cypress.env('SOLICITANTE_USER'), Cypress.env('SOLICITANTE_PASSWORD'));
 
     // Navigate to the draft requests page
     cy.get('a[href="/solicitudes-draft"]').click();

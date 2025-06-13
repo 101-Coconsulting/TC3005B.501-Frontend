@@ -1,18 +1,4 @@
-describe('Validación de las Fechas de Viaje (Comprobación/Ida-Regreso) en el proceso de crear solicitud', () => {
-  const login = () => {
-    cy.visit('https://localhost:4321');
-
-    cy.get('input[placeholder*="Usuario"]').type(Cypress.env('SOLICITANTE_USER'));
-    cy.get('input[placeholder*="Contraseña"]').type(Cypress.env('SOLICITANTE_PASSWORD') + '{enter}');
-
-    cy.on('window:alert', (text) => {
-      expect(text).to.contains('Inicio de sesión exitoso');
-    });
-    cy.on('window.confirm', () => true);
-
-    cy.url().should('include', 'dashboard');
-  };
-
+describe('Validación de fechas en la creación de solicitudes de viaje', () => {
   const irACrearSolicitud = () => {
     cy.get('a[href="/crear-solicitud"]').contains('CREAR SOLICITUD').click({ force: true });
     cy.contains('CREAR NUEVA SOLICITUD DE VIAJE').should('be.visible');
@@ -42,23 +28,27 @@ describe('Validación de las Fechas de Viaje (Comprobación/Ida-Regreso) en el p
   };
 
   beforeEach(() => {
-    login();
+    cy.login(Cypress.env('SOLICITANTE_USER'), Cypress.env('SOLICITANTE_PASSWORD'));
+  });
+  
+  afterEach(() => {
+    cy.logout();
   });
 
-  it('Crear una nueva solicitud incorrectamente sin fechas', () => {
+  it('debe mostrar error si no se ingresan fechas de viaje', () => {
     irACrearSolicitud();
     llenarFormularioSinFechas();
     enviarFormulario();
     cy.contains('Ruta #1: Las fechas de inicio y fin son obligatorias.').should('be.visible');
   });
-  it('Crear una nueva solicitud incorrectamente con fecha de regreso anterior a la de salida', () => {
+  it('debe mostrar error si la fecha de regreso es anterior a la fecha de salida', () => {
     irACrearSolicitud();
     llenarFormularioSinFechas();
     ingresarFechas('2025-12-12', '09:00', '2025-11-11', '21:00');
     enviarFormulario();
     cy.contains('Ruta #1: La fecha de fin (2025-11-11) debe ser igual o posterior a la fecha de inicio (2025-12-12).').should('be.visible');
   });
-  it('Crear una nueva solicitud de forma correcta', () => {
+  it('debe permitir crear correctamente una solicitud con fechas válidas', () => {
     irACrearSolicitud();
     llenarFormularioSinFechas();
     ingresarFechas('2025-11-11', '09:00', '2025-12-12', '21:00');

@@ -1,19 +1,13 @@
-describe('Crear Solicitud', () =>{
+describe('Creación de una solicitud de viaje por el solicitante', () =>{
   beforeEach(() => {
-    cy.visit('https://localhost:4321');
-
-    cy.get('input[placeholder*="Usuario"]').type('andres.gomez')
-    cy.get('input[placeholder*="Contraseña"').type('andres123{enter}')
-
-    cy.on('window:alert', (text) => {
-      expect(text).to.contains('Inicio de sesión exitoso');
-    });
-    cy.on('window.confirm', ()=> true);
-
-    cy.url().should('include', 'dashboard');
+    cy.login(Cypress.env('SOLICITANTE_USER'), Cypress.env('SOLICITANTE_PASSWORD'));
   });
 
-  it('Acceder a el draft de solicitud', () => {
+  afterEach(() => {
+    cy.logout();
+  });
+
+  it('debe permitir completar y enviar exitosamente una nueva solicitud de viaje', () => {
     cy.contains('SOLICITA UN NUEVO VIAJE').should('exist').click();
     cy.url().should('eq', 'https://localhost:4321/crear-solicitud');
 
