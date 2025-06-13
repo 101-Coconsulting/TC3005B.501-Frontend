@@ -5,13 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - Post-Trip Flow
+## [0.4.0] - 2025-06-12: Post-Trip Flow + Login + Configuration
 
 ### Added
 
 - Expenses Justification
 - Expense Approval
 - Expense Validation
+- Login page with username and password authentication.
+- Admin dashboard for managing users.
+- Admin user management page with options to create, edit, and delete users.
+- Cypress general e2e tests for the entire application.
 
 ## [0.2.0]: 2025-05-16: Request Follow-Up
 
