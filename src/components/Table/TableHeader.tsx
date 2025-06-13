@@ -19,7 +19,7 @@ export default function TableHeader({ columns }: Props) {
         {columns.map((col) => (
             <th
               key={col.key}
-              className={`px-4 py-3 font-bold text-md text-gray-700 ${
+              className={`px-2 sm:px-4 py-2 sm:py-3 font-bold text-xs sm:text-sm md:text-md text-gray-700 ${
                 col.key === 'action' ? 'text-center' : 'text-left'
               }`}
               >

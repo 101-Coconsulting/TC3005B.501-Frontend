@@ -19,15 +19,15 @@ export default function TableRow({ row, columns, index, role_href }: Props) {
   return (
     <tr className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
       {columns.map((col) => (
-        <td key={col.key} className={`py-2 border-b border-gray-200 ${col.key === 'action' ? 'text-center' : 'px-3'}`}>
+        <td key={col.key} className={`py-2 border-b border-gray-200 ${col.key === 'action' ? 'text-center' : 'px-2 sm:px-3'}`}>
           {col.key === 'action' ? (
             <a href={`/${role_href}/${row.request_id}`} className="text-blue-500 hover:text-blue-700">
-              <button className="bg-primary-300 hover:bg-secondary-500 text-white font-bold py-2 px-6 rounded-md shadow-sm transition duration-300 ease-in-out">
+              <button className="bg-primary-300 hover:bg-secondary-500 text-white font-bold py-1 sm:py-2 px-3 sm:px-6 text-xs sm:text-sm rounded-md shadow-sm transition duration-300 ease-in-out">
                 Ver más
               </button>
             </a>
           ) : (
-            <span>{row[col.key]}</span>
+            <span className="text-xs sm:text-sm md:text-base">{row[col.key]}</span>
           )}
         </td>
       ))}

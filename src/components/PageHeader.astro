@@ -18,7 +18,7 @@ import MaterialIcon from "@components/MaterialIcon.astro";
 const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
 ---
 
-<header class="flex justify-between items-center bg-primary-300 px-4 py-2">
+<header class="flex justify-between items-center bg-primary-300 px-3 sm:px-4 py-2 h-[84px]">
   <!-- Left Section -->
   <div class="flex items-center">
     <button
@@ -29,40 +29,43 @@ const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
     </button>
     <img
       src="/Logo.svg"
-      class="w-20 h-20 rounded drop-shadow-lg  "
+      class="w-16 h-16 sm:w-18 sm:h-18 rounded drop-shadow-lg"
       onclick="alert('Welcome to 101-Coconsulting!')"
     />
   </div>
 
   <!-- Right Section -->
-  <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 sm:mt-0">
+  <div class="flex items-center gap-2 sm:gap-4">
     <!-- User Role -->
-    <div class="bg-neutral-300 text-black font-bold rounded-full py-1 px-3 sm:py-1.5 sm:px-4 text-xs sm:text-sm">
+    <div class="bg-neutral-300 text-black font-bold rounded-full py-1 px-2 sm:px-3 text-xs whitespace-nowrap">
       {buttonLabel}
     </div>
-    <div class="flex items-center gap-1 sm:gap-2">
-      <button
-        class="bg-primary-300 rounded-lg p-1.5 sm:p-2.5 h-8 w-8 sm:h-10 sm:w-10 flex justify-center items-center cursor-pointer transition-colors duration-200 hover:bg-primary-50"
-      >
-        <MaterialIcon icon="dark_mode" />
-      </button>
-      <LogoutButton client:load>
-        <MaterialIcon icon="logout" />
-      </LogoutButton>
-    </div>
-
+    
     <!-- User Info -->
-    <div class="flex items-center gap-2 sm:gap-4">
-      <div class="bg-black text-white py-1 px-3 sm:py-1.5 sm:px-4 rounded-full font-bold text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none">
+    <div class="flex items-center gap-2">
+      <div class="bg-black text-white py-1 px-2 sm:px-3 rounded-full font-bold text-xs truncate max-w-[80px] sm:max-w-[120px]">
         {userName}
       </div>
-      <a href="/perfil-usuario" class={isCurrentRoute ? "pointer-events-none" : ""}>
+      
+      <div class="flex items-center">
         <button
-          class="flex items-center bg-white justify-center rounded-full overflow-hidden w-8 h-8 sm:w-11 sm:h-11 cursor-pointer transition-all duration-200 hover:outline-2 hover:outline-primary-300 hover:shadow-primary-500"
+          class="bg-primary-300 rounded-lg p-1 h-7 w-7 sm:h-8 sm:w-8 flex justify-center items-center cursor-pointer hover:bg-primary-50 mr-1"
         >
-          <MaterialIcon icon="person" color="black" />
+          <MaterialIcon icon="dark_mode" />
         </button>
-      </a>
+        
+        <LogoutButton client:load>
+          <MaterialIcon icon="logout" />
+        </LogoutButton>
+        
+        <a href="/perfil-usuario" class={isCurrentRoute ? "pointer-events-none ml-1" : "ml-1"}>
+          <button
+            class="flex items-center bg-white justify-center rounded-full overflow-hidden h-7 w-7 sm:h-8 sm:w-8 cursor-pointer hover:outline-2 hover:outline-primary-300"
+          >
+            <MaterialIcon icon="person" color="black" />
+          </button>
+        </a>
+      </div>
     </div>    
   </div>
 </header>
@@ -85,9 +88,10 @@ const isCurrentRoute = Astro.url.pathname === "/perfil-usuario";
             sidebar.style.display = 'block';
             sidebar.style.position = 'absolute';
             sidebar.style.zIndex = '50';
-            sidebar.style.top = '60px';
+            sidebar.style.top = '84px';
             sidebar.style.left = '0';
-            sidebar.style.height = 'calc(100vh - 60px)';
+            sidebar.style.width = '250px';
+            sidebar.style.height = 'calc(100vh - 84px)';
           }
         }
       });
