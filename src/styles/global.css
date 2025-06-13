@@ -10,11 +10,11 @@
   --color-neutral-400: #A2A8B4;
   --color-neutral-500: #878E9E;
   /* Primary */
-  --color-primary-50: #50A7E9;
+  --color-primary-50: #82C0EF;
   --color-primary-100: #69B3EC;
-  --color-primary-200: #82C0EF;
+  --color-primary-200: #50A7E9;
   --color-primary-300: #379AE6;
-  --color-primary-400: #1F1C89DE;
+  --color-primary-400: #1C89DE;
   --color-primary-500: #1876BE;
   /* Secondary */
   --color-secondary-50: #A4B5EE;
@@ -31,9 +31,9 @@
   --color-success-400: #19BC50;
   --color-success-500: #16A144;
   /* Warning */
-  --color-warning-50: #E25458;
+  --color-warning-50: #EA8588;
   --color-warning-100: #E66C70;
-  --color-warning-200: #EA8588;
+  --color-warning-200: #E25458;
   --color-warning-300: #DE3840;
   --color-warning-400: #D22329;
   --color-warning-500: #B41E23;
@@ -83,6 +83,16 @@
 
 html {
   font-family: 'Roboto', var(--font-fallback);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 9999s ease-in-out 0s !important;
+  -webkit-text-fill-color: white !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  caret-color: white !important;
 }
 
 // CHEAT SHEET: https://nerdcave.com/tailwind-cheat-sheet

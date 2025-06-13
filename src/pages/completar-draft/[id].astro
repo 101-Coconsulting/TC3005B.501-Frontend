@@ -1,0 +1,53 @@
+---
+/**
+ * Author: Julia Maria Stephanie Duenkelsbuehler Castillo Y Nicole Davila
+ * 
+ * Description: Page to edit a travel request using mock data from get-user-request.json
+ * 
+ **/
+
+export const prerender = false;
+import TextHeader from '@components/TextHeader.astro';
+import MainLayout from "@layouts/MainLayout.astro";
+import TravelRequestForm from "@components/TravelRequestForm.tsx";
+
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+import { roleLabels } from "@config/role-labels";
+
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const buttonLabel = roleLabels[role];
+const userName = getCookie("username", Astro.cookies);
+
+import { apiRequest } from "@/utils/apiClient";
+
+const { id } = Astro.params;
+let request = null;
+try {
+  request = await apiRequest(`/user/get-travel-request/${id}`, { cookies: Astro.cookies });
+} catch (error) {
+  request = null;
+  throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
+}
+---
+
+<MainLayout title="Completar Draft" data={{ userName, buttonLabel, role }}>
+  <div>
+    <TextHeader
+      title="COMPLETAR DRAFT DE UNA SOLICITUD DE VIAJE EXISTENTE"
+      subtitle="Por favor termine de llenar el siguiente draft por completo"
+    />
+    <main class="bg-white rounded-lg shadow-md p-8">
+      <TravelRequestForm
+        client:only="react"
+        data={request}
+        mode='draft'
+        request_id={id}
+        user_id={getCookie("id", Astro.cookies)}
+        role={role}
+        token={getCookie("token", Astro.cookies)}
+      />
+    </main>
+  </div>
+</MainLayout>

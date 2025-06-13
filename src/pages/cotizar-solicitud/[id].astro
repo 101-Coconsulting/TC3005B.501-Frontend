@@ -3,37 +3,43 @@
  * Author: Eduardo Porto Morales
  */
 
+export const prerender = false;
 import MainLayout from "@layouts/MainLayout.astro";
-import RequestBudgeting from "@components/RequestBudgeting.astro";
+import RequestDetail from "@components/RequestDetail.astro";
+import AttendRequest from "@components/AttendRequest";
 import type { UserRole } from "@type/roles";
 
 import { getCookie } from "@data/cookies";
 import { roleLabels } from "@config/role-labels";
 
-const role: UserRole = getCookie("role") as UserRole;
-const userName = getCookie("username");
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
 const buttonLabel = roleLabels[role];
 
-//FETCH DEMO DATA
-import { duplicateJson } from "@utils/duplicateJson";
-import getuserrequest from '@data/get-user-request.json';
-
-export async function getStaticPaths() {
-  const requests = duplicateJson(getuserrequest, 5);
-  return requests.map((req: any) => ({
-    params: { id: req.request_id.toString() },
-  }));
-}
+import { apiRequest } from "@/utils/apiClient";
 
 const { id } = Astro.params;
-const requests = duplicateJson(getuserrequest, 5);
-const request = requests.find((req: any) => req.request_id.toString() === id);
-
-if (!request) {
+let request = null;
+try {
+  request = await apiRequest(`/user/get-travel-request/${id}`, { cookies: Astro.cookies });
+} catch (error) {
+  request = null;
   throw new Error(`No request found with ID ${id}`);
+  return Astro.redirect('/404');
 }
 ---
 
 <MainLayout title={`Solicitud #${request.request_id}`} data={{ userName, buttonLabel, role }} >
-  <RequestBudgeting request={request} />
+  <RequestDetail
+    request={request}
+    title={`SOLICITUD #${request.request_id}`}
+    subtitle="Detalles de la Solicitud a Cotizar"
+  />
+  <div class="flex mt-8">
+    <AttendRequest
+      client:only="react"
+      request_id = {request.request_id}
+      token={getCookie("token", Astro.cookies)}
+    />
+  </div>
 </MainLayout>

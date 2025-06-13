@@ -1,0 +1,39 @@
+---
+import RequestCard from "@components/RequestCard.astro";
+
+const {
+  title,
+  requests = [],
+	anchor,
+  urlBase,
+  subtitle,
+  emptyMessage = "NO HAY SOLICITUDES DISPONIBLES"
+} = Astro.props;
+---
+<section class="bg-white p-6 rounded-lg shadow w-full">
+	<div class="flex items-center justify-between mb-4">
+		<h2 class="text-xl font-bold flex items-center">
+			{title}
+			<span class="px-2 align-middle text-primary-500">({requests.length})</span>
+		</h2>
+		<a href={`/${anchor}`} class="text-sm text-primary-500 hover:underline">
+			Ver todas
+		</a>
+	</div>
+
+  {requests.length > 0 ? (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {requests.slice(0, 4).map((request:any) => (
+        <RequestCard 
+          request={request}
+          urlBase={urlBase} 
+          subtitle={subtitle} 
+        />
+      ))}
+    </div>
+  ) : (
+    <div class="bg-gray-100 p-6 rounded-lg shadow w-full text-center text-gray-500 font-semibold">
+      {emptyMessage}
+    </div>
+  )}
+</section>

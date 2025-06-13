@@ -1,21 +1,136 @@
 ---
 /**
- * Authors: Eduardo Porto Morales
+ * Author: Michael Devlyn
  * 
- * Description: This is the accounts payable view of the dashboard.
- **/
+ * Description: Admin users page - fetch from real backend API
+ * Strategy: Parallel requests to get users faster
+ */
 
 import TextHeader from "@components/TextHeader.astro";
-import { getRequestPriority } from "@utils/getPriorityDates";
+import TableFallback from "@components/Table/TableFallback.astro";
+import UltimateWrapper from "@components/UltimateWrapper";
 
-const { userName, requests } = Astro.props;
+import type { UserRole } from "@type/roles";
+import { getCookie } from "@data/cookies";
+
+// Define the User interface
+interface User {
+  user_id: number;
+  user_name: string;
+  email: string;
+  role_name: string;
+  department_name: string;
+  active?: boolean;
+}
+
+import { apiRequest } from "@/utils/apiClient";
+var errorMessage = null;
+const users = await (async () => {
+  try {
+    return await apiRequest(`/admin/get-user-list`, {
+      cookies: Astro.cookies
+    });
+  } catch (error) {
+    errorMessage = "Error al cargar los usuarios. Por favor, inténtalo de nuevo más tarde.";
+    return [];
+  }
+})()
+
+const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
+const userName = getCookie("username", Astro.cookies);
 ---
 
-<div>
-  <main>
-    <TextHeader
-      title={`BIENVENIDO, ${userName.toUpperCase()}`}
-      subtitle="DITTA CONSULTING"
-    />
-  </main>
-</div>
+  <div>
+    {errorMessage ? (
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div class="flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 3a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 000 2v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+          <strong>Error:</strong> {errorMessage}
+        </div>
+      </div>
+    ) : null}
+    
+    {users && users.length === 0 && !errorMessage ? (
+      <TableFallback />
+    ) : users.length > 0 ? (
+      <>
+        <TextHeader
+          title={`BIENVENIDO, ${userName.toUpperCase()}`}
+          subtitle="DITTA CONSULTING"
+        />
+        
+        <section class="bg-white p-6 rounded-lg shadow w-full">
+          <div class="flex flex-col justify-between mb-4">
+            <h2 class="text-xl font-bold">{`USUARIOS DEL SISTEMA - ${users.length} USUARIOS REGISTRADOS`}</h2>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-white">
+              <thead class="bg-gray-200">
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Usuario</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rol</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Departamento</th>
+                  <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                  <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase"></th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                {users.map((user: User, index: number) => (
+                  <tr class={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td class="px-4 py-4 text-sm text-gray-900">{user.user_id}</td>
+                    <td class="px-4 py-4">
+                      <div class="text-sm font-medium text-gray-900">{user.user_name}</div>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-gray-900">{user.email}</td>
+                    <td class="px-4 py-4">
+                      <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        user.role_name === 'Administrador' ? 'bg-purple-100 text-purple-800' :
+                        user.role_name === 'N1' ? 'bg-blue-100 text-blue-800' :
+                        user.role_name === 'N2' ? 'bg-green-100 text-green-800' :
+                        user.role_name === 'Solicitante' ? 'bg-gray-100 text-gray-800' :
+                        user.role_name === 'Agencia de viajes' ? 'bg-yellow-100 text-yellow-800' :
+                        user.role_name === 'Cuentas por pagar' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {user.role_name}
+                      </span>
+                    </td>
+                    <td class="px-4 py-4 text-sm text-gray-900">{user.department_name || 'Admin'}</td>
+                    <td class="px-4 py-4 text-center">
+											<a href={`/editar-usuario/${user.user_id}`}>
+												<button class="text-blue-600 hover:text-blue-800 text-sm">
+													EDITAR
+												</button>
+											</a>
+                    </td>
+                    <td class="px-4 py-4">
+											<UltimateWrapper
+												client:only="react"
+												user_id={user.user_id}
+												endpoint="/admin/delete-user"
+												title="Eliminar usuario"
+												message={`¿Estás seguro de que deseas eliminar al usuario ${user.user_name}? Esta acción no se puede deshacer.`}
+												modal_type="warning"
+												token={getCookie("token", Astro.cookies)}
+											>
+												BORRAR
+											</UltimateWrapper>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="mt-4 text-sm text-gray-600">
+            <span>Total de usuarios: {users.length}</span>
+          </div>
+        </section>
+      </>
+    ) : null}
+  </div>

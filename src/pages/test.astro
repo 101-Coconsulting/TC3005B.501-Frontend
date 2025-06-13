@@ -1,0 +1,11 @@
+---
+// src/pages/test.astro
+import { getCookie } from "@data/cookies";
+
+const username = getCookie("username", Astro.cookies);
+const role = getCookie("token", Astro.cookies);
+---
+<h1>Test</h1>
+<p>Username: {username}</p>
+<p>Role: {role}</p>
+
