@@ -23,7 +23,7 @@ const userName = getCookie("username", Astro.cookies);
   <div>
     <TextHeader
       title="CREAR NUEVA SOLICITUD DE VIAJE"
-      subtitle="Por favor complete el siguiente formulario por completo"
+      subtitle="Por favor complete el siguiente formulario para generar una nueva solicitud de viaje."
     />
     <main class="bg-white rounded-lg shadow-md p-8">
       <TravelRequestForm
@@ -32,7 +32,6 @@ const userName = getCookie("username", Astro.cookies);
         mode="create"
         role={role}
         token={getCookie("token", Astro.cookies)}
-
       />
     </main>
   </div>

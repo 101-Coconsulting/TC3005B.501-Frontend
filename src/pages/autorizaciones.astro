@@ -21,7 +21,7 @@ const buttonLabel = roleLabels[role];
 import { apiRequest } from "@/utils/apiClient";
 
 //Status corresponding to Authorizers
-const status = getCookie("role", Astro.cookies) === "N1" ? 2 : 3;
+const status = getCookie("role", Astro.cookies) === "N1" ? 3 : 2;
 const requests = await (async () => {
   try {
     return await apiRequest(`/user/get-travel-requests/${getCookie("department_id", Astro.cookies)}/${status}`, { cookies: Astro.cookies });
