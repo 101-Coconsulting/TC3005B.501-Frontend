@@ -56,7 +56,7 @@ export default function ExpensesFormClient({ requestId, token }: Props) {
 
   return (
     <div className="space-y-8">
-      <div className="grid md:grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <div>
           <label className="text-sm font-medium">Concepto</label>
           <select
@@ -95,22 +95,24 @@ export default function ExpensesFormClient({ requestId, token }: Props) {
         setIsInternational={setIsInternational}
       />
 
-      <div className="flex justify-end gap-4 pt-4">
-        <a href={`/comprobar-solicitud/${requestId}`}>
-          <Button type="button" variant="border" color="warning">
+      <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
+        <a href={`/comprobar-solicitud/${requestId}`} className="w-full sm:w-auto">
+          <Button type="button" variant="border" color="warning" className="w-full sm:w-auto">
             Cancelar
           </Button>
         </a>
-        <ModalWrapper
-          title="Subir comprobación"
-          message="¿Está seguro de que desea subir este Comprobante?"
-          modal_type="confirm"
-          button_type="primary"
-          variant="filled"
-          onConfirm={handleSubmit}
-        >
-          Subir Comprobante
-        </ModalWrapper>
+        <div className="w-full sm:w-auto">
+          <ModalWrapper
+            title="Subir comprobación"
+            message="¿Está seguro de que desea subir este Comprobante?"
+            modal_type="confirm"
+            button_type="primary"
+            variant="filled"
+            onConfirm={handleSubmit}
+          >
+            Subir Comprobante
+          </ModalWrapper>
+        </div>
       </div>
 
       {lastReceiptId !== null && (

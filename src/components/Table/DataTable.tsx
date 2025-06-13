@@ -57,15 +57,19 @@ export default function DataTable({ columns, rows, type, role }: Props) {
   }
 
   return (
-    <div className="rounded-md shadow-md overflow-hidden">
-      <table className="min-w-full bg-white">
-        <TableHeader columns={columns} />
-        <tbody>
-          {rows.map((row, index) => (
-            <TableRow key={index} row={row} columns={columns} index={index} role_href={roleHref}/>
-          ))}
-        </tbody>
-      </table>
+    <div className="rounded-md shadow-md overflow-x-auto">
+      <div className="min-w-full inline-block align-middle">
+        <div className="overflow-hidden">
+          <table className="min-w-full bg-white">
+            <TableHeader columns={columns} />
+            <tbody>
+              {rows.map((row, index) => (
+                <TableRow key={index} row={row} columns={columns} index={index} role_href={roleHref}/>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

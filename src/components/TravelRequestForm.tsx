@@ -416,7 +416,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
         <button
           type="button"
           onClick={addRoute}
-          className="bg-blue-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-blue-700 transition-colors"
+          className="bg-blue-600 text-white px-4 sm:px-5 py-2 text-sm sm:text-base rounded-md shadow-md hover:bg-blue-700 transition-colors w-full sm:w-auto"
         >
           + Agregar Ruta a mi Viaje
         </button>
@@ -489,19 +489,19 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
       )}
 
       <div className="flex flex-col sm:flex-row justify-end gap-3">
-        <button type="button" onClick={handleResetForm} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-red-500 text-white px-6 py-2 rounded-md shadow hover:bg-red-600 transition-colors"
+        <button type="button" onClick={handleResetForm} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-red-500 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-md shadow hover:bg-red-600 transition-colors w-full sm:w-auto"
           disabled={!!error}
         >
           Limpiar Formulario
         </button>
         {mode == 'create' && (
-          <div className='flex gap-3'>
-            <button type="button" onClick={handleSaveDraft} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-500 text-white px-6 py-2 rounded-md shadow hover:bg-gray-600 transition-colors"
+          <div className='flex flex-col sm:flex-row gap-3 w-full sm:w-auto'>
+            <button type="button" onClick={handleSaveDraft} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-500 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-md shadow hover:bg-gray-600 transition-colors w-full sm:w-auto"
               disabled={!!error}
             >
               Guardar Borrador
             </button>
-            <button type="button" onClick={handleSubmitRequest} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-600 text-white px-6 py-2 rounded-md shadow hover:bg-green-700 transition-colors"
+            <button type="button" onClick={handleSubmitRequest} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-md shadow hover:bg-green-700 transition-colors w-full sm:w-auto"
               disabled={!!error}
             >
               Enviar Solicitud
@@ -513,24 +513,24 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
             onClick={async (e) => {
               await handleEditRequest(e as unknown as React.FormEvent, true, '/dashboard');
             }}
-            className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-blue-600 text-white px-6 py-2 rounded-md shadow hover:bg-blue-700 transition-colors"
+            className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-blue-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-md shadow hover:bg-blue-700 transition-colors w-full sm:w-auto"
             disabled={!!error}
           >
             Actualizar Solicitud
           </button>
         )}
         {mode == 'draft' && (
-          <div className='flex gap-3'>
+          <div className='flex flex-col sm:flex-row gap-3 w-full sm:w-auto'>
             <button type="button"
               onClick={async (e) => {
                 await handleEditRequest(e as unknown as React.FormEvent, false, '/solicitudes-draft');
               }}
-              className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-500 text-white px-6 py-2 rounded-md shadow hover:bg-gray-600 transition-colors"
+              className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-gray-500 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-md shadow hover:bg-gray-600 transition-colors w-full sm:w-auto"
               disabled={!!error}
             >
               Guardar Cambios
             </button>
-            <button type="button" onClick={handleFinishDraft} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-600 text-white px-6 py-2 rounded-md shadow hover:bg-green-700 transition-colors"
+            <button type="button" onClick={handleFinishDraft} className="disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-md shadow hover:bg-green-700 transition-colors w-full sm:w-auto"
               disabled={!!error}
             >
               Enviar Solicitud

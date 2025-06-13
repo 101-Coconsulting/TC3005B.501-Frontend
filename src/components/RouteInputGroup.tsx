@@ -19,14 +19,14 @@ const RouteInputGroup: React.FC<RouteInputGroupProps> = ({ route, onChange, inde
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow border border-gray-200">
-      <div className="flex justify-between items-center mb-4">
-        <h4 className="font-semibold text-gray-700">Ruta #{index + 1}</h4>
+    <div className="bg-white p-3 sm:p-4 rounded shadow border border-gray-200">
+      <div className="flex flex-wrap justify-between items-center mb-4">
+        <h4 className="font-semibold text-gray-700 text-sm sm:text-base">Ruta #{index + 1}</h4>
         {isRemovable && onRemove && (
           <button
             type="button"
             onClick={() => onRemove(index)}
-            className="text-red-500 hover:text-red-700 text-sm"
+            className="text-red-500 hover:text-red-700 text-xs sm:text-sm mt-1 sm:mt-0"
           >
             Eliminar Ruta
           </button>

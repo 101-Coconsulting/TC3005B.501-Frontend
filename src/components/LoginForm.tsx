@@ -14,6 +14,11 @@ export default function LoginForm() {
     });
 
 
+    await apiRequest("/user/logout", {
+      method: "GET",
+    });
+
+
     try {
 
       const response = await apiRequest("/user/login", {
