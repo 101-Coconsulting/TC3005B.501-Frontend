@@ -24,7 +24,7 @@ export default function Toast({ message, type, duration = 4000 }: Props) {
   if (!visible) return null;
 
   const baseStyle = `
-    fixed top-25 right-0 z-50 w-[320px] max-w-full
+    fixed top-16 sm:top-25 right-0 z-50 w-[90%] sm:w-[320px] max-w-full
     transition-transform duration-300 ease-in-out
     ${animate ? 'translate-x-0' : 'translate-x-full'}
   `;
@@ -38,8 +38,8 @@ export default function Toast({ message, type, duration = 4000 }: Props) {
 
   return (
     <div className={`${baseStyle}`}>
-      <div className={`border-l-4 p-4 rounded shadow-md relative ${typeStyle[type]}`}>
-        <div className="font-medium">{message}</div>
+      <div className={`border-l-4 p-3 sm:p-4 rounded shadow-md relative ${typeStyle[type]}`}>
+        <div className="font-medium text-sm sm:text-base">{message}</div>
       </div>
     </div>
   );
