@@ -44,7 +44,7 @@ const departments = [
   { id: 2, name: 'Recursos Humanos' },
   { id: 3, name: 'IT' },
   { id: 4, name: 'Marketing' },
-  { id: 5, name: 'Operaciones' }
+  { id: 5, name: 'Operaciones' },
   { id: 6, name: 'Administración' }
 ];
 
