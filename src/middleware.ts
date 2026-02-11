@@ -10,7 +10,7 @@ function matchPath(path: string, patterns: string[]) {
     return path === pattern;
   });
 }
-export const publicRoutes = [ '/login', '/404' ];
+export const publicRoutes = [ '/login', '/404'];
 
 export const onRequest: MiddlewareHandler = async (context, next) => {
   const { request } = context;
