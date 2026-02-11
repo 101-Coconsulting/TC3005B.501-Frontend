@@ -30,7 +30,8 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   const tokenMatch = cookieHeader.match(/(?:^|;\s*)token=([^;]+)/);
   let isAuthenticated = !!tokenMatch || !!role; // Consider authenticated if role exists
 
-  // Development bypass: allow viewing screens without login by setting mock cookies.
+  // FOR NOW Development bypass: allow viewing screens without login by setting mock cookies.
+  // go to /dashboard 
   if (isDevBypass && !role) {
     const mockRole = 'Solicitante';
     context.cookies.set('token', 'dev-token', { path: '/' });
@@ -41,6 +42,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
     role = mockRole;
     isAuthenticated = true;
   }
+  //TODO remove when login is fixed 
   const html = unauthorizedPage(pathname, isAuthenticated);
 
   // 2.1 Si no hay rol, redirigir a la página de inicio de sesión
