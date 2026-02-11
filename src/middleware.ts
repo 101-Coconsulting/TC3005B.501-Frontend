@@ -16,6 +16,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   const { request } = context;
   const url = new URL(request.url);
   const pathname = url.pathname;
+  const isDevBypass = import.meta.env.PUBLIC_IS_DEV === true || import.meta.env.PUBLIC_IS_DEV === "true";
   
   // 1. Permitir rutas públicas sin autenticación
   if (matchPath(pathname, publicRoutes)) {
@@ -25,9 +26,23 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   // 2. Obtener el rol desde las cookies
   const cookieHeader = request.headers.get('cookie') || '';
   const roleMatch = cookieHeader.match(/(?:^|;\s*)role=([^;]+)/);
-  const role = roleMatch ? decodeURIComponent(roleMatch[1]) : '';
+  let role = roleMatch ? decodeURIComponent(roleMatch[1]) : '';
   const tokenMatch = cookieHeader.match(/(?:^|;\s*)token=([^;]+)/);
-  const isAuthenticated = !!tokenMatch || !!role; // Consider authenticated if role exists
+  let isAuthenticated = !!tokenMatch || !!role; // Consider authenticated if role exists
+
+  // FOR NOW Development bypass: allow viewing screens without login by setting mock cookies.
+  // go to /dashboard 
+  if (isDevBypass && !role) {
+    const mockRole = 'Solicitante';
+    context.cookies.set('token', 'dev-token', { path: '/' });
+    context.cookies.set('role', mockRole, { path: '/' });
+    context.cookies.set('username', 'Dev User', { path: '/' });
+    context.cookies.set('user_id', '1', { path: '/' });
+    context.cookies.set('department_id', '1', { path: '/' });
+    role = mockRole;
+    isAuthenticated = true;
+  }
+  //TODO remove when login is fixed 
   const html = unauthorizedPage(pathname, isAuthenticated);
 
   // 2.1 Si no hay rol, redirigir a la página de inicio de sesión
