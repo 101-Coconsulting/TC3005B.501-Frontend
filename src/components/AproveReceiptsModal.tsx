@@ -27,7 +27,7 @@ export default function AproveReceipStatus({
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {
-        const url = `/accounts-payable/validate-receipt/${receipt_id}`;
+        const url = `/api/accounts-payable/validate-receipt/${receipt_id}`;
       await apiRequest(url, { 
         method: "PUT", 
         data: {"approval": 1},

@@ -24,7 +24,7 @@ export default function AssignBudget({ request_id, token }: Props) {
     setErrorMessage("");
 
     try {
-      const url = `/accounts-payable/attend-travel-request/${request_id}`;
+      const url = `/api/accounts-payable/attend-travel-request/${request_id}`;
       await apiRequest(url, {
         method: "PUT",
         data: {

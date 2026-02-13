@@ -37,7 +37,7 @@ import { apiRequest } from "@/utils/apiClient";
 const { id } = Astro.params;
 let request = null;
 try {
-  request = await apiRequest(`/accounts-payable/get-expense-validations/${id}`, { cookies: Astro.cookies });
+  request = await apiRequest(`/api/accounts-payable/get-expense-validations/${id}`, { cookies: Astro.cookies });
   console.log(request);
 } catch (error) {
   request = null;
@@ -52,7 +52,7 @@ if (isNaN(numericId)) {
 
 const enrichedExpenses = await Promise.all(
   request.Expenses.map(async (receipt: any) => {
-    const fileMap = await apiRequest(`/files/receipt-files/${receipt.receipt_id}`, { cookies: Astro.cookies });
+    const fileMap = await apiRequest(`/api/files/receipt-files/${receipt.receipt_id}`, { cookies: Astro.cookies });
     return { ...receipt, fileMap };
   })
 );

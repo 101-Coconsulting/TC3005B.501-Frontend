@@ -17,7 +17,7 @@ const role: UserRole = getCookie("role", Astro.cookies) as UserRole;
 const userName = getCookie("username", Astro.cookies);
 const userId = getCookie("id", Astro.cookies);
 const buttonLabel = roleLabels[role];
-const userData = await apiRequest(`/user/get-user-data/${userId}`, { cookies: Astro.cookies });
+const userData = await apiRequest(`/api/user/get-user-data/${userId}`, { cookies: Astro.cookies });
 ---
 
 <MainLayout title="Perfil de Usuario" data={{ userName, buttonLabel }}>

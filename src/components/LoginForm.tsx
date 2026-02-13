@@ -9,32 +9,24 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await apiRequest("/user/logout", {
-      method: "GET",
-    });
-
 
     try {
-
-      const response = await apiRequest("/user/login", {
+      const response = await apiRequest("/api/user/login", {
         method: "POST",
         data: { username, password },
       });
 
       setErrorMessage("");
-    
-      alert("Inicio de sesión exitoso");
-
-      // Set cookies manually on client side to ensure they're available immediately
       document.cookie = `token=${response.token}; path=/; secure; SameSite=Strict`;
       document.cookie = `role=${response.role}; path=/`;
       document.cookie = `username=${response.username}; path=/`;
       document.cookie = `user_id=${response.user_id}; path=/`;
-      document.cookie = `department_id=${response.department_id}; path=/`;
+      document.cookie = `department_id=${response.department_id}; path=/`;  
       window.location.href = "/dashboard";
 
     } catch (error: any) {
-      const msg = error?.response?.data?.error || "Error al iniciar sesión";
+      console.error("Login error:", error);
+      const msg = error?.response?.error || "Error al iniciar sesión";
       setErrorMessage(msg);
     }
   };
@@ -42,10 +34,6 @@ export default function LoginForm() {
   return (
     <div
       className="flex justify-center items-center min-h-screen w-full bg-gradient-to-br from-purple-700 via-indigo-800 to-black bg-cover bg-center relative"
-      // style={{
-      //   backgroundImage:
-      //     "url('')",
-      // }}
     >
       <div>
         <img
@@ -108,7 +96,7 @@ export default function LoginForm() {
           </Button>
 
           {errorMessage && (
-            <p className="mt-4 text-center text-sm text-black-400">
+            <p className="mt-4 text-center text-sm text-red-400">
               {errorMessage}
             </p>
           )}

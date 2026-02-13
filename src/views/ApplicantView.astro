@@ -29,7 +29,7 @@ const requests = await (async () => {
   try {
     // Try to fetch requests with error handling
     try {
-      const allRequests = await apiRequest(`/applicant/get-user-requests/${user_id}`, {
+      const allRequests = await apiRequest(`/api/applicant/get-user-requests/${user_id}`, {
         cookies: Astro.cookies
       });
       return allRequests.filter((request: any) => request.status !== "Borrador");

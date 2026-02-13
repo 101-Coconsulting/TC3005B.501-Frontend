@@ -27,7 +27,7 @@ import { apiRequest } from "@/utils/apiClient";
 var errorMessage = null;
 const users = await (async () => {
   try {
-    return await apiRequest(`/admin/get-user-list`, {
+    return await apiRequest(`/api/admin/get-user-list`, {
       cookies: Astro.cookies
     });
   } catch (error) {
@@ -112,7 +112,7 @@ const userName = getCookie("username", Astro.cookies);
 											<UltimateWrapper
 												client:only="react"
 												user_id={user.user_id}
-												endpoint="/admin/delete-user"
+												endpoint="/api/admin/delete-user"
 												title="Eliminar usuario"
 												message={`¿Estás seguro de que deseas eliminar al usuario ${user.user_name}? Esta acción no se puede deshacer.`}
 												modal_type="warning"

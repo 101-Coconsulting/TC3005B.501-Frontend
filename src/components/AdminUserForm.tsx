@@ -25,9 +25,9 @@ interface FormErrors {
 
 interface CreateUserFormProps {
   mode: 'create' | 'edit';
-  user_data?: any; // User data for editing, if applicable
+  user_data?: any; 
   redirectTo?: string;
-  token: string; // Authorization token for API requests
+  token: string; 
 }
 
 const roles = [
@@ -153,8 +153,8 @@ export default function CreateUserForm({ mode, user_data, redirectTo,token }: Cr
         : formData;
 
       const endpoint = mode === 'edit'
-        ? `/admin/update-user/${user_data.user_id}`
-        : '/admin/create-user';
+        ? `/api/admin/update-user/${user_data.user_id}`
+        : '/api/admin/create-user';
 
       console.log('Submitting form data:', payload);
       const response = await apiRequest(endpoint, {

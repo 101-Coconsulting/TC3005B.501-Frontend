@@ -11,8 +11,7 @@ interface Props {
 export default function FinishRequestButton({ requestId, redirectTo = "/dashboard", token}: Props) {
   const handleClick = async () => {
     try {
-      // Puedes cambiar el método y la lógica según lo que quieras hacer
-      await apiRequest(`/accounts-payable/validate-receipts/${requestId}`, { 
+            await apiRequest(`/api/accounts-payable/validate-receipts/${requestId}`, { 
       method: "PUT",
       headers: { Authorization: `Bearer ${token}` } 
     });

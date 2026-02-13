@@ -36,7 +36,7 @@ export async function submitTravelExpense({
     ],
   };
 
-  await apiRequest("/applicant/create-expense-validation", {
+  await apiRequest("/api/applicant/create-expense-validation", {
     method: "POST",
     data: payload,
     headers: { Authorization: `Bearer ${token}` }
@@ -45,7 +45,7 @@ export async function submitTravelExpense({
   // Espera un momento dice mike
   await new Promise((res) => setTimeout(res, 500));
 
-  const res = await apiRequest(`/accounts-payable/get-expense-validations/${requestId}`, { 
+  const res = await apiRequest(`/api/accounts-payable/get-expense-validations/${requestId}`, { 
     method: "GET",
     headers: { Authorization: `Bearer ${token}` } 
   });

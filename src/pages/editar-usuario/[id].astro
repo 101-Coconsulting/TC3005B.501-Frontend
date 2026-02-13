@@ -18,7 +18,7 @@ const { id } = Astro.params;
 
 let user_data = null;
 try {
-  user_data = await apiRequest(`/user/get-user-data/${id}`, { cookies: Astro.cookies });
+  user_data = await apiRequest(`/api/user/get-user-data/${id}`, { cookies: Astro.cookies });
 } catch (error) {
   user_data = null;
   throw new Error(`No user found with ID ${id}`);

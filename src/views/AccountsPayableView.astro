@@ -14,7 +14,7 @@ const deparment = getCookie("department_id", Astro.cookies);
 
 const requestsInCotizar = await (async () => {
   try {
-    return await apiRequest(`/user/get-travel-requests/${deparment}/4`, { cookies: Astro.cookies });
+    return await apiRequest(`/api/user/get-travel-requests/${deparment}/4`, { cookies: Astro.cookies });
   } catch (error) {
     return [];
   }
@@ -22,7 +22,7 @@ const requestsInCotizar = await (async () => {
 
 const requestsInComprobar = await (async () => {
   try {
-    return await apiRequest(`/user/get-travel-requests/${deparment}/7`, { cookies: Astro.cookies });
+    return await apiRequest(`/api/user/get-travel-requests/${deparment}/7`, { cookies: Astro.cookies });
   } catch (error) {
     return [];
   }

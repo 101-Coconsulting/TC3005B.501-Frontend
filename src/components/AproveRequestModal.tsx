@@ -27,7 +27,7 @@ export default function ValidateReceiptStatus({
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const handleConfirm = useCallback(async () => {
     try {
-      const url = `/travel-agent/attend-travel-request/${request_id}`;
+      const url = `/api/travel-agent/attend-travel-request/${request_id}`;
       await apiRequest(url, { 
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` }

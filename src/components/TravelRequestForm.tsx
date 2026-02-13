@@ -65,7 +65,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
   useEffect(() => {
     async function fetchDepartmentInfo() {
       try {
-        const response = await apiRequest(`/applicant/get-cc/${user_id}`, {
+        const response = await apiRequest(`/api/applicant/get-cc/${user_id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -239,7 +239,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
       })),
     };
     try {
-      await apiRequest(`/applicant/create-travel-request/${user_id}`, {
+      await apiRequest(`/api/applicant/create-travel-request/${user_id}`, {
         method: 'POST',
         data: dataToSend,
         headers: {
@@ -312,7 +312,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     }
 
     try {
-      await apiRequest(`/applicant/create-draft-travel-request/${user_id}`, {
+      await apiRequest(`/api/applicant/create-draft-travel-request/${user_id}`, {
         method: 'POST',
         data: draftData,
         headers: {
@@ -422,7 +422,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     }
 
     try {
-      await apiRequest(`/applicant/edit-travel-request/${request_id}`, {
+      await apiRequest(`/api/applicant/edit-travel-request/${request_id}`, {
         method: 'PUT',
         data: editedData,
         headers: {
@@ -475,7 +475,7 @@ export default function TravelRequestForm({ data, mode, request_id, user_id, rol
     if (!editSuccess) return;
 
     try {
-      await apiRequest(`/applicant/confirm-draft-travel-request/${user_id}/${request_id}`, {
+      await apiRequest(`/api/applicant/confirm-draft-travel-request/${user_id}/${request_id}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`

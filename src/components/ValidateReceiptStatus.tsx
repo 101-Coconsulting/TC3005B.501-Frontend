@@ -25,7 +25,7 @@ export default function ValidateReceiptStatus({
 }: Props) {
   const handleConfirm = useCallback(async () => {
     try {
-      const url = `/applicant/send-expense-validation/${request_id}`;
+      const url = `/api/applicant/send-expense-validation/${request_id}`;
       await apiRequest(url, { 
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` }
